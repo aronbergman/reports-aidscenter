@@ -1,0 +1,42 @@
+{
+  "name": "node-js-jwt-auth",
+  "version": "1.0.0",
+  "description": "FF video service of react/express",
+  "main": "server.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node server.js",
+    "server": "node server.js",
+    "client": "npm run start --prefix client",
+    "client:install": "npm install -prefix client",
+    "client:build": "npm run build -prefix client",
+    "develop": "cross-env NODE_ENV=development && concurrently \"npm run server\" \"npm run client\"",
+    "deploy": "git pull && concurrently \"npm run install\" \"npm run client:install\" \"npm run client:build\" && reboot"
+  },
+  "keywords": [
+    "node.js",
+    "jwt",
+    "authentication",
+    "express",
+    "mysql"
+  ],
+  "author": "Aron Bergman <brgmn@icloud.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^5.15.5",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
+    "consola": "^2.12.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.3",
+    "socket.io": "^2.3.0",
+    "uuid": "^3.4.0"
+  }
+}

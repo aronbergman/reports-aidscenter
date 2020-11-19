@@ -36,6 +36,7 @@ db.sequelize.sync();
 
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/video.routes')(app);
 
 require('./app/routes/file.routes.js')(app, multer, express);
 

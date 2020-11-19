@@ -1,42 +1,26 @@
 import React, { Component } from "react";
 
-import UserService from "../services/user.service";
+import VideoService from "../services/video.service";
 
 export default class Welcome extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            content: ""
+            videos: ""
         };
     }
 
     componentDidMount() {
-        UserService.getPublicContent().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        );
+        VideoService.getFirstListVideos()
+            .then(data => this.setState({
+                videos: data.data.videos
+            }))
     }
 
     render() {
         return (
-            <div className="container">
-                <header className="jumbotron">
-                    <h1>Welcome</h1>
-                    <h3>{this.state.content}</h3>
-                </header>
-            </div>
+            this.state.videos && this.state.videos.map(video => <div data-href={video.folder}>{video.title}</div>)
         );
-    }
+    };
 }

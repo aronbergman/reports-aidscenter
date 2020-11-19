@@ -1,0 +1,5 @@
+.avatar-uploader > .ant-upload {
+    overflow: hidden;
+    width: 426px;
+    height: 240px;
+}

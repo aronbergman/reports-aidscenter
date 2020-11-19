@@ -23,11 +23,11 @@ const Admin = props => {
             >
                 <div className="logo"/>
                 <Menu theme="dark" mode="inline" onSelect={menuSelectHandler} >
-                    <Menu.Item key="news-creator">
-                        Создать новость
+                    <Menu.Item key="add-video">
+                        Добавить видео
                     </Menu.Item>
-                    <Menu.Item key="2">
-                        nav 2
+                    <Menu.Item key="list-video">
+                        Список видео
                     </Menu.Item>
                     <Menu.Item key="3">
                         nav 3

@@ -17,9 +17,11 @@ import BoardUser from "./components/Board-user";
 import BoardModerator from "./components/Board-moderator";
 import AdminPanel from "./components/Board-admin";
 import Home from "./components/Home";
+import AddVideoFromAdmin from "./components/Admin/AddVideoFromAdmin";
+import ListVideoFromAdmin from "./components/Admin/ListVideoFromAdmin";
 
-class App extends Component<any, any> {
-    constructor(props: any) {
+class App extends Component {
+    constructor(props) {
         super(props);
         this.logOut = this.logOut.bind(this);
 
@@ -32,7 +34,7 @@ class App extends Component<any, any> {
     }
 
     componentDidMount() {
-        const userData = JSON.parse(String(localStorage.getItem('user')))
+        const userData = JSON.parse(localStorage.getItem('user'))
         console.log('userData', userData)
         const user = AuthService.getCurrentUser();
 
@@ -45,7 +47,7 @@ class App extends Component<any, any> {
         }
     }
 
-    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.readyToRedirect !== null) {
             this.setState({
                 readyToRedirect: null
@@ -128,7 +130,8 @@ class App extends Component<any, any> {
                     }
 
                     <Switch>
-                        <Route exact path={"/"} component={Home}/>
+                        <Route exact path={"/"} component={Welcome}/>
+                        <Route exact path={"/home"} component={Home}/>
 
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/register" component={Register}/>
@@ -138,6 +141,8 @@ class App extends Component<any, any> {
                         <Route exact path="/welcome" component={Welcome}/>
 
                         <Route exact path="/admin" component={AdminPanel}/>
+                        <Route exact path="/admin/add-video" component={AddVideoFromAdmin}/>
+                        <Route exact path="/admin/list-video" component={ListVideoFromAdmin}/>
                     </Switch>
                 </div>
                 <Footer/>
@@ -146,12 +151,10 @@ class App extends Component<any, any> {
     }
 }
 
-// @ts-ignore
 const mapState = state => ({
     // allCounterNotRead: state.chat.allCounterNotRead
 })
 
-// @ts-ignore
 const mapDispatch = dispatch => ({
     // getUserChatsApi: id => dispatch(getUserChatsApi({ id })),
 })

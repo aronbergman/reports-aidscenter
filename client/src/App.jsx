@@ -19,6 +19,7 @@ import AdminPanel from "./components/Board-admin";
 import Home from "./components/Home";
 import AddVideoFromAdmin from "./components/Admin/AddVideoFromAdmin";
 import ListVideoFromAdmin from "./components/Admin/ListVideoFromAdmin";
+import VideoPage from "./components/VideoPage";
 
 class App extends Component {
     constructor(props) {
@@ -72,11 +73,6 @@ class App extends Component {
                             <Nav className="mr-auto">
                                 {(showAdminBoard || showModeratorBoard || currentUser) &&
                                 <>
-                                    {currentUser && (
-                                        <NavLink to={"/user"} activeClassName="active" className="nav-link">
-                                            user page
-                                        </NavLink>
-                                    )}
                                     {showAdminBoard && (
                                         <NavLink to={"/admin"} activeClassName="active" className="nav-link">
                                             Admin Board
@@ -87,10 +83,6 @@ class App extends Component {
                                             Moderator Board
                                         </NavLink>
                                     )}
-                                    {currentUser && (
-                                        <NavLink to={"/profile"} activeClassName="active" className="nav-link">
-                                            Profile Board
-                                        </NavLink>)}
                                 </>
                                 }
                             </Nav>
@@ -143,6 +135,8 @@ class App extends Component {
                         <Route exact path="/admin" component={AdminPanel}/>
                         <Route exact path="/admin/add-video" component={AddVideoFromAdmin}/>
                         <Route exact path="/admin/list-video" component={ListVideoFromAdmin}/>
+
+                        <Route exact path="/video/:id" component={VideoPage}/>
                     </Switch>
                 </div>
                 <Footer/>

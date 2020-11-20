@@ -15,6 +15,9 @@ module.exports = function (app) {
         controller.setVideo);
 
     app.post('/api/video/first-list',
-        controller.getFirstList)
+        controller.getFirstList);
+
+    app.post('/api/video/offset',
+        controller.fetchOffset)
 
 }

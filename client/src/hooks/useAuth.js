@@ -1,6 +1,5 @@
 import React from 'react';
 import UserService from "../services/user.service";
-import { Redirect } from "react-router-dom";
 import { ADMIN, MODERATOR, USER } from "../constants/roles.constants";
 import { connect } from "react-redux";
 import { setRole } from "../redux/thunks/user.thunks";

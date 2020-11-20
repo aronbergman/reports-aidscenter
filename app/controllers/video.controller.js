@@ -13,14 +13,36 @@ exports.setVideo = (req, res) => {
 };
 
 exports.getFirstList = (req, res) => {
+    Video.count().then(response => {
+        const count = response
+        Video.findAll({
+            limit: 10,
+            subQuery: false,
+            order: [['createdAt', 'DESC']]
+        })
+            .then(response => {
+                res.status(200).send({
+                    videos: response,
+                    count
+                });
+            })
+            .catch(err => {
+                res.status(500).send({message: err.message});
+            });
+    })
+}
+
+exports.fetchOffset = (req, res) => {
     Video.findAll({
-        limit: 12,
+        offset: req.body.offset * req.body.limit,
+        limit: req.body.limit,
         subQuery: false,
         order: [['createdAt', 'DESC']]
     })
         .then(response => {
-            res.status(200).send({
-                videos: response
-            });
+            res.status(200).send({videos: response});
         })
+        .catch(err => {
+            res.status(500).send({message: err.message});
+        });
 }

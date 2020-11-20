@@ -29,7 +29,6 @@ const VideoMetadataForm = props => {
     const [folderName, setFolderName] = useState(0)
 
     const onFinish = (values) => {
-        console.log(values);
         values.folder = props.folderName
         props.createVideo({
             ...values,
@@ -71,7 +70,7 @@ const VideoMetadataForm = props => {
     return (
         <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
             <Form.Item
-                name="folder"
+                name="video"
                 label="Видеофайл в формате .mp4"
             >
                 <Upload {...propsVideoUpload}>
@@ -82,7 +81,7 @@ const VideoMetadataForm = props => {
             <Form.Item
                 name="folder"
                 label="Папка на сервере"
-            >
+             fieldContext='folder'>
                 <Input/>
             </Form.Item>
             <Form.Item
@@ -108,9 +107,9 @@ const VideoMetadataForm = props => {
                 <Input.TextArea/>
             </Form.Item>
 
-            <Form.Item label="Превью видео">
-                <PreviewImageForMetadata folderName={props.folderName}/>
-            </Form.Item>
+            {!!folderName && <Form.Item label="Превью видео">
+                <PreviewImageForMetadata folderName={folderName.fileName}/>
+            </Form.Item>}
 
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">

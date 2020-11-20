@@ -64,8 +64,9 @@ export default function useAuth(WrappedComponent, role) {
 
         render() {
             return (
-                this.props.isAuthenticated !== null ? this.props.isAuthenticated ?
-                    <WrappedComponent {...this.props} /> : <Welcome {...this.props}/> : null
+                this.props.isAuthenticated !== null ? this.props.isAuthenticated
+                    ? <WrappedComponent {...this.props} auth={true}/>
+                    : <WrappedComponent {...this.props} auth={false}/> : null
             );
         }
     }

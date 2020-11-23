@@ -18,6 +18,12 @@ module.exports = function (app) {
         controller.getFirstList);
 
     app.post('/api/video/offset',
-        controller.fetchOffset)
+        controller.fetchOffset);
+
+    app.post('/api/video/count',
+        controller.fetchCountVideo);
+
+    app.post('/api/video/vote',
+        controller.fetchVoteVodeo);
 
 }

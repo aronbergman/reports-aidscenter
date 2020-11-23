@@ -7,7 +7,8 @@ const videoSlice = createSlice({
     initialState: {
         videos: null,
         count: null,
-        loading : false
+        loading: false,
+        single: null
     },
     reducers: {
         setVideos(state, action) {
@@ -20,6 +21,10 @@ const videoSlice = createSlice({
         },
         isLoading(state, action) {
             state.loading = action.payload
+        },
+        setSingleVideo(state, action) {
+            state.single = action.payload
+            state.loading = false
         }
     }
 })
@@ -27,7 +32,8 @@ const videoSlice = createSlice({
 export const {
     setVideos,
     setFirstVideos,
-    isLoading
+    isLoading,
+    setSingleVideo
 } = videoSlice.actions
 
 export default videoSlice.reducer

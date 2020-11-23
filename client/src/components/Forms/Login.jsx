@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import {connect} from 'react-redux'
 
 import AuthService from "../../services/auth.service";
+import { fetchLoginForm } from "../../redux/thunks/user.thunks";
 
 const required = value => {
   if (!value) {
@@ -15,7 +17,7 @@ const required = value => {
   }
 };
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
@@ -53,10 +55,10 @@ export default class Login extends Component {
     this.form.validateAll();
 
     if (this.checkBtn.context._errors.length === 0) {
-      AuthService.login(this.state.email, this.state.password).then(
+      this.props.fetchLogin({email :this.state.email, password:this.state.password}).then(
         () => {
-          this.props.history.push("/profile");
-          window.location.reload();
+          // this.props.history.push("/");
+          // window.location.reload();
         },
         error => {
           const resMessage =
@@ -150,3 +152,9 @@ export default class Login extends Component {
     );
   }
 }
+
+const macDispatchToProps = dispatch => ({
+  fetchLogin: ({email, password}) => dispatch(fetchLoginForm({email, password}))
+})
+
+export default connect(null, macDispatchToProps)(Login)

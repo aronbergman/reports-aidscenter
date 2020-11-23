@@ -5,23 +5,24 @@ const host = baseUrl()
 const API_URL = `${host}/api/auth/`;
 
 class AuthService {
-  login(email, password) {
-    return axios
-      .post(API_URL + "signin", {
-        email,
-        password
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-
-        return response.data;
-      });
-  }
+  // login(email, password) {
+  //   return axios
+  //     .post(API_URL + "signin", {
+  //       email,
+  //       password
+  //     })
+  //     .then(response => {
+  //       if (response.data.accessToken) {
+  //         localStorage.setItem("user", JSON.stringify(response.data));
+  //       }
+  //
+  //       return response.data;
+  //     });
+  // }
 
   logout() {
     localStorage.removeItem("user");
+    localStorage.removeItem("votes");
   }
 
   register(username, email, password) {

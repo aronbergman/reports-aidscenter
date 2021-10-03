@@ -1,7 +1,7 @@
 {
   "name": "node-js-jwt-auth",
   "version": "1.0.0",
-  "description": "FF video service of react/express",
+  "description": "reports aids.center",
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",

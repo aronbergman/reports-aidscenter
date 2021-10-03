@@ -41,7 +41,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email
+            username: req.body.email
         }
     })
         .then(user => {
@@ -76,7 +76,6 @@ exports.signin = (req, res) => {
                     email: user.email,
                     roles: authorities,
                     accessToken: token,
-                    votes: user.votes
                 });
             });
         })

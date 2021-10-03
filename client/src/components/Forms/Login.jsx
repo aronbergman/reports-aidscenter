@@ -87,11 +87,16 @@ class Login extends Component {
     return (
       <div className="col-md-12">
         <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
+          {/*<img*/}
+          {/*  src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"*/}
+          {/*  alt="profile-img"*/}
+          {/*  className="profile-img-card"*/}
+          {/*/>*/}
+           <img
+                style={{margin: "0 auto", width: "100%", transform: "scale(-1, 1)"}}
+                src="https://year18.spid.center/img/illustration-footer.jpg"
+                alt="profile-img"
+            />
 
           <Form
             onSubmit={this.handleLogin}
@@ -99,8 +104,9 @@ class Login extends Component {
               this.form = c;
             }}
           >
+
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">Пользователь</label>
               <Input
                 type="text"
                 className="form-control"

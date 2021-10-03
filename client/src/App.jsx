@@ -4,14 +4,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Nav, Navbar } from "react-bootstrap";
+
+import AllForms from "./components/all-forms/all-forms";
+import TestingForm from "./components/Forms/testing/TestingForm";
+
+import logoWhite from './images/logo-white.svg'
+import logoBlack from './images/logo-black.svg'
 
 import AuthService from "./services/auth.service";
 
 import Login from "./components/Forms/Login";
 import Register from "./components/Forms/Register";
 import Welcome from "./components/Welcome";
-import Footer from './components/Footer/Footer'
 import Profile from "./components/Profile";
 import BoardUser from "./components/Board-user";
 import BoardModerator from "./components/Board-moderator";
@@ -19,7 +23,6 @@ import AdminPanel from "./components/Board-admin";
 import Home from "./components/Home";
 import AddVideoFromAdmin from "./components/Admin/AddVideoFromAdmin";
 import ListVideoFromAdmin from "./components/Admin/ListVideoFromAdmin";
-import VideoPage from "./components/VideoPage";
 
 class App extends Component {
     constructor(props) {
@@ -61,85 +64,112 @@ class App extends Component {
     }
 
     render() {
-      const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+        const {currentUser, showModeratorBoard, showAdminBoard} = this.state;
 
-      return (
+        return (
             <Router>
                 <div>
-                    <Navbar bg="light" expand="lg">
-                        <Navbar.Brand href="/">FF Service</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="mr-auto">
-                                {(showAdminBoard || showModeratorBoard || currentUser) &&
-                                <>
-                                    {showAdminBoard && (
-                                        <NavLink to={"/admin"} activeClassName="active" className="nav-link">
-                                            Admin Board
-                                        </NavLink>
-                                    )}
-                                    {showModeratorBoard && (
-                                        <NavLink to={"/mod"} activeClassName="active" className="nav-link">
+                   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div className="container-fluid">
+                        <Link to={ "/" } className="navbar-brand">
+                            <div className="logo" style={ {backgroundImage: `url(${ logoWhite })`} }/>
+                        </Link>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                            {/*<li className="nav-item">*/ }
+                            {/*  <Link to={"/home"} className="nav-link">*/ }
+                            {/*    Домашняя*/ }
+                            {/*  </Link>*/ }
+                            {/*</li>*/ }
+                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                { showModeratorBoard && (
+                                    <li className="nav-item">
+                                        <Link to={ "/mod" } className="nav-link">
                                             Moderator Board
-                                        </NavLink>
-                                    )}
-                                </>
-                                }
-                            </Nav>
+                                        </Link>
+                                    </li>
+                                ) }
 
-                            {currentUser ? (
+                                { showAdminBoard && (
+                                    <li className="nav-item">
+                                        <Link to={ "/admin" } className="nav-link">
+                                            Отчеты
+                                        </Link>
+                                    </li>
+                                ) }
+
+                                {/*{currentUser && (*/ }
+                                {/*  <li className="nav-item">*/ }
+                                {/*    <Link to={"/user"} className="nav-link">*/ }
+                                {/*      Профиль*/ }
+                                {/*    </Link>*/ }
+                                {/*  </li>*/ }
+                                {/*)}*/ }
+
+                                { currentUser && (
+                                    <li className="nav-item">
+                                        <Link to={ "/forms" } className="nav-link">
+                                            Опросы
+                                        </Link>
+                                    </li>
+                                ) }
+
+                                { currentUser ? (
                                 <div className="navbar-nav ml-auto">
                                     <li className="nav-item">
-                                        <Link to={"/profile"} className="nav-link">{currentUser.username}</Link>
+                                        <Link to={ "/profile" } className="nav-link">{ currentUser.username }</Link>
                                     </li>
                                     <li className="nav-item">
                                         <a href="/login" className="nav-link"
-                                           onClick={this.logOut}>logout</a>
+                                           onClick={ this.logOut }>выйти</a>
                                     </li>
                                 </div>
                             ) : (
                                 <div className="navbar-nav ml-auto">
                                     <li className="nav-item">
-                                        <Link to={"/login"} className="nav-link">
-                                            login
+                                        <Link to={ "/login" } className="nav-link">
+                                            войти
                                         </Link>
                                     </li>
 
                                     <li className="nav-item">
-                                        <Link to={"/register"} className="nav-link">
-                                            register
+                                        <Link to={ "/register" } className="nav-link">
+                                            reg
                                         </Link>
                                     </li>
                                 </div>
-                            )}
-                        </Navbar.Collapse>
-                    </Navbar>
+                            ) }
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 
                     {
                         this.state.readyToRedirect
-                            ? <Redirect to={this.state.readyToRedirect}/>
+                            ? <Redirect to={ this.state.readyToRedirect }/>
                             : null
                     }
 
                     <Switch>
-                        <Route exact path={"/"} component={Welcome}/>
-                        <Route exact path={"/home"} component={Home}/>
-
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/register" component={Register}/>
-                        <Route exact path="/profile" component={Profile}/>
-                        <Route exact path="/user" component={BoardUser}/>
-                        <Route exact path="/moderator" component={BoardModerator}/>
-                        <Route exact path="/welcome" component={Welcome}/>
-
-                        <Route exact path="/admin" component={AdminPanel}/>
-                        <Route exact path="/admin/add-video" component={AddVideoFromAdmin}/>
-                        <Route exact path="/admin/list-video" component={ListVideoFromAdmin}/>
-
-                        <Route exact path="/video/:id" component={VideoPage}/>
+                        <Route exact path={ [ "/", "/home" ] } component={ Login }/>
+                        <Route exact path="/login" component={ Login }/>
+                        <Route exact path="/register" component={ Register }/>
+                        <Route exact path="/profile" component={ Profile }/>
+                        <Route exact path="/forms" component={ AllForms }/>
+                        <Route exact path="/testing" component={ TestingForm }/>
+                        <Route path="/user" component={ BoardUser }/>
+                        <Route path="/mod" component={ BoardModerator }/>
+                        <Route path="/admin" component={ AdminPanel }/>
                     </Switch>
                 </div>
-                <Footer/>
+
+                <div className="footer">
+                    <div className="logo" style={ {backgroundImage: `url(${ logoBlack })`} }/>
+                </div>
             </Router>
         );
     }

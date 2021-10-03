@@ -1,0 +1,47 @@
+/**
+ * Variables
+ */
+
+//$bp-small: 48em; // 768px
+$mobile: 768px; // 768px
+$tablet: 1200px; // 1024px
+$tabletMax: 1450px; // 1024px
+//$bp-large: 85.375em; // 1366px
+//$bp-xlarge: 120em; // 1920px
+//$bp-xxlarge: 160em; // 2560px
+
+// Media Queries
+//$mq-small: "(min-width: #{$bp-small})";
+$Mobile: "(max-width: #{$mobile})";
+$Tablet: "(max-width: #{$tablet})";
+$TabletMax: "(max-width: #{$tabletMax})";
+//$mq-medium: "(min-width: #{$bp-medium})";
+//$mq-large: "(min-width: #{$bp-large})";
+//$mq-xlarge: "(min-width: #{$bp-xlarge})";
+//$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
+//$mq-retina: "(-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi)";
+
+// Font-Size
+$base-font-size: 1.15em;
+
+// Line-Height
+$base-line-height: 1.5;
+$header-line-height: 1.25;
+
+// Spacing
+$base-spacing: $base-font-size;
+
+// Colors
+$black: #151515;
+$white: #fff;
+$dark-grey: #242424;
+$grey: #666;
+$base-accent-color: #ff005c;
+$base-font-color: #CCC;
+
+// Transition Settings
+$base-transition-duration: .3s;
+$base-transition-timing: ease-in-out;
+
+// Backgrounds
+$base-background-color: $dark-grey;

@@ -13,8 +13,11 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.2.0",
+    "antd-mask-input": "^0.1.15",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "chart.js": "^3.5.1",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "css-loader": "^3.5.3",
     "hls.js": "^0.14.16",
     "moment": "^2.25.3",
@@ -41,8 +44,8 @@
     "validator": "^12.2.0"
   },
   "scripts": {
-    "start": "export PORT=5000 && react-scripts start",
-    "build": "export PORT=5000 && react-scripts build",
+    "start": "export PORT=5100 && react-scripts start",
+    "build": "export PORT=5100 && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -55,10 +55,12 @@ class Login extends Component {
     this.form.validateAll();
 
     if (this.checkBtn.context._errors.length === 0) {
-      this.props.fetchLogin({email :this.state.email, password:this.state.password}).then(
-        () => {
-          // this.props.history.push("/");
-          // window.location.reload();
+      fetchLoginForm({email :this.state.email, password:this.state.password}).then(
+        (e) => {
+          if (e.roles.length) {
+            this.props.history.push("/forms");
+            window.location.reload();
+          }
         },
         error => {
           const resMessage =
@@ -153,8 +155,4 @@ class Login extends Component {
   }
 }
 
-const macDispatchToProps = dispatch => ({
-  fetchLogin: ({email, password}) => dispatch(fetchLoginForm({email, password}))
-})
-
-export default connect(null, macDispatchToProps)(Login)
+export default Login

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 import UserService from "../services/user.service";
 import { ADMIN, MODERATOR, USER } from "../constants/roles.constants";
 import { connect } from "react-redux";
@@ -64,9 +65,8 @@ export default function useAuth(WrappedComponent, role) {
 
         render() {
             return (
-                this.props.isAuthenticated !== null ? this.props.isAuthenticated
-                    ? <WrappedComponent {...this.props} auth={true}/>
-                    : <WrappedComponent {...this.props} auth={false}/> : null
+                this.props.isAuthenticated !== null ? this.props.isAuthenticated ?
+                    <WrappedComponent {...this.props} /> : <Redirect to={'/'}/> : null
             );
         }
     }

@@ -8,7 +8,6 @@ import {
 } from "../../constants/api.constants";
 import authHeader from "../../services/auth-header";
 import { setVideos, setFirstVideos, isLoading, setSingleVideo } from "../reducers/video.reducer";
-import { setUserVotes } from "../reducers/user.reducer";
 
 export const createVideoThunks = data => async () => {
     const response = await axios.post(API_CREATE_VIDEO, data, { headers: authHeader() })

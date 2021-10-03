@@ -6,9 +6,9 @@ export const setRole = data => async dispatch => {
     dispatch(fetchRole(data))
 }
 
-export const fetchLoginForm = ({ email, password }) => async dispatch => {
+export const fetchLoginForm = async ({ email, password }) => {
 
-    axios.post(API_AUTH_SIGNIN, { email, password })
+   return axios.post(API_AUTH_SIGNIN, { email, password })
         .then(response => {
             if (response.data.accessToken) {
 
@@ -19,7 +19,6 @@ export const fetchLoginForm = ({ email, password }) => async dispatch => {
                     roles: response.data.roles,
                     username: response.data.username
                 }));
-                localStorage.setItem("votes", JSON.stringify(response.data.votes));
 
                 return response.data;
             }

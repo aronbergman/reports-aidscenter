@@ -339,8 +339,8 @@ const TestingForm = ({pastTests}) => {
                             <Alert message={ i["45_consultant_comment"] } type="info" showIcon description={
                                 <div>{ moment(i["43_date"]).format('DD.MM.YYYY HH:mm') } { i["42_consultant"] &&
                                 <span>({ i["42_consultant"] })</span> }</div> }/>) }
-                        <br/>
-                        { pastTests && [...pastTests].sort(function (a, b) {
+                        { pastTests.length > 0 && <br/> }
+                        { pastTests.length > 0 ? [...pastTests].sort(function (a, b) {
                             if (b["43_date"] < a["43_date"]) {
                                 return -1;
                             }
@@ -349,9 +349,10 @@ const TestingForm = ({pastTests}) => {
                             }
                             return -1;
                         }).map(i =>
-                            <Tag>{ moment(i["43_date"], 'MM/DD/YYYY HH:mm:ss').format('DD.MM.YYYY HH:mm') }</Tag>) }
+                            <Tag>{ moment(i["43_date"], 'MM/DD/YYYY HH:mm:ss').format('DD.MM.YYYY HH:mm') }</Tag>)
+                        : <i style={{color:"gray"}}>тестирований с этим кодом не найдено</i>
+                        }
                     </div> }
-
 
                 </div>
 

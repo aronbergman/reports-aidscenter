@@ -29,11 +29,24 @@ label {
 
 #root {
   background-color: #f7f7f7;
+  min-height: 100%;
 }
 
 .card-container.card {
   max-width: 350px !important;
   padding: 40px 40px;
+}
+
+.card-container__title {
+  margin: 0 auto 30px;
+}
+
+.card-container__img {
+  width: calc(100% - 100px);
+  transform: scale(-1, 1);
+  position: absolute;
+  margin: 0 50px;
+  bottom: 0;
 }
 
 .footer {

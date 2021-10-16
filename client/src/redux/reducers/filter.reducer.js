@@ -11,7 +11,9 @@ const filterSlice = createSlice({
         sexWorked: false,
         rangePeriod: null,
         city: null,
-        findByCode: null
+        findByCode: null,
+        searchOfCode: null,
+        formType: null
     },
     reducers: {
         findByCode(state, action) {
@@ -32,6 +34,12 @@ const filterSlice = createSlice({
         setTestingSexWorked(state, action) {
             state.sexWorked = action.payload
         },
+        setSearchOfCode(state, action) {
+            state.searchOfCode = action.payload
+        },
+        setFormType(state, action) {
+            state.formType = action.payload
+        },
     }
 })
 
@@ -41,7 +49,9 @@ export const {
     setTestingPrepUsed,
     setTestingSexWorked,
     setRangePeriod,
-    setTestingCity
+    setTestingCity,
+    setSearchOfCode,
+    setFormType
 } = filterSlice.actions
 
 export default filterSlice.reducer

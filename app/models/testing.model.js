@@ -137,6 +137,9 @@ module.exports = (sequelize, Sequelize) => {
                 },
                 "46_city": {
                     type: Sequelize.STRING
+                },
+                "47_type_form": {
+                    type: Sequelize.STRING
                 }
             }
         )

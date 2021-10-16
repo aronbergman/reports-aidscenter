@@ -121,6 +121,7 @@ const TestingForm = ({ pastTests }) => {
             "42_consultant": values["42_consultant"],
             "45_consultant_comment": values["45_consultant_comment"],
             "46_city": city.username,
+            "47_type_form": expanded ? "expanded" : "short",
         })
 
         const createOtherFields = () => {
@@ -237,6 +238,12 @@ const TestingForm = ({ pastTests }) => {
 
     function callback(key) {
         setExpanded(key === "1")
+
+        form.setFieldsValue({
+            "47_type_form": key
+        });
+
+
         console.log('expanded', expanded)
     }
 

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Collapse, Table, Tabs } from 'antd';
+import { Collapse, PageHeader, Table, Tabs } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
 import { findDiagram } from "../../../redux/thunks/diagrams";
 import { findTesting } from "../../../redux/thunks/forms";
-// import { findDiagram } from "../../../actions/diagrams";
-// import { findTesting } from "../../../actions/forms";
 import PieDiagram from "../../diagrams/pie";
 import BarDiagram from "../../diagrams/bar";
 import Filters from "../../filters/filters";
+import styles from './styles.module.scss'
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
@@ -23,7 +22,9 @@ const TestingReport = () => {
         usedDrugs: selectorFiltersTesting.usedDrugs,
         usedPrep: selectorFiltersTesting.usedPrep,
         sexWorked: selectorFiltersTesting.sexWorked,
-        city: selectorFiltersTesting.city
+        city: selectorFiltersTesting.city,
+        searchByCode: selectorFiltersTesting.searchOfCode,
+        formType: selectorFiltersTesting.formType
     }
 
     useEffect(() => {
@@ -54,8 +55,13 @@ const TestingReport = () => {
 
     return (
         <div>
+            <PageHeader
+                className={styles.title}
+                title="Опрос тестируемых"
+                subTitle={testing?.length && <span>с учётом фильтров: <b>{testing?.length}</b></span>}
+            />
             <Filters/>
-            <Tabs defaultActiveKey="1">
+            <Tabs className={styles.tabs} defaultActiveKey="1">
                 <TabPane tab="Статистика по вопросам" key="1">
 
                     {columnsForm && columnsForm.map(column => {
@@ -76,26 +82,26 @@ const TestingReport = () => {
                         } else if (column.type === 'table') {
                             return <Collapse>
                                 <Panel header="Поиск по комментарию" key="1">
-                            <Table dataSource={
-                                comments} columns={[
-                                {
-                                    title: 'Комментарий консультанта',
-                                    dataIndex: '45_consultant_comment',
-                                    key: '45_consultant_comment',
-                                },
-                                {
-                                    title: 'Консультант',
-                                    dataIndex: '42_consultant',
-                                    key: '42_consultant',
-                                },
-                                {
-                                    title: 'Дата',
-                                    dataIndex: '43_date',
-                                    key: '43_date',
-                                }
-                            ]}/>
-                            </Panel>
-                        </Collapse>
+                                    <Table dataSource={
+                                        comments} columns={[
+                                        {
+                                            title: 'Комментарий консультанта',
+                                            dataIndex: '45_consultant_comment',
+                                            key: '45_consultant_comment',
+                                        },
+                                        {
+                                            title: 'Консультант',
+                                            dataIndex: '42_consultant',
+                                            key: '42_consultant',
+                                        },
+                                        {
+                                            title: 'Дата',
+                                            dataIndex: '43_date',
+                                            key: '43_date',
+                                        }
+                                    ]}/>
+                                </Panel>
+                            </Collapse>
                         }
 
                     })}

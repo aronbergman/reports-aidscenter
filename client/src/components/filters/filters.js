@@ -1,24 +1,20 @@
 import React from 'react';
-import { ConfigProvider, DatePicker, Checkbox, Select } from 'antd';
+import { ConfigProvider, DatePicker, Checkbox, Select, Input } from 'antd';
 import 'moment/locale/ru';
 import locale from 'antd/lib/locale/ru_RU';
 import { connect } from "react-redux";
 import {
+    setSearchOfCode,
     setRangePeriod, setTestingCity,
     setTestingDrugUsed,
     setTestingPrepUsed,
-    setTestingSexWorked
+    setTestingSexWorked,
+    setFormType
 } from "../../redux/reducers/filter.reducer";
-// import {
-//     setTestingDrugUsed,
-//     setTestingPrepUsed,
-//     setRangePeriod,
-//     setTestingCity,
-//     setTestingSexWorked
-// } from "../../actions/filter-testing";
 import styles from './styles.module.scss'
 
 const { Option } = Select;
+const { Search } = Input;
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD.MM.YYYY HH:mm:ss';
 
@@ -27,11 +23,14 @@ const Filters = ({
                      usedPrep,
                      usedDrugs,
                      periodType,
+                     formType,
+                     setFormType,
                      setDrugUsed,
                      setPrepUsed,
                      setSexWorked,
                      setRangePeriod,
-                     setCity
+                     setCity,
+                     setSearchOfCode
                  }) => {
 
     const onChangeDrugUsed = () => {
@@ -52,33 +51,65 @@ const Filters = ({
         setCity(city)
     }
 
+    const onChangeFormType = (type) => {
+        setFormType(type)
+    }
+
+    const onSearchOfCode = (value) => {
+        setSearchOfCode(value)
+    }
+
     return (
         <div className={styles.filters}>
-            {periodType !== "all" && <ConfigProvider locale={locale}>
-                <RangePicker showTime onChange={onChangeRangePeriod} format={dateFormat}/>
-            </ConfigProvider>}
-            <div className={styles.groups}>
-                <Checkbox onChange={onChangeDrugUsed}>Used drugs</Checkbox>
-                <Checkbox onChange={onChangePrepUsed}>Used PrEP</Checkbox>
-                <Checkbox onChange={onChangeSexWorked}>Sex workers</Checkbox>
+            <div className={styles.firstLine}>
+                {periodType !== "all" && <ConfigProvider locale={locale}>
+                    <RangePicker showTime onChange={onChangeRangePeriod} format={dateFormat}/>
+                </ConfigProvider>}
+                <div className={styles.groups}>
+                    <Checkbox onChange={onChangeDrugUsed}>Used drugs</Checkbox>
+                    <Checkbox onChange={onChangePrepUsed}>Used PrEP</Checkbox>
+                    <Checkbox onChange={onChangeSexWorked}>Sex workers</Checkbox>
+                </div>
+
+                <Select
+                    style={{ width: 200 }}
+                    placeholder="Фильтр по филиалу"
+                    defaultValue=""
+                    onClear={() => {
+                    }}
+                    optionFilterProp="children"
+                    onChange={onChangeCity}
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    <Option value="">Все филиалы</Option>
+                    <Option value="moscow">Москва</Option>
+                    <Option value="nn">Нижний Новгород</Option>
+                    <Option value="spb">Санкт-Петербург</Option>
+                </Select>
+
+                {/*накинуть фильтр по возрасту*/}
             </div>
 
-            <Select
-                allowClear
-                style={{ width: 200 }}
-                placeholder="Фильтр по филиалу"
-                optionFilterProp="children"
-                onChange={onChangeCity}
-                filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-            >
-                <Option value="moscow">Москва</Option>
-                <Option value="nn">Нижний Новгород</Option>
-                <Option value="spb">Санкт-Петербург</Option>
-            </Select>
+            <div className={styles.secondLine}>
 
-            {/*накинуть фильтр по возрасту*/}
+                <Search
+                    placeholder="поиск анкет по коду" onSearch={onSearchOfCode} allowClear style={{ width: 300 }}
+                    enterButton/>
+
+                <Select
+                    style={{ width: 200 }}
+                    placeholder="Тип опроса"
+                    defaultValue={formType ? formType : ""}
+                    onChange={onChangeFormType}
+                >
+                    <Option value="">Все типы опросов</Option>
+                    <Option value="expanded">Расширенный опрос</Option>
+                    <Option value="short">Сокращённый опрос</Option>
+                </Select>
+
+            </div>
         </div>
     );
 };
@@ -88,6 +119,7 @@ const mapStateToProps = (state) => ({
     usedDrugs: state.filter.usedDrugs,
     sexWorked: state.filter.sexWorked,
     usedPrep: state.filter.usedPrep,
+    formType: state.filter.formType,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -96,6 +128,8 @@ const mapDispatchToProps = (dispatch) => ({
     setSexWorked: (used) => dispatch(setTestingSexWorked(used)),
     setRangePeriod: (period) => dispatch(setRangePeriod(period)),
     setCity: (city) => dispatch(setTestingCity(city)),
+    setSearchOfCode: (code) => dispatch(setSearchOfCode(code)),
+    setFormType: (type) => dispatch(setFormType(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

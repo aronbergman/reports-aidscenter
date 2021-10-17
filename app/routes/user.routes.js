@@ -35,4 +35,28 @@ module.exports = function(app) {
       [authJwt.verifyToken],
       controller.oneUserData
   );
+
+  app.post(
+      "/api/user/all-users-data",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.allUsersData
+  );
+
+  app.post(
+      "/api/user/all-roles-data",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.allRolesData
+  );
+
+  app.post(
+      "/api/roles",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.rolesData
+  );
+
+  app.post(
+      "/api/subdivisions",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.subdivisionsData
+  );
 };

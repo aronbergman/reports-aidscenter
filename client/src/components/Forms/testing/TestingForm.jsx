@@ -38,7 +38,7 @@ const TestingForm = ({ pastTests }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [form] = Form.useForm();
-    const city = JSON.parse(localStorage.getItem("user"))
+    const user = JSON.parse(localStorage.getItem("user"))
     let initialValues = {}
 
 
@@ -47,13 +47,6 @@ const TestingForm = ({ pastTests }) => {
     if (localStorage.getItem('TESTING_FORM')) {
         initialValues = {
             ...JSON.parse(localStorage.getItem('TESTING_FORM')),
-            ...initialValues
-        }
-    }
-
-    if (localStorage.getItem('CONSULTANT')) {
-        initialValues = {
-            "42_consultant": JSON.parse(localStorage.getItem('CONSULTANT')),
             ...initialValues
         }
     }
@@ -74,15 +67,10 @@ const TestingForm = ({ pastTests }) => {
         }
 
         localStorage.setItem("TESTING_FORM", JSON.stringify(form.getFieldsValue()))
-
-        if (values['42_consultant']) {
-            localStorage.setItem("CONSULTANT", JSON.stringify(values['42_consultant']))
-        }
     };
 
     const onFinish = async (values) => {
         console.log('values', values)
-        console.log('city.username', city)
 
         const stateForm = new Object({
             "1_code": values["1_code"],
@@ -118,9 +106,9 @@ const TestingForm = ({ pastTests }) => {
             "39_consulting_on_regular_testing_provided": values["39_consulting_on_regular_testing_provided"] ? values["39_consulting_on_regular_testing_provided"][0] : null,
             "40_prevention_counseling_provided": values["40_prevention_counseling_provided"] ? values["40_prevention_counseling_provided"][0] : null,
             "41_provided_counseling_on_receiving_treatment_for_hiv": values["41_provided_counseling_on_receiving_treatment_for_hiv"] ? values["41_provided_counseling_on_receiving_treatment_for_hiv"][0] : null,
-            "42_consultant": values["42_consultant"],
+            "42_consultant": user.username,
             "45_consultant_comment": values["45_consultant_comment"],
-            "46_city": city.username,
+            "46_city": user.city,
             "47_type_form": expanded ? "expanded" : "short",
         })
 
@@ -318,6 +306,7 @@ const TestingForm = ({ pastTests }) => {
                 <div className={styles.line}/>
                 <h1 className={styles.h1}>Опрос тестируемых «СПИД.ЦЕНТР»</h1>
                 <p className={styles.required}>* Обязательные поля</p>
+                <h5>Сохранить от имени: <a href="/login"><b>{user.appointment}</b></a> ({user.city})</h5>
             </div>
 
             <Form
@@ -813,16 +802,6 @@ const TestingForm = ({ pastTests }) => {
                     </Checkbox.Group>
                 </Form.Item>
 
-                <Form.Item
-                    name="42_consultant" label="Консультант (выбор запоминается для следующих опросов)"
-                    rules={[{ required: true, message: 'Please select your country!' }]}
-                >
-                    <Select>
-                        <Option value="Майя Демидова">Майя Демидова</Option>
-                        <Option value="Владислав Вишневский">Владислав Вишневский</Option>
-                    </Select>
-                </Form.Item>
-
                 <div>
                     <Switch checked={now} onChange={() => setNow(!now)}/>&nbsp;&nbsp;&nbsp;<label htmlFor="">Сохраняю
                     во
@@ -844,7 +823,7 @@ const TestingForm = ({ pastTests }) => {
                     </>
                 }
 
-                <Form.Item name="45_consultant_comment" label="Комментарий консультанта">
+                <Form.Item name="45_consultant_comment" label={`Комментарий консультанта (${user.appointment}, филиал ${user.city})`}>
                     <Input.TextArea placeholder="Комментарий"/>
                 </Form.Item>
 

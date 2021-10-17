@@ -25,10 +25,13 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.sequelize = sequelize;
 db.sequelize = sequelize;
+db.sequelize = sequelize;
+db.sequelize = sequelize;
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
-// db.video = require("../models/video.model.js")(sequelize, Sequelize);
+db.subdivision = require("../models/subdivision.model.js")(sequelize, Sequelize);
+db.userRoles = require("../models/user_roles.model.js")(sequelize, Sequelize);
 db.testing = require("../models/testing.model.js")(sequelize, Sequelize);
 db.diagrams = require("../models/diargams.model.js")(sequelize, Sequelize);
 

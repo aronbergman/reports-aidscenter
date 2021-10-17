@@ -5,6 +5,7 @@ import { ADMIN } from "../constants/roles.constants";
 import useAuth from "../hooks/useAuth";
 import UserService from "../services/user.service";
 import TestingReport from "./reports/testing/TestingReport";
+import { UserManagement } from "./admin/user-management";
 
 const { Content, Sider } = Layout;
 const BoardAdmin = () => {
@@ -17,9 +18,9 @@ const BoardAdmin = () => {
     const setComponent = (tab) => {
        switch (tab) {
            case "1":
-               return <TestingReport/>
+               return <UserManagement/>
            case "2":
-               return "Индивидуальная формулировка выборки показателей отчета (добавлять/удалять стату с хитрой совмещенной выборкой)"
+               return "создание сущностей, редактирование, удаление, вход в ситему, просмотр отчета и т.д."
            default:
                return ""
        }
@@ -38,18 +39,12 @@ const BoardAdmin = () => {
                 }}
             >
                 <Menu onSelect={setActiveTab} theme="dark" mode="inline" defaultSelectedKeys={[tab]}>
-                    {/*<Menu.Item key="1" icon={<VideoCameraOutlined/>}>*/}
-                    {/*    Диаграммы*/}
-                    {/*</Menu.Item>*/}
-                    <Menu.Item key="1" icon={<UserOutlined/>}>
-                        Тестируемые
+                    <Menu.Item key="1" >
+                       Сотрудники
                     </Menu.Item>
-                    <Menu.Item key="2" >
-                       Индивидуальный отч.
+                    <Menu.Item key="2" icon={<UserOutlined/>}>
+                        Журнал действий
                     </Menu.Item>
-                    {/*<Menu.Item key="4" icon={<UserOutlined/>}>*/}
-                    {/*    nav 4*/}
-                    {/*</Menu.Item>*/}
                 </Menu>
             </Sider>
             <Layout>

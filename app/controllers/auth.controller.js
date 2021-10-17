@@ -3,6 +3,7 @@ require('dotenv').config()
 const { JWT_SECRET } = process.env
 const User = db.user;
 const Role = db.role;
+const UserRoles = db.userRoles;
 
 const Op = db.Sequelize.Op;
 
@@ -13,25 +14,18 @@ exports.signup = (req, res) => {
     // Save User to Database
     User.create({
         username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
+        appointment: req.body.appointment,
+        password: bcrypt.hashSync(req.body.password, 8),
+        city: req.body.city
     })
         .then(user => {
-            if (req.body.roles) {
-                Role.findAll({
-                    where: {
-                        name: {
-                            [Op.or]: req.body.roles
-                        }
-                    }
-                }).then(roles => {
-                    user.setRoles(roles).then(() => {
-                        res.send({ message: "User registered successfully!" });
-                    });
-                });
-            } else {
+            UserRoles.create({
+                roleId: 1,
+                userId: user.id,
+                subdivisionId: "1"
+            }).then(() => {
                 res.send({ message: "User registered successfully!" });
-            }
+            });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -41,7 +35,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
     User.findOne({
         where: {
-            username: req.body.email
+            username: req.body.username
         }
     })
         .then(user => {
@@ -73,7 +67,8 @@ exports.signin = (req, res) => {
                 res.status(200).send({
                     id: user.id,
                     username: user.username,
-                    email: user.email,
+                    city: user.city,
+                    appointment: user.appointment,
                     roles: authorities,
                     accessToken: token,
                 });

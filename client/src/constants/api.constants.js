@@ -14,3 +14,8 @@ export const API_UPLOAD_VIDEO = `${API_URL}/upload/video`
 export const API_CREATE_VIDEO = `${API_URL}/video/create`
 
 export const API_AUTH_SIGNIN = `${API_URL}/auth/signin`
+export const API_ALL_USERS = `${API_URL}/user/all-users-data`
+export const API_ALL_ROLES = `${API_URL}/user/all-roles-data`
+
+export const API_ROLES = `${API_URL}/roles`
+export const API_SUBDIVISIONS = `${API_URL}/subdivisions`

@@ -55,7 +55,7 @@ class Login extends Component {
         this.form.validateAll();
 
         if (this.checkBtn.context._errors.length === 0) {
-            fetchLoginForm({email: this.state.email, password: this.state.password}).then(
+            fetchLoginForm({username: this.state.email, password: this.state.password}).then(
                 (e) => {
                     if (e.roles.length) {
                         this.props.history.push("/forms");

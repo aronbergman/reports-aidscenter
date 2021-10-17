@@ -56,7 +56,7 @@ exports.signin = (req, res) => {
             }
 
             var token = jwt.sign({ id: user.id }, JWT_SECRET, {
-                expiresIn: 86400 // 24 hours
+                expiresIn: 43200 // 12 hours
             });
 
             var authorities = [];
@@ -73,6 +73,59 @@ exports.signin = (req, res) => {
                     accessToken: token,
                 });
             });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.changePassword = (req, res) => {
+    User.update(
+        { password: bcrypt.hashSync(req.body.password, 8) },
+        { where: { username: req.body.username } }
+    )
+        .then(user => {
+            res.send({ message: "User password update successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.changeCity = (req, res) => {
+    User.update(
+        { city: req.body.city },
+        { where: { username: req.body.username } }
+    )
+        .then(user => {
+            res.send({ message: "User city update successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.changeRole = (req, res) => {
+    UserRoles.update(
+        { roleId: req.body.roleId },
+        { where: { userId: req.body.userId } }
+    )
+        .then(user => {
+            res.send({ message: "User role update successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.changeSubdivision = (req, res) => {
+    console.log('req', req.body)
+    UserRoles.update(
+        { subdivisionId: req.body.subdivisionsId },
+        { where: { userId: req.body.userId } }
+    )
+        .then(user => {
+            res.send({ message: "User subdivisions update successfully!" });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

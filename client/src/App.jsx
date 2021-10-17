@@ -23,7 +23,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.logOut = this.logOut.bind(this);
-
+        console.log('process.versions.node', process.versions.node)
         this.state = {
             showModeratorBoard: false,
             showAdminBoard: false,

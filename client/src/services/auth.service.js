@@ -33,6 +33,34 @@ class AuthService {
     });
   }
 
+  changePassword(values) {
+    return axios.post(API_URL + "change-password", {
+      username: values.username,
+      password: values.password,
+    });
+  }
+
+  changeCity(values) {
+    return axios.post(API_URL + "change-city", {
+      username: values.username,
+      city: values.city,
+    });
+  }
+
+  changeRole(values) {
+    return axios.post(API_URL + "change-role", {
+      userId: values.userId,
+      roleId: values.roleId,
+    });
+  }
+
+  changeSubdivisions(values) {
+    return axios.post(API_URL + "change-subdivision", {
+      userId: values.userId,
+      subdivisionsId: values.subdivisionsId,
+    });
+  }
+
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));
   }

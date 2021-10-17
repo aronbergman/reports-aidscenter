@@ -9,7 +9,9 @@ export const Register = () => {
 
     const onFinish = (values) => {
         console.log('Success:', values);
-        AuthService.register(values).then((data) => console.log('data AuthService register', data))
+        AuthService.register(values).then(() => {
+            window.location.reload();
+        })
     };
 
     const onFinishFailed = (errorInfo) => {

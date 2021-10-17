@@ -20,4 +20,12 @@ module.exports = function (app) {
     );
 
     app.post("/api/auth/signin", controller.signin);
+
+    app.post("/api/auth/change-password", controller.changePassword);
+
+    app.post("/api/auth/change-city", controller.changeCity);
+
+    app.post("/api/auth/change-role", controller.changeRole);
+
+    app.post("/api/auth/change-subdivision", controller.changeSubdivision);
 };

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Table, Select, PageHeader } from "antd";
+import { Modal, Table, Select, PageHeader, message } from "antd";
 import { findAllRoles, findAllUsers, findRoles, findSubdivisions } from "../../../redux/thunks/user.thunks";
 import { Button } from 'antd';
 import styles from "../../reports/testing/styles.module.scss";
 import { Register } from "../../Forms/Register";
+import { ChangePassword } from "../../Forms/ChangePassword";
+import AuthService from "../../../services/auth.service";
+import { stringify } from "nodemon/lib/utils";
 
 const { Option } = Select;
 
@@ -13,6 +16,8 @@ export const UserManagement = () => {
     const [roles, setRoles] = useState(null)
     const [subdivisions, setSubdivisions] = useState(null)
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalChangePasswordVisible, setIsModalChangePasswordVisible] = useState(false);
+
     const cities = [
         {
             name: 'Москва',
@@ -41,7 +46,7 @@ export const UserManagement = () => {
                         roleId: dataRoles.data.find(role => user.id === role.userId).roleId,
                         subdivisionId: dataRoles.data.find(role => user.id === role.userId).subdivisionId,
                     })
-                ).sort((a,b) => b.roleId - a.roleId))
+                ).sort((a, b) => b.roleId - a.roleId))
             })
         })
     }, [])
@@ -50,8 +55,24 @@ export const UserManagement = () => {
     console.log('roles', roles)
     console.log('subdivisions', subdivisions)
 
-    const handleChangeRole = (value) => {
-        console.log(`selected role ${value}`);
+    const handleChangeCity = (city, user) => {
+        AuthService.changeCity({ username: user.username, city }).then(() => {
+            message.success("Город успешно изменён")
+        })
+    }
+
+    const handleChangeRole = (role, user) => {
+        AuthService.changeRole({ userId: user.id, roleId: role }).then(() => {
+            message.success("Роль пользователя успешно изменена")
+        })
+    }
+
+    const handleChangeSubdivisions = (subdivisionsId, user) => {
+        // const a = JSON.stringify(subdivisionsId)
+        console.log('subdivisionsId, user', subdivisionsId, user)
+        AuthService.changeSubdivisions({ userId: user.id, subdivisionsId: subdivisionsId.join(".") }).then(() => {
+            message.success("Подразделения пользователя успешно изменены")
+        })
     }
 
     const showModal = () => {
@@ -60,6 +81,10 @@ export const UserManagement = () => {
 
     const handleCancel = () => {
         setIsModalVisible(false);
+    };
+
+    const handleCancelChangePassword = () => {
+        setIsModalChangePasswordVisible(false);
     };
 
     const columns = [
@@ -81,9 +106,10 @@ export const UserManagement = () => {
             dataIndex: 'roleId',
             key: '2',
             width: 150,
-            render: (data) => {
+            render: (data, values) => {
                 return (
-                    <Select defaultValue={data} style={{ width: 200 }} onChange={handleChangeRole}>
+                    <Select defaultValue={data} style={{ width: 200 }}
+                            onChange={(val) => handleChangeRole(val, values)}>
                         {roles.map(role => <Option value={role.id}>{role.label}</Option>)}
                     </Select>
                 )
@@ -94,7 +120,7 @@ export const UserManagement = () => {
             dataIndex: 'subdivisionId',
             key: '1',
             width: 150,
-            render: (data) => {
+            render: (data, values) => {
                 return (
                     subdivisions && <Select
                         mode="multiple"
@@ -102,7 +128,8 @@ export const UserManagement = () => {
                             !!data ? data.split('.').map(i => subdivisions.find(value => value.id === +i).id) : undefined
                         }
                         style={{ width: 250 }}
-                        onChange={handleChangeRole}>
+                        onChange={(val) => handleChangeSubdivisions(val, values)}
+                    >
                         {subdivisions.map(subdivision => <Option value={subdivision.id}>{subdivision.label}</Option>)}
                     </Select>
                 )
@@ -113,9 +140,10 @@ export const UserManagement = () => {
             dataIndex: 'city',
             key: '2',
             width: 150,
-            render: (data) => {
+            render: (data, values) => {
                 return (
-                    <Select defaultValue={data} style={{ width: 200 }} onChange={handleChangeRole}>
+                    <Select defaultValue={data} style={{ width: 200 }}
+                            onChange={(val) => handleChangeCity(val, values)}>
                         {cities.map(city => <Option value={city.code}>{city.name}</Option>)}
                     </Select>
                 )
@@ -131,9 +159,11 @@ export const UserManagement = () => {
             key: 'operation',
             fixed: 'right',
             width: 100,
-            render: () => <>
-                <Button type="primary" ghost size="small">Изменить пароль</Button>
-                <Button type="primary" ghost size="small" danger>Удалить</Button>
+            render: (event) => <>
+                <Button type="primary" ghost size="small" onClick={() => {
+                    setIsModalChangePasswordVisible(event)
+                }}>Изменить пароль</Button>
+                {/*<Button type="primary" ghost size="small" danger>Удалить</Button>*/}
             </>,
         }
     ];
@@ -160,6 +190,12 @@ export const UserManagement = () => {
             <Modal title="Регистрация нового сотрудника" visible={isModalVisible} onCancel={handleCancel}
                    footer={false}>
                 <Register/>
+            </Modal>
+
+            <Modal title={`Изменение пароля сотрудника ${isModalChangePasswordVisible.appointment}`}
+                   visible={!!isModalChangePasswordVisible} onCancel={handleCancelChangePassword}
+                   footer={false}>
+                <ChangePassword setVisible={setIsModalChangePasswordVisible} values={isModalChangePasswordVisible}/>
             </Modal>
         </div>
     )

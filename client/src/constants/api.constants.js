@@ -15,6 +15,7 @@ export const API_CREATE_VIDEO = `${API_URL}/video/create`
 
 export const API_AUTH_SIGNIN = `${API_URL}/auth/signin`
 export const API_ALL_USERS = `${API_URL}/user/all-users-data`
+export const API_ALL_USERS_FOR_FORMS = `${API_URL}/user/all-users-for-forms-data`
 export const API_ALL_ROLES = `${API_URL}/user/all-roles-data`
 
 export const API_ROLES = `${API_URL}/roles`

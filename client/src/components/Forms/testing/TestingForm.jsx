@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import MaskedInput from 'antd-mask-input'
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import moment from 'moment'
 import {
     Form,
@@ -17,20 +17,23 @@ import {
     Tag,
     Alert
 } from 'antd';
-import { ADMIN, MODERATOR, USER } from "../../../constants/roles.constants";
-import useAuth from "../../../hooks/useAuth";
-// import { findByCode } from "../../../actions/filter-testing";
-// import { findTesting, testing } from "../../../actions/forms";
-import { findByCode } from "../../../redux/reducers/filter.reducer";
+import { findByCode, resetFilterState } from "../../../redux/reducers/filter.reducer";
 import { findTesting, testing } from "../../../redux/thunks/forms";
 import pride from './images/pride.jpeg'
 import noPride from './images/no-pride.jpg'
 import styles from './styles.module.scss'
+import { findAllUsersForForms } from "../../../redux/thunks/user.thunks";
+import { Success } from "../../Success";
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 
 const TestingForm = ({ pastTests }) => {
+    const defaultUser = localStorage.getItem('42_consultant')
+    const defaultCity = localStorage.getItem('46_city')
+
+    const [users, setUsers] = useState([])
+    const [city, setCity] = useState(null)
     const [expanded, setExpanded] = useState(true)
     const [now, setNow] = useState(true)
     const [submitting, setSubmitting] = useState(false)
@@ -38,11 +41,23 @@ const TestingForm = ({ pastTests }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [form] = Form.useForm();
-    const user = JSON.parse(localStorage.getItem("user"))
     let initialValues = {}
 
-
     useEffect(() => form.resetFields(), [form, initialValues, submitting]);
+
+    useEffect(() => {
+        findAllUsersForForms().then((data) => {
+            if (city) {
+                setUsers(data.data.filter(i => i.city === city));
+            } else {
+                setUsers(data.data.filter(i => i.city === defaultCity));
+            }
+        })
+
+        return () => {
+            dispatch(resetFilterState())
+        }
+    }, [city, defaultCity, dispatch]);
 
     if (localStorage.getItem('TESTING_FORM')) {
         initialValues = {
@@ -70,10 +85,9 @@ const TestingForm = ({ pastTests }) => {
     };
 
     const onFinish = async (values) => {
-        console.log('values', values)
 
         const stateForm = new Object({
-            "1_code": values["1_code"],
+            "1_code": values["1_code"].replace(/[. /_]/g, ''),
             "3_gender": values["3_gender"],
             "4_age": values["4_age"],
             "7_constant_sexual_partner": values["7_constant_sexual_partner"],
@@ -106,9 +120,9 @@ const TestingForm = ({ pastTests }) => {
             "39_consulting_on_regular_testing_provided": values["39_consulting_on_regular_testing_provided"] ? values["39_consulting_on_regular_testing_provided"][0] : null,
             "40_prevention_counseling_provided": values["40_prevention_counseling_provided"] ? values["40_prevention_counseling_provided"][0] : null,
             "41_provided_counseling_on_receiving_treatment_for_hiv": values["41_provided_counseling_on_receiving_treatment_for_hiv"] ? values["41_provided_counseling_on_receiving_treatment_for_hiv"][0] : null,
-            "42_consultant": user.username,
+            "42_consultant": values["42_consultant"],
             "45_consultant_comment": values["45_consultant_comment"],
-            "46_city": user.city,
+            "46_city": values["46_city"],
             "47_type_form": expanded ? "expanded" : "short",
         })
 
@@ -204,6 +218,14 @@ const TestingForm = ({ pastTests }) => {
                 stateForm["43_date"] = moment().format("M/D/YYYY HH:mm:ss")
             }
 
+            if (defaultCity) {
+                stateForm["46_city"] = defaultCity
+            }
+
+            if (defaultUser) {
+                stateForm["42_consultant"] = defaultUser
+            }
+
             return stateForm
         }
 
@@ -211,13 +233,11 @@ const TestingForm = ({ pastTests }) => {
 
         setSubmitting(true)
         dispatch(testing(fields))
-            .then(() => {
+            .then((data) => {
                 setSubmitting(false)
-                setSuccessful(true);
                 localStorage.removeItem("TESTING_FORM")
                 form.resetFields()
-                history.push('/forms')
-                message.success('Форма успешно сохранена 👌')
+                setSuccessful(data);
             })
             .catch(() => {
                 setSuccessful(false);
@@ -230,7 +250,6 @@ const TestingForm = ({ pastTests }) => {
         form.setFieldsValue({
             "47_type_form": key
         });
-
 
         console.log('expanded', expanded)
     }
@@ -293,6 +312,30 @@ const TestingForm = ({ pastTests }) => {
         }
     }
 
+    const setCityHandler = (city) => {
+        localStorage.setItem('46_city', city)
+        setCity(city)
+        form.setFieldsValue({
+            "46_city": city
+        });
+    }
+
+    const setUserHandler = (consultant) => {
+        localStorage.setItem('42_consultant', consultant)
+        form.setFieldsValue({
+            "42_consultant": consultant
+        });
+    }
+
+    const reloadForm = () => {
+        dispatch(resetFilterState())
+        setSuccessful(false);
+    }
+
+    if (successful) {
+        return <Success reload={reloadForm} data={successful}/>
+    }
+
     return (
         <div className={styles.container}>
 
@@ -306,7 +349,6 @@ const TestingForm = ({ pastTests }) => {
                 <div className={styles.line}/>
                 <h1 className={styles.h1}>Опрос тестируемых «СПИД.ЦЕНТР»</h1>
                 <p className={styles.required}>* Обязательные поля</p>
-                <h5>Сохранить от имени: <a href="/login"><b>{user.appointment}</b></a> ({user.city})</h5>
             </div>
 
             <Form
@@ -352,7 +394,8 @@ const TestingForm = ({ pastTests }) => {
                                 }
                                 return -1;
                             }).map(i =>
-                                <Tag>{moment(i["43_date"], 'MM/DD/YYYY HH:mm:ss').format('DD.MM.YYYY HH:mm')}</Tag>)
+                                <Tag>{moment(i["43_date"], 'MM/DD/YYYY HH:mm:ss')
+                                    .format('DD.MM.YYYY HH:mm')}</Tag>)
                             : <i style={{ color: "gray" }}>тестирований с этим кодом не найдено</i>
                         }
                     </div>}
@@ -727,7 +770,6 @@ const TestingForm = ({ pastTests }) => {
                     </Radio.Group>
                 </Form.Item>}
 
-
                 {expanded && <div>
                     <Form.Item name="34_1_for_prep_you_use"
                                label="Для PrEP вы используете:">
@@ -781,7 +823,6 @@ const TestingForm = ({ pastTests }) => {
                     </Radio.Group>
                 </Form.Item>}
 
-
                 <Form.Item name="39_consulting_on_regular_testing_provided"
                            label="Оказано консультирование по регулярному тестированию">
                     <Checkbox.Group>
@@ -819,11 +860,30 @@ const TestingForm = ({ pastTests }) => {
                         ]} name="date" label={`Дата и Время`}>
                             <DatePicker showTime format={'DD.MM.YYYY HH:mm'}/>
                         </Form.Item>
-
                     </>
                 }
 
-                <Form.Item name="45_consultant_comment" label={`Комментарий консультанта (${user.appointment}, филиал ${user.city})`}>
+                <Form.Item name="46_city" label="Город">
+                    <Select defaultValue={defaultCity} onChange={setCityHandler}>
+                        <Option value="moscow">Москва</Option>
+                        <Option value="spb">Санкт-Петербург</Option>
+                        <Option value="nn">Нижний Новгород</Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item name="42_consultant" label="Консультант">
+                    {
+                        users.length
+                            ? (
+                                <Select defaultValue={defaultUser} onChange={setUserHandler}>
+                                    {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
+                                </Select>
+                            )
+                            : <i>Выбор доступен после указания города</i>
+                    }
+                </Form.Item>
+
+                <Form.Item name="45_consultant_comment" label="Комментарий консультанта">
                     <Input.TextArea placeholder="Комментарий"/>
                 </Form.Item>
 
@@ -844,4 +904,4 @@ const mapDispatchToProps = (dispatch) => ({
     findByCode: (code) => dispatch(findByCode(code))
 })
 
-export default useAuth(connect(mapStateToProps, mapDispatchToProps)(TestingForm), USER);
+export default connect(mapStateToProps, mapDispatchToProps)(TestingForm);

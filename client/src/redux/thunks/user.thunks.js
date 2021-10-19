@@ -1,6 +1,13 @@
 import { fetchRole } from "../reducers/user.reducer";
 import axios from "axios";
-import { API_AUTH_SIGNIN, API_ALL_USERS, API_ALL_ROLES, API_ROLES, API_SUBDIVISIONS } from "../../constants/api.constants";
+import {
+    API_AUTH_SIGNIN,
+    API_ALL_USERS,
+    API_ALL_ROLES,
+    API_ROLES,
+    API_SUBDIVISIONS,
+    API_ALL_USERS_FOR_FORMS
+} from "../../constants/api.constants";
 import authHeader from "../../services/auth-header";
 
 export const setRole = data => async dispatch => {
@@ -29,6 +36,10 @@ export const fetchLoginForm = async ({ username, password }) => {
 
 export const findAllUsers = async () => {
     return axios.post(API_ALL_USERS, {}, { headers: authHeader() }).then(response => response)
+}
+
+export const findAllUsersForForms = async () => {
+    return axios.post(API_ALL_USERS_FOR_FORMS, {}).then(response => response)
 }
 
 export const findAllRoles = async () => {

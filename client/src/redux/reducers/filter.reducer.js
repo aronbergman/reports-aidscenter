@@ -3,18 +3,20 @@ import { START } from "../../constants/others.constants";
 
 const APP_REDUCER_NAME = 'filter'
 
+const initialState = {
+    usedDrugs: false,
+    usedPrep: false,
+    sexWorked: false,
+    rangePeriod: null,
+    city: null,
+    findByCode: null,
+    searchOfCode: null,
+    formType: null
+}
+
 const filterSlice = createSlice({
     name: APP_REDUCER_NAME,
-    initialState: {
-        usedDrugs: false,
-        usedPrep: false,
-        sexWorked: false,
-        rangePeriod: null,
-        city: null,
-        findByCode: null,
-        searchOfCode: null,
-        formType: null
-    },
+    initialState: initialState,
     reducers: {
         findByCode(state, action) {
             state.findByCode = action.payload
@@ -40,6 +42,9 @@ const filterSlice = createSlice({
         setFormType(state, action) {
             state.formType = action.payload
         },
+        resetFilterState(state) {
+            state.findByCode = null
+        }
     }
 })
 
@@ -51,7 +56,8 @@ export const {
     setRangePeriod,
     setTestingCity,
     setSearchOfCode,
-    setFormType
+    setFormType,
+    resetFilterState
 } = filterSlice.actions
 
 export default filterSlice.reducer

@@ -150,6 +150,7 @@ class App extends Component {
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/forms" component={AllForms}/>
                         <Route exact path="/testing" component={TestingForm}/>
+
                         <Route path="/user" component={BoardUser}/>
                         <Route path="/mod" component={BoardModerator}/>
                         <Route path="/admin" component={AdminPanel}/>

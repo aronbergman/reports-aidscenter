@@ -38,6 +38,18 @@ exports.allUsersData = (req, res) => {
     })
 };
 
+exports.allUsersForFormsData = (req, res) => {
+    User.findAll({
+        order: [['createdAt', 'DESC']]
+    }).then(data => {
+        res.status(200).send(data.map(item => ({
+            appointment: item.appointment,
+            username: item.username,
+            city: item.city,
+        })));
+    })
+};
+
 exports.allRolesData = (req, res) => {
     UserRoles.findAll({
         order: [['createdAt', 'DESC']]

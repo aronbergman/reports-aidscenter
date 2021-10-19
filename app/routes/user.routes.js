@@ -43,6 +43,11 @@ module.exports = function(app) {
   );
 
   app.post(
+      "/api/user/all-users-for-forms-data",
+      controller.allUsersForFormsData
+  );
+
+  app.post(
       "/api/user/all-roles-data",
       [authJwt.verifyToken, authJwt.isAdmin],
       controller.allRolesData

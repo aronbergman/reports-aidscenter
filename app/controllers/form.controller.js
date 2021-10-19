@@ -19,8 +19,8 @@ function formatDate(date) {
 exports.testing = (req, res) => {
     // Save User to Database
     Testing.create(req.body)
-        .then(() => {
-            res.send({ message: "Testing created!" });
+        .then((data) => {
+            res.send({ message: "Testing created!", data });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

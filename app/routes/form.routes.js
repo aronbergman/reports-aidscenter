@@ -12,13 +12,11 @@ module.exports = function (app) {
 
     app.post(
         "/api/form/testing",
-        [authJwt.verifyToken],
         controller.testing
     );
 
     app.post(
         "/api/form/find/testing",
-        [authJwt.verifyToken],
         controller.findTesting
     );
 }

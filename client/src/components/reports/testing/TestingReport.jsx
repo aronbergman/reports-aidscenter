@@ -29,11 +29,14 @@ const TestingReport = () => {
 
     useEffect(() => {
         dispatch(findTesting(filters)).then((data) => {
-            setTesting(data.data)
+            setTesting(data.data.sort((a,b) => b.id - a.id))
         })
 
         dispatch(findDiagram({ type: "testing" })).then((data) => {
-            setColumnsForm(data.data)
+            setColumnsForm([{
+                code: "id",
+                title: "Номер тестирования"
+            }, ...data.data,])
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectorFiltersTesting])
@@ -114,8 +117,8 @@ const TestingReport = () => {
                         scroll={{ x: 'calc(6000px + 50%)', y: "100%" }}
                         columns={columns}
                         dataSource={testing}
+
                         tableLayout="auto"
-                        pagination
                         top="none"
                         bottom="bottomRight"
                     />

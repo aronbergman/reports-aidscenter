@@ -12,7 +12,8 @@ const initialState = {
     findByCode: null,
     searchOfCode: null,
     formType: null,
-    age: null
+    age: null,
+    searchType: true,
 }
 
 const filterSlice = createSlice({
@@ -46,6 +47,9 @@ const filterSlice = createSlice({
         setAge(state, action) {
             state.age = action.payload
         },
+        setSearchType(state, action) {
+            state.searchType = action.payload
+        },
         resetFilterState(state) {
             state.findByCode = null
         }
@@ -62,6 +66,7 @@ export const {
     setSearchOfCode,
     setFormType,
     setAge,
+    setSearchType,
     resetFilterState
 } = filterSlice.actions
 

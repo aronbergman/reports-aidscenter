@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, DatePicker, Checkbox, Select, Input, Radio } from 'antd';
+import { ConfigProvider, DatePicker, Checkbox, Select, Input, Radio, Switch, Tooltip } from 'antd';
 import 'moment/locale/ru';
 import locale from 'antd/lib/locale/ru_RU';
 import { connect } from "react-redux";
@@ -10,7 +10,8 @@ import {
     setTestingPrepUsed,
     setTestingSexWorked,
     setFormType,
-    setAge
+    setAge,
+    setSearchType
 } from "../../redux/reducers/filter.reducer";
 import styles from './styles.module.scss'
 
@@ -27,6 +28,7 @@ const Filters = ({
                      formType,
                      setFormType,
                      setAge,
+                     setSearchType,
                      setDrugUsed,
                      setPrepUsed,
                      setSexWorked,
@@ -55,6 +57,10 @@ const Filters = ({
 
     const onChangeFormType = (type) => {
         setFormType(type)
+    }
+
+    const onChangeSearchType = (type) => {
+        setSearchType(type)
     }
 
     const onChangeAge = (age) => {
@@ -100,8 +106,14 @@ const Filters = ({
 
             <div className={styles.secondLine}>
 
+                <Tooltip placement="topLeft" title="Множественный поиск анкет клиента или одной анкеты по ID">
+                <Switch
+                    onChange={onChangeSearchType}
+                    defaultChecked checkedChildren="Клиент" unCheckedChildren="Анкета" />
+                </Tooltip>
+
                 <Search
-                    placeholder="поиск анкет по коду" onSearch={onSearchOfCode} allowClear style={{ width: 300 }}
+                    placeholder="Код клиента или № анкеты" onSearch={onSearchOfCode} allowClear style={{ width: 300 }}
                     enterButton/>
 
                 <Select
@@ -150,6 +162,7 @@ const mapDispatchToProps = (dispatch) => ({
     setSearchOfCode: (code) => dispatch(setSearchOfCode(code)),
     setFormType: (type) => dispatch(setFormType(type)),
     setAge: (age) => dispatch(setAge(age)),
+    setSearchType: (type) => dispatch(setSearchType(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

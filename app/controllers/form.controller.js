@@ -28,7 +28,19 @@ exports.testing = (req, res) => {
 };
 
 exports.findTesting = (req, res) => {
-    const { rangePeriodStart, rangePeriodEnd, usedDrugs, sexWorked, usedPrep, city, code, searchByCode, formType, age } = req.body
+    const {
+        rangePeriodStart,
+        rangePeriodEnd,
+        usedDrugs,
+        sexWorked,
+        usedPrep,
+        city,
+        code,
+        searchByCode,
+        formType,
+        age,
+        searchType
+    } = req.body
     let filters = {}
 
     if (rangePeriodStart && rangePeriodEnd) {
@@ -47,15 +59,6 @@ exports.findTesting = (req, res) => {
             ...filters.where,
             ["16_used_drugs"]: {
                 [Op.ne]: "Не употреблял"
-            }
-        }
-    }
-
-    if (searchByCode) {
-        filters.where = {
-            ...filters.where,
-            ["1_code"]: {
-                [Op.substring]: searchByCode
             }
         }
     }
@@ -101,6 +104,26 @@ exports.findTesting = (req, res) => {
             ...filters.where,
             ["4_age"]: {
                 [Op.or]: age
+            }
+        }
+    }
+
+    if (searchType) {
+        if (searchByCode) {
+            filters.where = {
+                ...filters.where,
+                ["1_code"]: {
+                    [Op.substring]: searchByCode
+                }
+            }
+        }
+    } else {
+        if (searchByCode) {
+            filters.where = {
+                ...filters.where,
+                ["id"]: {
+                    [Op.substring]: searchByCode
+                }
             }
         }
     }

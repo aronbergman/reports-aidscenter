@@ -28,7 +28,7 @@ exports.testing = (req, res) => {
 };
 
 exports.findTesting = (req, res) => {
-    const { rangePeriodStart, rangePeriodEnd, usedDrugs, sexWorked, usedPrep, city, code, searchByCode, formType } = req.body
+    const { rangePeriodStart, rangePeriodEnd, usedDrugs, sexWorked, usedPrep, city, code, searchByCode, formType, age } = req.body
     let filters = {}
 
     if (rangePeriodStart && rangePeriodEnd) {
@@ -92,6 +92,15 @@ exports.findTesting = (req, res) => {
             ...filters.where,
             ["46_city"]: {
                 [Op.eq]: city
+            }
+        }
+    }
+
+    if (age) {
+        filters.where = {
+            ...filters.where,
+            ["4_age"]: {
+                [Op.or]: age
             }
         }
     }

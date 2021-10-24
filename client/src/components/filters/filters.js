@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, DatePicker, Checkbox, Select, Input } from 'antd';
+import { ConfigProvider, DatePicker, Checkbox, Select, Input, Radio } from 'antd';
 import 'moment/locale/ru';
 import locale from 'antd/lib/locale/ru_RU';
 import { connect } from "react-redux";
@@ -9,7 +9,8 @@ import {
     setTestingDrugUsed,
     setTestingPrepUsed,
     setTestingSexWorked,
-    setFormType
+    setFormType,
+    setAge
 } from "../../redux/reducers/filter.reducer";
 import styles from './styles.module.scss'
 
@@ -25,6 +26,7 @@ const Filters = ({
                      periodType,
                      formType,
                      setFormType,
+                     setAge,
                      setDrugUsed,
                      setPrepUsed,
                      setSexWorked,
@@ -53,6 +55,10 @@ const Filters = ({
 
     const onChangeFormType = (type) => {
         setFormType(type)
+    }
+
+    const onChangeAge = (age) => {
+        setAge(age)
     }
 
     const onSearchOfCode = (value) => {
@@ -109,6 +115,19 @@ const Filters = ({
                     <Option value="short">Сокращённый опрос</Option>
                 </Select>
 
+                <Select
+                    mode="multiple"
+                    style={{ width: '400px' }}
+                    placeholder="Возраст"
+                    onChange={onChangeAge}
+                >
+                    <Option value="18-19 лет">18-19 лет</Option>
+                    <Option value="20-29 лет">20-29 лет</Option>
+                    <Option value="30-39 лет">30-39 лет</Option>
+                    <Option value="40-49 лет">40-49 лет</Option>
+                    <Option value="50 и старше">50 и старше</Option>
+                </Select>
+
             </div>
         </div>
     );
@@ -130,6 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
     setCity: (city) => dispatch(setTestingCity(city)),
     setSearchOfCode: (code) => dispatch(setSearchOfCode(code)),
     setFormType: (type) => dispatch(setFormType(type)),
+    setAge: (age) => dispatch(setAge(age)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

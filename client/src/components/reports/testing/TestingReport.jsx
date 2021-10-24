@@ -24,7 +24,8 @@ const TestingReport = () => {
         sexWorked: selectorFiltersTesting.sexWorked,
         city: selectorFiltersTesting.city,
         searchByCode: selectorFiltersTesting.searchOfCode,
-        formType: selectorFiltersTesting.formType
+        formType: selectorFiltersTesting.formType,
+        age: selectorFiltersTesting.age
     }
 
     useEffect(() => {

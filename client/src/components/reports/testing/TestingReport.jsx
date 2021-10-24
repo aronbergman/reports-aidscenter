@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Collapse, PageHeader, Table, Tabs } from 'antd';
+import { Button, Collapse, PageHeader, Table, Tabs } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Excel } from 'antd-table-saveas-excel';
 import { useDispatch, useSelector } from "react-redux";
 import { findDiagram } from "../../../redux/thunks/diagrams";
 import { findTesting } from "../../../redux/thunks/forms";
@@ -31,13 +33,15 @@ const TestingReport = () => {
 
     useEffect(() => {
         dispatch(findTesting(filters)).then((data) => {
-            setTesting(data.data.sort((a,b) => b.id - a.id))
+            setTesting(data.data.sort((a, b) => b.id - a.id))
         })
 
         dispatch(findDiagram({ type: "testing" })).then((data) => {
             setColumnsForm([{
                 code: "id",
-                title: "Номер тестирования"
+                title: "ID анкеты",
+                width: 100,
+                fixed: 'left',
             }, ...data.data,])
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +52,8 @@ const TestingReport = () => {
         dataIndex: column.code,
         key: column.code,
         order: column.order,
-        width: 400,
+        width: column.width ? column.width : 400,
+        fixed: column.fixed ? column.fixed : undefined,
     }))
         .sort((a, b) => a.order - b.order);
 
@@ -63,12 +68,28 @@ const TestingReport = () => {
             <PageHeader
                 className={styles.title}
                 title="Опрос тестируемых"
-                subTitle={testing?.length && <span>с учётом фильтров: <b>{testing?.length}</b></span>}
+                subTitle={testing?.length &&
+                <>
+                    <span>с учётом фильтров: <b>{testing?.length}</b>&nbsp;&nbsp;</span>
+                    <Button
+                        type="primary" shape="round" icon={<DownloadOutlined/>}
+                        onClick={() => {
+                            const today = new Date()
+                            const excel = new Excel();
+                            excel
+                                .addSheet('Опрос тестируемых')
+                                .addColumns(columns)
+                                .addDataSource(testing)
+                                .saveAs(`Опрос тестируемых ${today}.xlsx`);
+                        }}>Скачать Excel</Button>
+                </>
+                }
             />
-            <Filters/>
+
+            <Filters />
+
             <Tabs className={styles.tabs} defaultActiveKey="1">
                 <TabPane tab="Статистика по вопросам" key="1">
-
                     {columnsForm && columnsForm.map(column => {
                         if (column.type === 'pie') {
                             return <PieDiagram
@@ -112,6 +133,7 @@ const TestingReport = () => {
                     })}
                 </TabPane>
                 <TabPane tab="В виде таблицы" key="2">
+
                     <Table
                         bordered
                         layout="none"

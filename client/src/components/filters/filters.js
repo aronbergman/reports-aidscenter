@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, DatePicker, Checkbox, Select, Input, Radio, Switch, Tooltip } from 'antd';
+import { ConfigProvider, DatePicker, Checkbox, Select, Input, Switch, Tooltip } from 'antd';
 import 'moment/locale/ru';
 import locale from 'antd/lib/locale/ru_RU';
 import { connect } from "react-redux";
@@ -34,7 +34,7 @@ const Filters = ({
                      setSexWorked,
                      setRangePeriod,
                      setCity,
-                     setSearchOfCode
+                     setSearchOfCode,
                  }) => {
 
     const onChangeDrugUsed = () => {
@@ -74,17 +74,9 @@ const Filters = ({
     return (
         <div className={styles.filters}>
             <div className={styles.firstLine}>
-                {periodType !== "all" && <ConfigProvider locale={locale}>
-                    <RangePicker showTime onChange={onChangeRangePeriod} format={dateFormat}/>
-                </ConfigProvider>}
-                <div className={styles.groups}>
-                    <Checkbox onChange={onChangeDrugUsed}>Used drugs</Checkbox>
-                    <Checkbox onChange={onChangePrepUsed}>Used PrEP</Checkbox>
-                    <Checkbox onChange={onChangeSexWorked}>Sex workers</Checkbox>
-                </div>
 
                 <Select
-                    style={{ width: 200 }}
+                    style={{ width: 150 }}
                     placeholder="Фильтр по филиалу"
                     defaultValue=""
                     onClear={() => {
@@ -97,24 +89,24 @@ const Filters = ({
                 >
                     <Option value="">Все филиалы</Option>
                     <Option value="moscow">Москва</Option>
-                    <Option value="nn">Нижний Новгород</Option>
-                    <Option value="spb">Санкт-Петербург</Option>
+                    <Option value="nn">Н. Новгород</Option>
+                    <Option value="spb">С. Петербург</Option>
                 </Select>
 
-                {/*накинуть фильтр по возрасту*/}
+                {periodType !== "all" && <ConfigProvider locale={locale}>
+                    <RangePicker showTime onChange={onChangeRangePeriod} format={dateFormat}/>
+                </ConfigProvider>}
+
+                <div className={styles.groups}>
+                    <Checkbox onChange={onChangeDrugUsed}>Used drugs</Checkbox>
+                    <Checkbox onChange={onChangePrepUsed}>Used PrEP</Checkbox>
+                    <Checkbox onChange={onChangeSexWorked}>Sex workers</Checkbox>
+                </div>
+
+
             </div>
 
             <div className={styles.secondLine}>
-
-                <Tooltip placement="topLeft" title="Множественный поиск анкет клиента или одной анкеты по ID">
-                <Switch
-                    onChange={onChangeSearchType}
-                    defaultChecked checkedChildren="Клиент" unCheckedChildren="Анкета" />
-                </Tooltip>
-
-                <Search
-                    placeholder="Код клиента или № анкеты" onSearch={onSearchOfCode} allowClear style={{ width: 300 }}
-                    enterButton/>
 
                 <Select
                     style={{ width: 200 }}
@@ -129,7 +121,7 @@ const Filters = ({
 
                 <Select
                     mode="multiple"
-                    style={{ width: '400px' }}
+                    style={{ width: 360 }}
                     placeholder="Возраст"
                     onChange={onChangeAge}
                 >
@@ -139,6 +131,22 @@ const Filters = ({
                     <Option value="40-49 лет">40-49 лет</Option>
                     <Option value="50 и старше">50 и старше</Option>
                 </Select>
+
+                <div className={styles.groupsSearch}>
+                    <span>&nbsp;</span>
+                    <Tooltip placement="topLeft" title="Множественный поиск анкет клиента или одной анкеты по ID">
+                        <Switch
+                            onChange={onChangeSearchType}
+                            defaultChecked checkedChildren="Клиент" unCheckedChildren="Анкета"/>
+                    </Tooltip>
+                    <span>&nbsp;</span>
+                    <Search
+                        placeholder="Код клиента или № анкеты" onSearch={onSearchOfCode} allowClear
+                        style={{ width: 280 }}
+                        enterButton
+                    />
+
+                </div>
 
             </div>
         </div>

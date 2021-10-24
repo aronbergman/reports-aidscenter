@@ -32,6 +32,7 @@ const TestingForm = ({ pastTests }) => {
     const defaultCity = localStorage.getItem('46_city')
 
     const [users, setUsers] = useState([])
+    const [prep, setPrep] = useState(false)
     const [city, setCity] = useState(null)
     const [expanded, setExpanded] = useState(true)
     const [now, setNow] = useState(true)
@@ -71,20 +72,18 @@ const TestingForm = ({ pastTests }) => {
         return form.resetFields()
     }
 
-    // const onFormLayoutChange = (values) => {
-    //     console.log('onFormLayoutChange values', values)
-    //
-    //     if (values["date"] || values["time"]) {
-    //         return
-    //     }
-    //
-    //     localStorage.setItem("TESTING_FORM", JSON.stringify(form.getFieldsValue()))
-    // };
+    const onFormLayoutChange = (values) => {
+        if (values["33_you_are_a_used_PrEP"] !== "Нет") {
+            setPrep(true)
+        } else {
+            setPrep(false)
+        }
+    };
 
     const onFinish = async (values) => {
 
         const stateForm = new Object({
-            "1_code": values["1_code"].replace(/[. /_]/g, ''),
+            "1_code": values["1_code"].replace(/[. /_]/g, '').toUpperCase(),
             "3_gender": values["3_gender"],
             "4_age": values["4_age"],
             "7_constant_sexual_partner": values["7_constant_sexual_partner"],
@@ -279,16 +278,16 @@ const TestingForm = ({ pastTests }) => {
     }
 
     const optionsWithDisabled = [
-        { label: 'Аутрич в клубах', value: 'Аутрич в клубах' },
-        { label: 'Экраны в клубах', value: 'Экраны в клубах' },
+        { label: 'Знакомые', value: 'Знакомые' },
+        { label: 'Поисковые системы', value: 'Поисковые системы' },
+        { label: 'Телеграм', value: 'Телеграм' },
+        { label: 'Тестировался здесь ранее', value: 'Тестировался здесь ранее' },
         { label: 'Соцсети/сайт фонда', value: 'Соцсети/сайт фонда' },
         { label: 'Хорнет', value: 'Хорнет' },
-        { label: 'Телеграм', value: 'Телеграм' },
-        { label: 'Знакомые', value: 'Знакомые' },
+        { label: 'Аутрич в клубах', value: 'Аутрич в клубах' },
+        { label: 'Экраны в клубах', value: 'Экраны в клубах' },
         { label: 'Контекстная реклама в Гугле', value: 'Контекстная реклама в Гугле' },
         { label: 'Видео-реклама в Инстаграм', value: 'Видео-реклама в Инстаграм' },
-        { label: 'Поисковые системы', value: 'Поисковые системы' },
-        { label: 'Тестировался здесь ранее', value: 'Тестировался здесь ранее' },
     ];
 
     const onChangeCode = (event) => {
@@ -372,8 +371,8 @@ const TestingForm = ({ pastTests }) => {
                 layout={'vertical'}
                 form={form}
                 onFinish={onFinish}
+                onValuesChange={onFormLayoutChange}
                 // initialValues={initialValues}
-                // onValuesChange={onFormLayoutChange}
             >
 
                 <div className={styles.tabs}>
@@ -433,7 +432,16 @@ const TestingForm = ({ pastTests }) => {
                     {createResetValue(['2_1_how_did_you_know', '2_2_how_did_you_know'])}
                 </div>}
 
-                {expanded && <div>
+                {expanded ? <div>
+                    <Form.Item rules={[{ required: true, message: 'Поле является обязательным для сохранения' }]}
+                               name="3_gender" label="Ваш пол?">
+                        <Radio.Group>
+                            <Radio value="Male">Мужчина</Radio>
+                            <Radio value="TransgenderWoman">Трансгендерная женщина</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    {createResetValue('3_gender')}
+                </div> : <div>
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным для сохранения' }]}
                                name="3_gender" label="Ваш пол?">
                         <Radio.Group>
@@ -445,7 +453,7 @@ const TestingForm = ({ pastTests }) => {
                 </div>}
 
                 {expanded && <div>
-                    <Form.Item rules={[{ required: true, message: 'Поле является обязательным для сохранения' }]}
+                    <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
                                name="4_age" label="Ваш возраст?">
                         <Radio.Group>
                             <Radio value="18-19 лет">18-19 лет</Radio>
@@ -509,7 +517,7 @@ const TestingForm = ({ pastTests }) => {
                 </div>}
 
                 {expanded && <div>
-                    <Form.Item required name="9_condom_for_sex_with_a_permanent"
+                    <Form.Item name="9_condom_for_sex_with_a_permanent"
                                label="Используете ли вы презерватив при сексе с постоянным партнером?">
                         <Radio.Group>
                             <Radio value="Да">Да</Radio>
@@ -520,7 +528,7 @@ const TestingForm = ({ pastTests }) => {
                 </div>}
 
                 {expanded && <div>
-                    <Form.Item required name="10_condom_for_sex_with_a_club"
+                    <Form.Item name="10_condom_for_sex_with_a_club"
                                label="Используете ли вы презерватив при сексе со случайными партнерами?">
                         <Radio.Group>
                             <Radio value="Да">Да</Radio>
@@ -556,7 +564,7 @@ const TestingForm = ({ pastTests }) => {
 
                 {expanded && <div>
                     <Form.Item name="13_1_no_using_condom"
-                               label="Почему вы не использовали презерватив со своим последним сексуальным партнером(возможны несколько вариантов)?">
+                               label="Почему Вы не использовали презерватив со своим последним сексуальным партнером(возможны несколько вариантов)?">
                         <Checkbox.Group>
                             <Checkbox value="Я использовал его">Я использовал его</Checkbox>
                             <Checkbox value="У меня его не было">У меня его не было</Checkbox>
@@ -584,7 +592,7 @@ const TestingForm = ({ pastTests }) => {
 
                 {expanded && <div>
                     <Form.Item required name="14_now_there_is_a_condom"
-                               label="У тебя сейчас есть презерватив с собой?">
+                               label="У Вас сейчас есть презерватив с собой?">
                         <Radio.Group>
                             <Radio value="Да">Да</Radio>
                             <Radio value="Нет">Нет</Radio>
@@ -611,14 +619,15 @@ const TestingForm = ({ pastTests }) => {
                                label="Вы употребляли наркотики в последние 12 месяцев (если да, то какие)?">
                         <Checkbox.Group>
                             <Checkbox value="Не употреблял">Не употреблял</Checkbox>
-                            <Checkbox value="Героин">Героин</Checkbox>
-                            <Checkbox value="Кокаин">Кокаин</Checkbox>
-                            <Checkbox value="Марихуана">Марихуана</Checkbox>
-                            <Checkbox value="МДМА (экстази)">МДМА (экстази)</Checkbox>
                             <Checkbox value="Мефедрон">Мефедрон</Checkbox>
+                            <Checkbox value="Марихуана">Марихуана</Checkbox>
+                            <Checkbox value="Бутират">Бутират</Checkbox>
+                            <Checkbox value="Кокаин">Кокаин</Checkbox>
+                            <Checkbox value="Героин">Героин</Checkbox>
+                            <Checkbox value="МДМА (экстази)">МДМА (экстази)</Checkbox>
                             <Checkbox value="Амфетамин">Амфетамин</Checkbox>
                             <Checkbox value="Метамфетамин">Метамфетамин</Checkbox>
-                            <Checkbox value="Бутират">Бутират</Checkbox>
+                            <Checkbox value="LSD">LSD</Checkbox>
                         </Checkbox.Group>
                     </Form.Item>
                     <Form.Item name="16_2_used_drugs">
@@ -653,7 +662,7 @@ const TestingForm = ({ pastTests }) => {
 
                 {expanded && <div>
                     <Form.Item required name="19_sexually_transmitted_diseases"
-                               label="Были ли у вас заболевания, передающиеся половым путем, за последние 12 месяцев?">
+                               label="За последние 12 месяцев у Вас были заболевания, передающиеся половым путем?">
                         <Radio.Group>
                             <Radio value="Да">Да</Radio>
                             <Radio value="Нет">Нет</Radio>
@@ -876,7 +885,7 @@ const TestingForm = ({ pastTests }) => {
                     {createResetValue('33_you_are_a_used_PrEP')}
                 </div>}
 
-                {expanded && <div>
+                {expanded && prep && <div>
                     <Form.Item name="34_1_for_prep_you_use"
                                label="Для PrEP вы используете:">
                         <Radio.Group>
@@ -894,11 +903,12 @@ const TestingForm = ({ pastTests }) => {
                 </div>}
 
 
-                {expanded && <div>
+                {expanded && prep && <div>
                     <Form.Item required name="35_you_have_started_taking_prep"
                                label="Вы начали прием PrEP:">
                         <Radio.Group>
-                            <Radio value="После прохождения теста на ВИЧ и консультации с врачом">После прохождения
+                            <Radio value="После прохождения теста на ВИЧ и консультации с врачом">После
+                                прохождения
                                 теста на
                                 ВИЧ и
                                 консультации с врачом</Radio>
@@ -913,7 +923,7 @@ const TestingForm = ({ pastTests }) => {
                 <div>
                     <Form.Item rules={[{
                         required: true,
-                        message: 'Поле является обязательным для сохранения',
+                        message: 'Поле является обязательным',
                     }]}
                                name="36_hiv_test_result"
                                label="Результат теста на ВИЧ:">
@@ -926,27 +936,27 @@ const TestingForm = ({ pastTests }) => {
                 </div>
 
 
-                {expanded && <div>
-                    <Form.Item required name="37_hepatitis_test_result"
-                               label="Результат теста на Гепатит С:">
+                <div>
+                    <Form.Item required={expanded} name="37_hepatitis_test_result"
+                               label={`Результат теста на Гепатит С: ${expanded ? "" : "(если проводился)"}`}>
                         <Radio.Group>
                             <Radio value="Положительный">Положительный</Radio>
                             <Radio value="Отрицательный">Отрицательный</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {createResetValue('37_hepatitis_test_result')}
-                </div>}
+                </div>
 
-                {expanded && <div>
-                    <Form.Item required name="38_syphilis_test_result"
-                               label="Результат теста на Сифилис:">
+                <div>
+                    <Form.Item required={expanded} name="38_syphilis_test_result"
+                               label={`Результат теста на Сифилис: ${expanded ? "" : "(если проводился)"}`}>
                         <Radio.Group>
                             <Radio value="Положительный">Положительный</Radio>
                             <Radio value="Отрицательный">Отрицательный</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {createResetValue('38_syphilis_test_result')}
-                </div>}
+                </div>
 
                 <div>
                     <Form.Item name="39_consulting_on_regular_testing_provided"

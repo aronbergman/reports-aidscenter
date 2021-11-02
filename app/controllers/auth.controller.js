@@ -22,7 +22,7 @@ exports.signup = (req, res) => {
             UserRoles.create({
                 roleId: 1,
                 userId: user.id,
-                subdivisionId: "1"
+                subdivisionId: "2"
             }).then(() => {
                 res.send({ message: "User registered successfully!" });
             });

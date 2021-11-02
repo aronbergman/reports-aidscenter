@@ -9,6 +9,11 @@ export const Register = () => {
 
     const onFinish = (values) => {
         console.log('Success:', values);
+
+        if (!values.city) {
+
+        }
+
         AuthService.register(values).then(() => {
             window.location.reload();
         })
@@ -72,7 +77,7 @@ export const Register = () => {
                 label="Город"
                 name="city"
             >
-                <Select placeholder="Город" defaultValue="moscow">
+                <Select placeholder="Город" >
                     <Option value="moscow">Москва</Option>
                     <Option value="spb">Санкт-Петербург</Option>
                     <Option value="nn">Нижний Новгород</Option>

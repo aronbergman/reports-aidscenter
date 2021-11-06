@@ -100,9 +100,8 @@ const Filters = ({
                 <div className={styles.groups}>
                     <Checkbox onChange={onChangeDrugUsed}>Used drugs</Checkbox>
                     <Checkbox onChange={onChangePrepUsed}>Used PrEP</Checkbox>
-                    <Checkbox onChange={onChangeSexWorked}>Sex workers</Checkbox>
+                    <Checkbox onChange={onChangeSexWorked}>Sex workers (both ways)</Checkbox>
                 </div>
-
 
             </div>
 

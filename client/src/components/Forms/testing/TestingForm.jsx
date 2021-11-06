@@ -445,8 +445,8 @@ const TestingForm = ({ pastTests }) => {
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным для сохранения' }]}
                                name="3_gender" label="Ваш пол?">
                         <Radio.Group>
-                            <Radio value="Male">Мужчина</Radio>
-                            <Radio value="TransgenderWoman">Трансгендерная женщина</Radio>
+                            <Radio value="Мужчина">Мужчина</Radio>
+                            <Radio value="Трансгендерная женщина">Трансгендерная женщина</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {createResetValue('3_gender')}
@@ -454,8 +454,8 @@ const TestingForm = ({ pastTests }) => {
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным для сохранения' }]}
                                name="3_gender" label="Ваш пол?">
                         <Radio.Group>
-                            <Radio value="Male">Мужчина</Radio>
-                            <Radio value="Famale">Женщина</Radio>
+                            <Radio value="Мужчина">Мужчина</Radio>
+                            <Radio value="Женщина">Женщина</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {createResetValue('3_gender')}

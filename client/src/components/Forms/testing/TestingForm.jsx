@@ -40,21 +40,30 @@ const TestingForm = ({ pastTests }) => {
     const [successful, setSuccessful] = useState(false);
     const dispatch = useDispatch();
     const [form] = Form.useForm();
-    // let initialValues = {}
+    const subdivisionTestingForm = '2'
 
     useEffect(() => {
         findAllUsersForForms().then((data) => {
             if (city) {
-                setUsers(data.data.filter(i => i.city === city));
+                localStorage.removeItem('42_consultant')
+                setUsers(data.data.filter(i => i.city === city && i.subdivision.includes(subdivisionTestingForm)));
+
+                form.setFieldsValue({
+                    "42_consultant": ""
+                });
             } else {
-                setUsers(data.data.filter(i => i.city === defaultCity));
+                setUsers(data.data.filter(i => i.city === defaultCity && i.subdivision.includes(subdivisionTestingForm)));
+
+                form.setFieldsValue({
+                    "42_consultant": defaultUser
+                });
             }
         })
 
         return () => {
             dispatch(resetFilterState())
         }
-    }, [city, defaultCity, dispatch]);
+    }, [city, defaultCity, defaultUser, dispatch, form]);
 
     // if (localStorage.getItem('TESTING_FORM')) {
     //     initialValues = {
@@ -1020,7 +1029,7 @@ const TestingForm = ({ pastTests }) => {
                     {
                         users.length
                             ? (
-                                <Select defaultValue={defaultUser} onChange={setUserHandler}>
+                                <Select onChange={setUserHandler}>
                                     {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
                                 </Select>
                             )

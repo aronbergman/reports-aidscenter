@@ -39,15 +39,23 @@ exports.allUsersData = (req, res) => {
 };
 
 exports.allUsersForFormsData = (req, res) => {
-    User.findAll({
+    UserRoles.findAll({
         order: [['createdAt', 'DESC']]
-    }).then(data => {
-        res.status(200).send(data.map(item => ({
-            appointment: item.appointment,
-            username: item.username,
-            city: item.city,
-        })));
+    }).then(userRoles => {
+
+        User.findAll({
+            order: [['createdAt', 'DESC']]
+        }).then(data => {
+            res.status(200).send(data.map(item => ({
+                appointment: item.appointment,
+                username: item.username,
+                city: item.city,
+                subdivision: userRoles.find(i => i.userId === item.id)["subdivisionId"]
+            })));
+        })
     })
+
+
 };
 
 exports.allRolesData = (req, res) => {

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Layout, Menu } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, PhoneOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { MODERATOR } from "../constants/roles.constants";
 import useAuth from "../hooks/useAuth";
-import UserService from "../services/user.service";
 import TestingReport from "./reports/testing/TestingReport";
-import { UserManagement } from "./admin/user-management";
+import HotLineReport from "./reports/hot-line/HotLineReport";
 
 const { Content, Sider } = Layout;
 const BoardModerator = () => {
@@ -20,6 +19,8 @@ const BoardModerator = () => {
             case "1":
                 return <TestingReport/>
             case "2":
+                return <HotLineReport/>
+            case "3":
                 return "Индивидуальная формулировка выборки показателей отчета (добавлять/удалять стату с хитрой совмещенной выборкой)"
             default:
                 return ""
@@ -45,8 +46,11 @@ const BoardModerator = () => {
                     <Menu.Item key="1" icon={<UserOutlined/>}>
                         Тестируемые
                     </Menu.Item>
-                    <Menu.Item key="2" >
-                        Индивидуальный отч.
+                    <Menu.Item key="2" icon={<PhoneOutlined />}>
+                        Горячая линия
+                    </Menu.Item>
+                    <Menu.Item key="3" icon={<UsergroupAddOutlined />}>
+                        Группы поддержки
                     </Menu.Item>
                     {/*<Menu.Item key="4" icon={<UserOutlined/>}>*/}
                     {/*    nav 4*/}

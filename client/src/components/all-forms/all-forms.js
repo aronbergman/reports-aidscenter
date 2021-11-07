@@ -1,7 +1,7 @@
 import React from "react";
-import { NavLink, Redirect } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { NavLink } from 'react-router-dom';
 import test from './test.jpeg'
+import hotLine from './hot-line.jpg'
 import styles from './slyles.module.scss'
 
 const AllForms = () => {
@@ -18,6 +18,13 @@ const AllForms = () => {
                 </div>
             </NavLink>
 
+            <NavLink to="/hot-line" style={{ textDecoration: 'none' }}>
+                <div className={styles.card}>
+                    <div className={styles.image} style={{backgroundImage: `url(${hotLine})`}}/>
+                    <p className={styles.title}>Горячая линия «СПИД.ЦЕНТР»</p>
+                </div>
+            </NavLink>
+
             <br/>
             Находятся в разработке
 
@@ -27,11 +34,7 @@ const AllForms = () => {
                 </div>
             </NavLink>
 
-            <NavLink disabled to="/hot-line" style={{ textDecoration: 'none' }}>
-                <div className={styles.card}>
-                    Горячая линия «СПИД.ЦЕНТР»
-                </div>
-            </NavLink>
+
 
         </div>
     );

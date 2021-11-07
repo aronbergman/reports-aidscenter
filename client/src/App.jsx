@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 
 import AllForms from "./components/all-forms/all-forms";
 import TestingForm from "./components/Forms/testing/TestingForm";
+import HotLineForm from "./components/Forms/hot_line/HotLineForm";
 
 import logoWhite from './images/logo-white.svg'
 import logoBlack from './images/logo-black.svg'
@@ -150,6 +151,7 @@ class App extends Component {
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/forms" component={AllForms}/>
                         <Route exact path="/testing" component={TestingForm}/>
+                        <Route exact path="/hot-line" component={HotLineForm}/>
 
                         <Route path="/user" component={BoardUser}/>
                         <Route path="/mod" component={BoardModerator}/>

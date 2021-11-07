@@ -16,7 +16,17 @@ module.exports = function (app) {
     );
 
     app.post(
+        "/api/form/hot-line",
+        controller.hotLine
+    );
+
+    app.post(
         "/api/form/find/testing",
         controller.findTesting
+    );
+
+    app.post(
+        "/api/form/find/hot-line",
+        controller.findHotLine
     );
 }

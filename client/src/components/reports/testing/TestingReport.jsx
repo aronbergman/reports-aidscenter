@@ -141,7 +141,6 @@ const TestingReport = () => {
                         scroll={{ x: 'calc(6000px + 50%)', y: "100%" }}
                         columns={columns}
                         dataSource={testing}
-
                         tableLayout="auto"
                         top="none"
                         bottom="bottomRight"

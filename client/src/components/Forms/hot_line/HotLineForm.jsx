@@ -60,7 +60,7 @@ const HotLineForm = () => {
         defaultCity && form.setFieldsValue({
             "1_city": defaultCity
         });
-        if(defaultUser)  {
+        if (defaultUser) {
             form.setFieldsValue({
                 "2_consultant": defaultUser
             });
@@ -226,7 +226,7 @@ const HotLineForm = () => {
 
                 {createResetValue()}
             </div>
-            {console.log('form.getFieldsValue()', form.getFieldsValue())}
+
             <Form
                 layout={'vertical'}
                 form={form}
@@ -275,7 +275,8 @@ const HotLineForm = () => {
                 <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
                            name="4_date" label={`Дата и Время`}>
 
-                    <input id="4_date" type='datetime-local' placeholder='Дата и Время'/>
+                    <input className={styles.date} id="4_date" type='datetime-local'
+                           placeholder='Дата и Время'/>
 
                 </Form.Item>
 

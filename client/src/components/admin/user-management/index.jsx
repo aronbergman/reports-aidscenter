@@ -185,7 +185,12 @@ export const UserManagement = () => {
                 <i>Администратор</i>: абсолютный доступ КО ВСЕМУ, вкладка "Админка", управление пользователями
             </p>
 
-            <Table size="small" columns={columns} dataSource={users} scroll={{ x: 1500, y: 300 }}/>
+            <Table
+                pagination={false}
+                size="small"
+                columns={columns}
+                dataSource={users}
+            />
 
             <Modal title="Регистрация нового сотрудника" visible={isModalVisible} onCancel={handleCancel}
                    footer={false}>

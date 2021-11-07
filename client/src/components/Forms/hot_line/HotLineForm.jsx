@@ -32,17 +32,29 @@ const HotLineForm = () => {
     const [form] = Form.useForm();
     const subdivisionHotLineForm = '4'
 
+    const sortByName = (a, b) => {
+        var nameA = a.appointment.toUpperCase();
+        var nameB = b.appointment.toUpperCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+    }
+
     useEffect(() => {
         findAllUsersForForms().then((data) => {
             if (city) {
                 localStorage.removeItem('2_consultant')
-                setUsers(data.data.filter(i => i.city === city && i.subdivision.includes(subdivisionHotLineForm)));
+                setUsers(data.data
+                    .filter(i => i.city === city && i.subdivision.includes(subdivisionHotLineForm))
+                    .sort((a, b) => sortByName(a,b)));
 
                 form.setFieldsValue({
                     "2_consultant": ""
                 });
             } else {
-                setUsers(data.data.filter(i => i.city === defaultCity && i.subdivision.includes(subdivisionHotLineForm)));
+                setUsers(data.data
+                    .filter(i => i.city === defaultCity && i.subdivision.includes(subdivisionHotLineForm))
+                    .sort((a, b) => sortByName(a,b)));
 
                 form.setFieldsValue({
                     "2_consultant": defaultUser

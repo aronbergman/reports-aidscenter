@@ -233,7 +233,7 @@ const HotLineForm = () => {
 
             <div className={styles.titleContainer}>
                 <div className={styles.line}/>
-                <h1 className={styles.h1}>Горячая линия СПИД.ЦЕНТРа</h1>
+                <h1 className={styles.h1}>Горячая линия</h1>
                 <p className={styles.required}>* Обязательные поля</p>
 
                 {createResetValue()}
@@ -244,30 +244,33 @@ const HotLineForm = () => {
                 form={form}
                 onFinish={onFinish}>
 
-                <Form.Item name="1_city" label="Город"
-                           rules={[{ required: true, message: 'Поле является обязательным' }]}>
-                    <Select defaultValue={defaultCity} value={form.getFieldsValue()["1_city"]}
-                            onChange={setCityHandler}>
-                        <Option value="moscow">Москва</Option>
-                        <Option value="spb">Санкт-Петербург</Option>
-                        <Option value="nn">Нижний Новгород</Option>
-                    </Select>
-                </Form.Item>
+               <div>
+                   <Form.Item name="1_city" label="Филиал и Консультант"
+                              rules={[{ required: true, message: 'Поле является обязательным' }]}>
+                       <Select defaultValue={defaultCity} value={form.getFieldsValue()["1_city"]}
+                               onChange={setCityHandler}>
+                           <Option value="moscow">Москва</Option>
+                           <Option value="spb">Санкт-Петербург</Option>
+                           <Option value="nn">Нижний Новгород</Option>
+                       </Select>
+                   </Form.Item>
 
-                <Form.Item name="2_consultant" label="Консультант"
-                           rules={[{ required: true, message: 'Поле является обязательным' }]}>
-                    {
-                        users.length
-                            ? (
-                                <Select onChange={setUserHandler}>
-                                    {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
-                                </Select>
-                            )
-                            : city
-                                ? <i>Для города не сохранены Консультанты</i>
-                                : <i>Выбор доступен после указания города</i>
-                    }
-                </Form.Item>
+                   <Form.Item name="2_consultant"
+                              style={{margin: 0}}
+                              rules={[{ required: true, message: 'Поле является обязательным' }]}>
+                       {
+                           users.length
+                               ? (
+                                   <Select onChange={setUserHandler}>
+                                       {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
+                                   </Select>
+                               )
+                               : city
+                                   ? <i>Для города не сохранены Консультанты</i>
+                                   : <i>Выбор доступен после указания города</i>
+                       }
+                   </Form.Item>
+               </div>
 
                 <div>
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}

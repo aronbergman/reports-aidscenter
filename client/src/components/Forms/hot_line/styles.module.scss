@@ -6,6 +6,7 @@
 
   @media #{$Mobile} {
     width: auto;
+    margin: 10px auto;
   }
 
   form > div {
@@ -103,6 +104,11 @@ form div.tabs {
   letter-spacing: .2px;
   line-height: 20px;
   margin-top: 12px;
+
+  @media #{$Mobile} {
+    position: absolute;
+    bottom: 0;
+  }
 }
 
 .line {

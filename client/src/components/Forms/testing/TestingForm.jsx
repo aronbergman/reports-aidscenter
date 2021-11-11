@@ -612,7 +612,7 @@ const TestingForm = ({ pastTests }) => {
 
                 {expanded &&
                 <div>
-                    <Form.Item name="15_with_whom_sex" label="С кем у вас были половые контакты последние 6 месяцев?">
+                    <Form.Item name="15_with_whom_sex" label="С кем у вас были сексуальные контакты последние 6 месяцев?">
                         <Checkbox.Group>
                             <Checkbox value="Мужчины">Мужчины</Checkbox>
                             <Checkbox value="Женщины">Женщины</Checkbox>

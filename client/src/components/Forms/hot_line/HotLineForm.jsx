@@ -28,6 +28,7 @@ const HotLineForm = () => {
     const [city, setCity] = useState(null)
     const [submitting, setSubmitting] = useState(false)
     const [successful, setSuccessful] = useState(false);
+    const [date, setDate] = useState(null);
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const subdivisionHotLineForm = '4'
@@ -46,7 +47,7 @@ const HotLineForm = () => {
                 localStorage.removeItem('2_consultant')
                 setUsers(data.data
                     .filter(i => i.city === city && i.subdivision.includes(subdivisionHotLineForm))
-                    .sort((a, b) => sortByName(a,b)));
+                    .sort((a, b) => sortByName(a, b)));
 
                 form.setFieldsValue({
                     "2_consultant": ""
@@ -54,7 +55,7 @@ const HotLineForm = () => {
             } else {
                 setUsers(data.data
                     .filter(i => i.city === defaultCity && i.subdivision.includes(subdivisionHotLineForm))
-                    .sort((a, b) => sortByName(a,b)));
+                    .sort((a, b) => sortByName(a, b)));
 
                 form.setFieldsValue({
                     "2_consultant": defaultUser
@@ -93,7 +94,7 @@ const HotLineForm = () => {
             "1_city": values["1_city"],
             "2_consultant": values["2_consultant"],
             "3_source_of_appeal": values["3_source_of_appeal"],
-            "4_date": moment(values["4_date"]).format("M/D/YYYY HH:mm:ss"),
+            "4_date": date ? moment(date).format("M/D/YYYY HH:mm:ss") : "",
             "7_consulting_on_regular_testing_provided": values["7_consulting_on_regular_testing_provided"],
             "8_prevention_counseling_provided": values["8_prevention_counseling_provided"],
             "9_provided_counseling_on_receiving_treatment_for_hiv": values["9_provided_counseling_on_receiving_treatment_for_hiv"],
@@ -201,6 +202,10 @@ const HotLineForm = () => {
         setSuccessful(false);
     }
 
+    const setDateHandler = (date) => {
+setDate(date)
+    }
+
     const createResetValue = (name) => {
         let values
         if (typeof name === "object") {
@@ -244,34 +249,34 @@ const HotLineForm = () => {
                 form={form}
                 onFinish={onFinish}>
 
-               <div>
-                   <Form.Item name="1_city" label="Филиал и Консультант"
-                              rules={[{ required: true, message: 'Поле является обязательным' }]}>
-                       <Select defaultValue={defaultCity} value={form.getFieldsValue()["1_city"]}
-                               onChange={setCityHandler}>
-                           <Option value="moscow">Москва</Option>
-                           <Option value="spb">Санкт-Петербург</Option>
-                           <Option value="nn">Нижний Новгород</Option>
-                       </Select>
-                   </Form.Item>
+                <div>
+                    <Form.Item name="1_city" label="Филиал и Консультант"
+                               rules={[{ required: true, message: 'Поле является обязательным' }]}>
+                        <Select defaultValue={defaultCity} value={form.getFieldsValue()["1_city"]}
+                                onChange={setCityHandler}>
+                            <Option value="moscow">Москва</Option>
+                            <Option value="spb">Санкт-Петербург</Option>
+                            <Option value="nn">Нижний Новгород</Option>
+                        </Select>
+                    </Form.Item>
 
-                   <Form.Item name="2_consultant"
-                              style={{margin: 0}}
-                              // rules={[{ required: true, message: 'Поле является обязательным' }]}
-                   >
-                       {
-                           users.length
-                               ? (
-                                   <Select onChange={setUserHandler}>
-                                       {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
-                                   </Select>
-                               )
-                               : city
-                                   ? <i>Для города не сохранены Консультанты</i>
-                                   : <i>Выбор доступен после указания города</i>
-                       }
-                   </Form.Item>
-               </div>
+                    <Form.Item name="2_consultant"
+                               style={{ margin: 0 }}
+                        // rules={[{ required: true, message: 'Поле является обязательным' }]}
+                    >
+                        {
+                            users.length
+                                ? (
+                                    <Select onChange={setUserHandler}>
+                                        {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
+                                    </Select>
+                                )
+                                : city
+                                    ? <i>Для города не сохранены Консультанты</i>
+                                    : <i>Выбор доступен после указания города</i>
+                        }
+                    </Form.Item>
+                </div>
 
                 <div>
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
@@ -288,12 +293,14 @@ const HotLineForm = () => {
                     {createResetValue('3_source_of_appeal')}
                 </div>
 
-                <Form.Item r
-                           // ules={[{ required: true, message: 'Поле является обязательным' }]}
-                           name="4_date" label={`Дата и Время`}>
+                <Form.Item
+                    // ules={[{ required: true, message: 'Поле является обязательным' }]}
+                    name="4_date" label={`Дата и Время`}>
 
-                    <input className={styles.date} id="4_date" type='datetime-local'
-                           placeholder='Дата и Время'/>
+                    <input
+                        onClick={setDateHandler}
+                        className={styles.date} id="4_date" type='datetime-local'
+                        placeholder='Дата и Время'/>
 
                 </Form.Item>
 

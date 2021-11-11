@@ -671,7 +671,7 @@ const TestingForm = ({ pastTests }) => {
 
                 {expanded && <div>
                     <Form.Item required name="19_sexually_transmitted_diseases"
-                               label="За последние 12 месяцев у Вас были заболевания, передающиеся половым путем?">
+                               label="За последние 12 месяцев у Вас были заболевания, передаваемые половым путем?">
                         <Radio.Group>
                             <Radio value="Да">Да</Radio>
                             <Radio value="Нет">Нет</Radio>

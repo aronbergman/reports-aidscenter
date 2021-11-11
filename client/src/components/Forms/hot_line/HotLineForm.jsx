@@ -257,7 +257,8 @@ const HotLineForm = () => {
 
                    <Form.Item name="2_consultant"
                               style={{margin: 0}}
-                              rules={[{ required: true, message: 'Поле является обязательным' }]}>
+                              // rules={[{ required: true, message: 'Поле является обязательным' }]}
+                   >
                        {
                            users.length
                                ? (
@@ -287,7 +288,8 @@ const HotLineForm = () => {
                     {createResetValue('3_source_of_appeal')}
                 </div>
 
-                <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
+                <Form.Item r
+                           // ules={[{ required: true, message: 'Поле является обязательным' }]}
                            name="4_date" label={`Дата и Время`}>
 
                     <input className={styles.date} id="4_date" type='datetime-local'

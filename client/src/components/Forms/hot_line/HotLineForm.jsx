@@ -1,23 +1,16 @@
+import { DeleteOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Checkbox, Radio, Select, Spin } from 'antd';
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import {
-    Form,
-    Input,
-    Button,
-    Checkbox,
-    Radio,
-    Select,
-    Spin
-} from 'antd';
-import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { findByCode, resetFilterState } from "../../../redux/reducers/filter.reducer";
+import { hotLineForm } from "../../../redux/thunks/forms";
 import { findAllUsersForForms } from "../../../redux/thunks/user.thunks";
 import { FastTabs } from "../testing/fast-tabs";
-import { Success } from "./Success";
+import moment from 'moment'
 import noPride from "./image.jpeg";
 import styles from './styles.module.scss'
-import { hotLineForm } from "../../../redux/thunks/forms";
+import { Success } from "./Success";
 
 const { Option } = Select;
 
@@ -209,7 +202,9 @@ const HotLineForm = () => {
     }
 
     const setDateHandler = (date) => {
-setDate(date)
+        date.persist()
+        var dateString = moment(date.target.value).format("M/D/YYYY hh:mm:ss");
+        setDate(dateString)
     }
 
     const createResetValue = (name) => {
@@ -289,7 +284,7 @@ setDate(date)
                 <div>
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
                                name="3_source_of_appeal" label="Источник обращения">
-                        <Radio.Group >
+                        <Radio.Group>
                             <Radio value="Телефон">Телефон</Radio>
                             <Radio value="Мессенджеры (WhatsApp, Telegram, Viber)">Мессенджеры (WhatsApp, Telegram,
                                 Viber)</Radio>
@@ -305,8 +300,7 @@ setDate(date)
                     // ules={[{ required: true, message: 'Поле является обязательным' }]}
                     name="4_date" label={`Дата и Время`}>
 
-                    <input
-                        onClick={setDateHandler}
+                    <input onChange={setDateHandler}
                         className={styles.date} id="4_date" type='datetime-local'
                         placeholder='Дата и Время'/>
 
@@ -315,7 +309,7 @@ setDate(date)
 
                 <div>
                     <Form.Item name="5_1_reason_for_petition" label="Причина обращения">
-                        <Checkbox.Group >
+                        <Checkbox.Group>
                             {reasonForPetitionList.map(option => <Checkbox
                                 value={option.value}>{option.label}</Checkbox>)}
                         </Checkbox.Group>

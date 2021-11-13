@@ -203,8 +203,7 @@ const HotLineForm = () => {
 
     const setDateHandler = (date) => {
         date.persist()
-        var dateString = moment(date.target.value).format("M/D/YYYY hh:mm:ss");
-        setDate(dateString)
+        setDate(date.target.value)
     }
 
     const createResetValue = (name) => {
@@ -301,6 +300,7 @@ const HotLineForm = () => {
                     name="4_date" label={`Дата и Время`}>
 
                     <input onChange={setDateHandler}
+
                         className={styles.date} id="4_date" type='datetime-local'
                         placeholder='Дата и Время'/>
 

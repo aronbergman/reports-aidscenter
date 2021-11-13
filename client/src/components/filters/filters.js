@@ -98,7 +98,7 @@ const Filters = ({
                 </ConfigProvider>}
 
                 <div className={styles.groups}>
-                    <Checkbox onChange={onChangeDrugUsed}>Used drugs</Checkbox>
+                    <Checkbox onChange={onChangeDrugUsed}>MSM used drugs</Checkbox>
                     <Checkbox onChange={onChangePrepUsed}>Used PrEP</Checkbox>
                     <Checkbox onChange={onChangeSexWorked}>Sex workers (both ways)</Checkbox>
                 </div>
@@ -113,9 +113,10 @@ const Filters = ({
                     defaultValue={formType ? formType : ""}
                     onChange={onChangeFormType}
                 >
-                    <Option value="">Все типы опросов</Option>
-                    <Option value="expanded">Расширенный опрос</Option>
-                    <Option value="short">Сокращённый опрос</Option>
+                    <Option value="">Все типы</Option>
+                    <Option value="MSM">МСМ</Option>
+                    <Option value="PWID">ПИН</Option>
+                    <Option value="short">Общая</Option>
                 </Select>
 
                 <Select

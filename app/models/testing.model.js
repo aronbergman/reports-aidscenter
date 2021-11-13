@@ -140,7 +140,52 @@ module.exports = (sequelize, Sequelize) => {
                 },
                 "47_type_form": {
                     type: Sequelize.STRING
-                }
+                },
+                "47_how_long_have_you_been_using_drugs": {
+                    type: Sequelize.STRING
+                },
+                "48_ways_of_using_drugs": {
+                    type: Sequelize.STRING
+                },
+                "49_what_drugs_did_you_use_non_injection": {
+                    type: Sequelize.STRING
+                },
+                "50_what_drugs_did_you_use_injection": {
+                    type: Sequelize.STRING
+                },
+                "51_shared_the_same_syringe_with_other_people": {
+                    type: Sequelize.STRING
+                },
+                "52_who_did_they_share_the_syringe_with": {
+                    type: Sequelize.STRING
+                },
+                "53_why_do_you_use_the_same_syringe": {
+                    type: Sequelize.STRING
+                },
+                "54_you_usually_disinfect_the_container": {
+                    type: Sequelize.STRING
+                },
+                "55_how_do_you_usually_disinfect_syringes_and_needles": {
+                    type: Sequelize.STRING
+                },
+                "56_where_do_you_usually_get_syringes": {
+                    type: Sequelize.STRING
+                },
+                "57_undergo_treatment_in_a_narcological_hospital": {
+                    type: Sequelize.STRING
+                },
+                "58_how_many_sexual_partners": {
+                    type: Sequelize.STRING
+                },
+                "59_have_had_sex_in_the_past_12_months_using_a_condom": {
+                    type: Sequelize.STRING
+                },
+                "60_diagnosed_with_tuberculosis": {
+                    type: Sequelize.STRING
+                },
+                "61_hiv_tested_12_m": {
+                    type: Sequelize.STRING
+                },
             }
         )
     ;

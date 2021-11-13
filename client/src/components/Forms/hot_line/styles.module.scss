@@ -2,11 +2,10 @@
 
 .container {
   width: 620px;
-  margin: 50px auto;
+  margin: 25px auto 50px;
 
   @media #{$Mobile} {
     width: auto;
-    margin: 10px auto;
   }
 
   form > div {
@@ -31,14 +30,17 @@
   }
 
   form div > label {
-    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 18px;
     letter-spacing: .1px;
-    line-height: 24px;
+    line-height: 26px;
     color: #202124;
     font-weight: 400;
     width: 100%;
     word-break: break-word;
     margin-left: 0 !important;
+    padding: 7px 0;
 
     span {
       white-space: normal!important;

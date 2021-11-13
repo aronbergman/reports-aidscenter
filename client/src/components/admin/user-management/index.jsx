@@ -6,7 +6,6 @@ import styles from "../../reports/testing/styles.module.scss";
 import { Register } from "../../Forms/Register";
 import { ChangePassword } from "../../Forms/ChangePassword";
 import AuthService from "../../../services/auth.service";
-import { stringify } from "nodemon/lib/utils";
 
 const { Option } = Select;
 

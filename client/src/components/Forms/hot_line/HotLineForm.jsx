@@ -9,10 +9,11 @@ import {
     Select,
     Spin
 } from 'antd';
-import moment from 'moment'
 import { DeleteOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 import { findByCode, resetFilterState } from "../../../redux/reducers/filter.reducer";
 import { findAllUsersForForms } from "../../../redux/thunks/user.thunks";
+import { FastTabs } from "../testing/fast-tabs";
 import { Success } from "./Success";
 import noPride from "./image.jpeg";
 import styles from './styles.module.scss'
@@ -23,6 +24,11 @@ const { Option } = Select;
 const HotLineForm = () => {
     const defaultCity = localStorage.getItem('1_city')
     const defaultUser = localStorage.getItem('2_consultant')
+    const history = useHistory();
+
+    const goTo = (path) => {
+        history.push("/" + path.target.value)
+    }
 
     const [users, setUsers] = useState([])
     const [city, setCity] = useState(null)
@@ -94,7 +100,7 @@ const HotLineForm = () => {
             "1_city": values["1_city"],
             "2_consultant": values["2_consultant"],
             "3_source_of_appeal": values["3_source_of_appeal"],
-            "4_date": date ? moment(date).format("M/D/YYYY HH:mm:ss") : "",
+            "4_date": date || "",
             "7_consulting_on_regular_testing_provided": values["7_consulting_on_regular_testing_provided"],
             "8_prevention_counseling_provided": values["8_prevention_counseling_provided"],
             "9_provided_counseling_on_receiving_treatment_for_hiv": values["9_provided_counseling_on_receiving_treatment_for_hiv"],
@@ -232,6 +238,8 @@ setDate(date)
     return (
         <div className={styles.container}>
 
+            <FastTabs goTo={goTo}/>
+
             <div className={styles.image}
                  style={{ backgroundImage: `url(${noPride})` }}
             />
@@ -281,7 +289,7 @@ setDate(date)
                 <div>
                     <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
                                name="3_source_of_appeal" label="Источник обращения">
-                        <Radio.Group>
+                        <Radio.Group >
                             <Radio value="Телефон">Телефон</Radio>
                             <Radio value="Мессенджеры (WhatsApp, Telegram, Viber)">Мессенджеры (WhatsApp, Telegram,
                                 Viber)</Radio>
@@ -307,7 +315,7 @@ setDate(date)
 
                 <div>
                     <Form.Item name="5_1_reason_for_petition" label="Причина обращения">
-                        <Checkbox.Group>
+                        <Checkbox.Group >
                             {reasonForPetitionList.map(option => <Checkbox
                                 value={option.value}>{option.label}</Checkbox>)}
                         </Checkbox.Group>

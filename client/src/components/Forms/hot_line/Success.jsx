@@ -13,10 +13,10 @@ export const Success = (props) => {
     return (
         <Result
             status="success"
-            title={`Обращение на горячую линию сохранено`}
+            title={`Обращение сохранено`}
             subTitle={`Код обращения ${props.data.data.data.id}.`}
             extra={[
-                <Button type="primary" key="buy" onClick={props.reload}>Сохранить новое</Button>,
+                <Button type="primary" key="buy" onClick={props.reload}>Добавить новое</Button>,
             ]}
         />
     )

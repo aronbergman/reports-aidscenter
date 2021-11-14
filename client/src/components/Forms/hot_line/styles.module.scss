@@ -18,6 +18,10 @@
     page-break-inside: avoid;
     word-wrap: break-word;
 
+    input {
+
+    }
+
     @media #{$Mobile} {
       border: none;
       border-radius: 0;

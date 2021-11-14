@@ -29,18 +29,17 @@ const TestingForm = ({ pastTests }) => {
         history.push("/" + path.target.value)
     }
 
-    const [users, setUsers] = useState([])
-    const [prep, setPrep] = useState(false)
-    const [city, setCity] = useState(null)
-    const [expanded, setExpanded] = useState(true)
-    const [general, setGeneral] = useState(false)
-    const [drugsUsers, setDrugsUsers] = useState(false)
-    const [now, setNow] = useState(true)
+    const [users, setUsers] = useState([]);
+    const [prep, setPrep] = useState(false);
+    const [city, setCity] = useState(null);
+    const [expanded, setExpanded] = useState(true);
+    const [general, setGeneral] = useState(false);
+    const [drugsUsers, setDrugsUsers] = useState(false);
     const [submitting, setSubmitting] = useState(false)
     const [successful, setSuccessful] = useState(false);
     const dispatch = useDispatch();
     const [form] = Form.useForm();
-    const subdivisionTestingForm = '2'
+    const subdivisionTestingForm = '2';
 
     useEffect(() => {
         findAllUsersForForms().then((data) => {
@@ -283,8 +282,8 @@ const TestingForm = ({ pastTests }) => {
                 stateForm["34_for_prep_you_use"] = null
             }
 
-            if (values["date"]) {
-                stateForm["43_date"] = values["date"].format("M/D/YYYY HH:mm:ss")
+            if (values["43_date"]) {
+                stateForm["43_date"] = values["43_date"].format("M/D/YYYY HH:mm:ss")
             } else {
                 stateForm["43_date"] = moment().format("M/D/YYYY HH:mm:ss")
             }
@@ -500,25 +499,9 @@ const TestingForm = ({ pastTests }) => {
 
                 {drugsUsers && <TestingDrugsUser createResetValue={createResetValue}/>}
 
-                <div>
-                    <Switch checked={now} onChange={() => setNow(!now)}/>&nbsp;&nbsp;&nbsp;<label htmlFor="">Сохраняю
-                    во
-                    время
-                    тестирования (текущее время)</label>
-                </div>
-
-                {
-                    !now && <>
-                        <Form.Item rules={[
-                            {
-                                required: true,
-                                message: 'Поле обязательно для заполнения',
-                            },
-                        ]} name="date" label={`Дата и Время`}>
-                            <DatePicker showTime format={'DD.MM.YYYY HH:mm'}/>
-                        </Form.Item>
-                    </>
-                }
+                <Form.Item required name="43_date" label={`Дата и Время`}>
+                    <DatePicker showNow defaultValue={moment()} showTime format={'DD.MM.YYYY HH:mm'}/>
+                </Form.Item>
 
                 <Form.Item name="46_city" label="Город">
                     <Select defaultValue={defaultCity} onChange={setCityHandler}>

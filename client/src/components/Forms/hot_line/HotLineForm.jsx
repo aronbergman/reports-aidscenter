@@ -1,5 +1,6 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Checkbox, Radio, Select, Spin } from 'antd';
+import { Form, Input, Button, Checkbox, Radio, Select, Spin, DatePicker } from 'antd';
+import moment from 'moment'
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -7,7 +8,6 @@ import { findByCode, resetFilterState } from "../../../redux/reducers/filter.red
 import { hotLineForm } from "../../../redux/thunks/forms";
 import { findAllUsersForForms } from "../../../redux/thunks/user.thunks";
 import { FastTabs } from "../testing/fast-tabs";
-import moment from 'moment'
 import noPride from "./image.jpeg";
 import styles from './styles.module.scss'
 import { Success } from "./Success";
@@ -27,7 +27,6 @@ const HotLineForm = () => {
     const [city, setCity] = useState(null)
     const [submitting, setSubmitting] = useState(false)
     const [successful, setSuccessful] = useState(false);
-    const [date, setDate] = useState(null);
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const subdivisionHotLineForm = '4'
@@ -90,10 +89,9 @@ const HotLineForm = () => {
     const onFinish = async (values) => {
 
         const stateForm = new Object({
-            "1_city": values["1_city"],
-            "2_consultant": values["2_consultant"],
+            "1_city": localStorage.getItem("1_city"),
+            "2_consultant": localStorage.getItem("2_consultant"),
             "3_source_of_appeal": values["3_source_of_appeal"],
-            "4_date": date || "",
             "7_consulting_on_regular_testing_provided": values["7_consulting_on_regular_testing_provided"],
             "8_prevention_counseling_provided": values["8_prevention_counseling_provided"],
             "9_provided_counseling_on_receiving_treatment_for_hiv": values["9_provided_counseling_on_receiving_treatment_for_hiv"],
@@ -124,19 +122,16 @@ const HotLineForm = () => {
                 stateForm["6_consultation_results"] = null
             }
 
-            if (defaultCity) {
-                stateForm["1_city"] = defaultCity
-            }
-
-            if (defaultUser) {
-                stateForm["2_consultant"] = defaultUser
+            if (values["4_date"]) {
+                stateForm["4_date"] = values["4_date"].format("M/D/YYYY HH:mm:ss")
+            } else {
+                stateForm["4_date"] = moment().format("M/D/YYYY HH:mm:ss")
             }
 
             return stateForm
         }
 
         const fields = await createOtherFields()
-
         setSubmitting(true)
         console.log('fields', fields)
         dispatch(hotLineForm(fields))
@@ -199,11 +194,6 @@ const HotLineForm = () => {
     const reloadForm = () => {
         dispatch(resetFilterState())
         setSuccessful(false);
-    }
-
-    const setDateHandler = (date) => {
-        date.persist()
-        setDate(date.target.value)
     }
 
     const createResetValue = (name) => {
@@ -295,17 +285,9 @@ const HotLineForm = () => {
                     {createResetValue('3_source_of_appeal')}
                 </div>
 
-                <Form.Item
-                    // ules={[{ required: true, message: 'Поле является обязательным' }]}
-                    name="4_date" label={`Дата и Время`}>
-
-                    <input onChange={setDateHandler}
-
-                        className={styles.date} id="4_date" type='datetime-local'
-                        placeholder='Дата и Время'/>
-
+                <Form.Item required name="4_date" label={`Дата и Время`}>
+                    <DatePicker defaultValue={moment()} showTime format={'DD.MM.YYYY HH:mm'}/>
                 </Form.Item>
-
 
                 <div>
                     <Form.Item name="5_1_reason_for_petition" label="Причина обращения">

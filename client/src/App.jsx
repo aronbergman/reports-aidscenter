@@ -146,7 +146,7 @@ class App extends Component {
                     }
 
                     <Switch>
-                        <Route exact path={["/", "/home"]} component={Login}/>
+                        <Route exact path={["/", "/home"]} component={AllForms}/>
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/forms" component={AllForms}/>

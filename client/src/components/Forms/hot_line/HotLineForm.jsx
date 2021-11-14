@@ -92,9 +92,9 @@ const HotLineForm = () => {
             "1_city": localStorage.getItem("1_city"),
             "2_consultant": localStorage.getItem("2_consultant"),
             "3_source_of_appeal": values["3_source_of_appeal"],
-            "7_consulting_on_regular_testing_provided": values["7_consulting_on_regular_testing_provided"],
-            "8_prevention_counseling_provided": values["8_prevention_counseling_provided"],
-            "9_provided_counseling_on_receiving_treatment_for_hiv": values["9_provided_counseling_on_receiving_treatment_for_hiv"],
+            "7_consulting_on_regular_testing_provided": values["7_consulting_on_regular_testing_provided"] ? values["7_consulting_on_regular_testing_provided"][0] : null,
+            "8_prevention_counseling_provided": values["8_prevention_counseling_provided"] ? values["8_prevention_counseling_provided"][0] : null,
+            "9_provided_counseling_on_receiving_treatment_for_hiv": values["9_provided_counseling_on_receiving_treatment_for_hiv"] ? values["9_provided_counseling_on_receiving_treatment_for_hiv"][0] : null,
             "10_consultant_comment": values["10_consultant_comment"],
         })
 
@@ -113,7 +113,7 @@ const HotLineForm = () => {
 
             // 6_1_consultation_results 6_2_consultation_results
             if (values["6_1_consultation_results"]?.length && values["6_2_consultation_results"]?.length) {
-                stateForm["6_consultation_results"] = [...values["6_1_consultation_results"], values["2_2_how_did_you_know"]].toString()
+                stateForm["6_consultation_results"] = [...values["6_1_consultation_results"], values["6_2_consultation_results"]].toString()
             } else if (values["6_1_consultation_results"]?.length) {
                 stateForm["6_consultation_results"] = values["6_1_consultation_results"].toString()
             } else if (values["6_2_consultation_results"]?.length) {
@@ -133,7 +133,7 @@ const HotLineForm = () => {
 
         const fields = await createOtherFields()
         setSubmitting(true)
-        console.log('fields', fields)
+
         dispatch(hotLineForm(fields))
             .then((data) => {
                 setSubmitting(false)
@@ -142,6 +142,7 @@ const HotLineForm = () => {
             })
             .catch(() => {
                 setSuccessful(false);
+                setSubmitting(false)
             });
     }
 

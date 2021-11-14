@@ -1,6 +1,13 @@
+@import './../../root.scss';
+
 .all-forms {
   max-width: 650px;
   margin: 0 auto;
+
+  @media #{$Mobile} {
+    width: auto;
+    margin: 0 20px;
+  }
 }
 
 .link:hover {

@@ -497,10 +497,7 @@ export const TestingMsm = ({
             </div>}
 
             <div>
-                <Form.Item rules={[{
-                    required: true,
-                    message: 'Поле является обязательным',
-                }]}
+                <Form.Item
                            name="36_hiv_test_result"
                            label="Результат теста на ВИЧ:">
                     <Radio.Group>
@@ -513,7 +510,7 @@ export const TestingMsm = ({
 
 
             <div>
-                <Form.Item required name="37_hepatitis_test_result"
+                <Form.Item  name="37_hepatitis_test_result"
                            label={`Результат теста на Гепатит С:`}>
                     <Radio.Group>
                         <Radio value="Положительный">Положительный</Radio>
@@ -524,7 +521,7 @@ export const TestingMsm = ({
             </div>
 
             <div>
-                <Form.Item required name="38_syphilis_test_result"
+                <Form.Item  name="38_syphilis_test_result"
                            label={`Результат теста на Сифилис:`}>
                     <Radio.Group>
                         <Radio value="Положительный">Положительный</Radio>

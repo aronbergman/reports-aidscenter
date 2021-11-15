@@ -18,7 +18,7 @@ import styles from './styles.module.scss'
 const { Option } = Select;
 const { Search } = Input;
 const { RangePicker } = DatePicker;
-const dateFormat = 'DD.MM.YYYY HH:mm:ss';
+const dateFormat = 'DD.MM.YYYY';
 
 const Filters = ({
                      sexWorked,
@@ -35,6 +35,7 @@ const Filters = ({
                      setRangePeriod,
                      setCity,
                      setSearchOfCode,
+                     rangePeriod,
                  }) => {
 
     const onChangeDrugUsed = () => {
@@ -94,7 +95,8 @@ const Filters = ({
                 </Select>
 
                 {periodType !== "all" && <ConfigProvider locale={locale}>
-                    <RangePicker showTime onChange={onChangeRangePeriod} format={dateFormat}/>
+                    <RangePicker defaultValue={rangePeriod}
+                         onChange={onChangeRangePeriod} format={dateFormat} />
                 </ConfigProvider>}
 
                 <div className={styles.groups}>
@@ -108,7 +110,7 @@ const Filters = ({
             <div className={styles.secondLine}>
 
                 <Select
-                    style={{ width: 200 }}
+                    style={{ width: 150 }}
                     placeholder="Тип опроса"
                     defaultValue={formType ? formType : ""}
                     onChange={onChangeFormType}
@@ -121,7 +123,7 @@ const Filters = ({
 
                 <Select
                     mode="multiple"
-                    style={{ width: 360 }}
+                    style={{ width: 267 }}
                     placeholder="Возраст"
                     onChange={onChangeAge}
                 >
@@ -159,6 +161,7 @@ const mapStateToProps = (state) => ({
     sexWorked: state.filter.sexWorked,
     usedPrep: state.filter.usedPrep,
     formType: state.filter.formType,
+    rangePeriod: state.filter.rangePeriod
 })
 
 const mapDispatchToProps = (dispatch) => ({

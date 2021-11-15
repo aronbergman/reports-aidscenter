@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { START } from "../../constants/others.constants";
+import moment from "moment";
 
 const APP_REDUCER_NAME = 'filter'
 
@@ -7,7 +7,10 @@ const initialState = {
     usedDrugs: false,
     usedPrep: false,
     sexWorked: false,
-    rangePeriod: null,
+    rangePeriod: [
+        moment().startOf('month'),
+        moment()
+    ],
     city: null,
     findByCode: null,
     searchOfCode: null,

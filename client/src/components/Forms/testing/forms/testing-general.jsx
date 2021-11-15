@@ -17,10 +17,7 @@ export const TestingGeneral = ({ createResetValue }) => {
             </div>
 
             <div>
-                <Form.Item rules={[{
-                    required: true,
-                    message: 'Поле является обязательным',
-                }]}
+                <Form.Item
                            name="36_hiv_test_result"
                            label="Результат теста на ВИЧ:">
                     <Radio.Group>

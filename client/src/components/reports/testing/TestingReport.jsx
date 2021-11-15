@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Collapse, PageHeader, Table, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Collapse, PageHeader, Table, Tabs } from 'antd';
 import { Excel } from 'antd-table-saveas-excel';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { findDiagram } from "../../../redux/thunks/diagrams";
 import { findTesting } from "../../../redux/thunks/forms";
-import PieDiagram from "../../diagrams/pie";
 import BarDiagram from "../../diagrams/bar";
+import PieDiagram from "../../diagrams/pie";
 import Filters from "../../filters/filters";
 import styles from './styles.module.scss'
 
@@ -19,8 +19,8 @@ const TestingReport = () => {
     const [testing, setTesting] = useState(null)
     const [columnsForm, setColumnsForm] = useState(null)
     const filters = {
-        rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('M/D/YYYY HH:mm:ss').toString(),
-        rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('M/D/YYYY HH:mm:ss').toString(),
+        rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('YYYY-MM-DD HH:mm:ss').toString(),
+        rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('YYYY-MM-DD HH:mm:ss').toString(),
         usedDrugs: selectorFiltersTesting.usedDrugs,
         usedPrep: selectorFiltersTesting.usedPrep,
         sexWorked: selectorFiltersTesting.sexWorked,
@@ -72,7 +72,7 @@ const TestingReport = () => {
                 <>
                     <span>с учётом фильтров: <b>{testing?.length}</b>&nbsp;&nbsp;</span>
                     <Button
-                        type="primary" shape="round" icon={<DownloadOutlined/>}
+                        type="dashed" shape="round" icon={<DownloadOutlined/>}
                         onClick={() => {
                             const today = new Date()
                             const excel = new Excel();
@@ -86,7 +86,27 @@ const TestingReport = () => {
                 }
             />
 
-            <Filters />
+            <Filters/>
+
+            {testing?.length && <div className={styles.statisticsCounts}>
+                <div>
+                    <span>Всего</span>
+                    <b>{testing?.length}</b>
+                </div>
+                <div>
+                    <span>ВИЧ +</span>
+                    <b>{testing.filter(test=> test["36_hiv_test_result"] === "Положительный").length}</b>
+                </div>
+                 <div>
+                     <span>Гепатит +</span>
+                     <b>{testing.filter(test=> test["37_hepatitis_test_result"] === "Положительный").length}</b>
+                 </div>
+                <div>
+                    <span>Сифилис +</span>
+                    <b>{testing.filter(test=> test["38_syphilis_test_result"] === "Положительный").length}</b>
+                </div>
+
+            </div>}
 
             <Tabs className={styles.tabs} defaultActiveKey="1">
                 <TabPane tab="Статистика по вопросам" key="1">

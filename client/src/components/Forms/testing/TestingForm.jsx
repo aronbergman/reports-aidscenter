@@ -283,9 +283,9 @@ const TestingForm = ({ pastTests }) => {
             }
 
             if (values["43_date"]) {
-                stateForm["43_date"] = values["43_date"].format("M/D/YYYY HH:mm:ss")
+                stateForm["43_date"] = values["43_date"].format("YYYY-MM-DD HH:mm:ss")
             } else {
-                stateForm["43_date"] = moment().format("M/D/YYYY HH:mm:ss")
+                stateForm["43_date"] = moment().format("YYYY-MM-DD HH:mm:ss")
             }
 
             return stateForm

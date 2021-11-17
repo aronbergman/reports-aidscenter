@@ -17,6 +17,20 @@ export const TestingGeneral = ({ createResetValue }) => {
             </div>
 
             <div>
+                <Form.Item rules={[{ required: true, message: 'Поле является обязательным' }]}
+                           name="4_age" label="Ваш возраст?">
+                    <Radio.Group>
+                        <Radio value="18-19 лет">18-19 лет</Radio>
+                        <Radio value="20-29 лет">20-29 лет</Radio>
+                        <Radio value="30-39 лет">30-39 лет</Radio>
+                        <Radio value="40-49 лет">40-49 лет</Radio>
+                        <Radio value="50 и старше">50 и старше</Radio>
+                    </Radio.Group>
+                </Form.Item>
+                {createResetValue('4_age')}
+            </div>
+
+            <div>
                 <Form.Item
                            name="36_hiv_test_result"
                            label="Результат теста на ВИЧ:">

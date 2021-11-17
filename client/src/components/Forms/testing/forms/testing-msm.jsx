@@ -337,17 +337,18 @@ export const TestingMsm = ({
 
             <div>
                 <Form.Item name="27_1_registration_on_the_territory"
-                           label="У вас есть регистрация на территории Московской области? (если есть регистрация другого региона, укажите, какого)">
+                           label="У вас есть регистрация на территории региона проживания?">
                     <Radio.Group>
                         <Radio value="Постоянная регистрация">Постоянная регистрация</Radio>
                         <Radio value="Временная регистрация">Временная регистрация</Radio>
                         <Radio value="Нет регистрации">Нет регистрации</Radio>
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="27_2_registration_on_the_territory">
-                    <Input placeholder="Другое"/>
-                </Form.Item>
-                {createResetValue(['27_1_registration_on_the_territory', '27_2_registration_on_the_territory'])}
+                {/*<Form.Item name="27_2_registration_on_the_territory">*/}
+                {/*    <Input placeholder="Другое"/>*/}
+                {/*</Form.Item>*/}
+                {/*{createResetValue(['27_1_registration_on_the_territory', '27_2_registration_on_the_territory'])}*/}
+                {createResetValue(['27_1_registration_on_the_territory'])}
             </div>
 
             <div>

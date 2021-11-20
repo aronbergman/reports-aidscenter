@@ -45,8 +45,10 @@ export const TestingDrugsUser = ({ createResetValue }) => {
             </div>
 
             <div>
-                <Form.Item name="48_ways_of_using_drugs"
-                           label="Отметьте все способы употребления наркотиков, которые Вы когда-либо пробовали?">
+                <Form.Item
+                    label="Отметьте все способы употребления наркотиков, которые Вы когда-либо пробовали?"
+                    name="48_ways_of_using_drugs"
+                >
                     <Checkbox.Group>
                         <Checkbox value="Неинъекционно (курю, нюхаю и т.п.)">Неинъекционно (курю, нюхаю и
                             т.п.)</Checkbox>
@@ -57,6 +59,19 @@ export const TestingDrugsUser = ({ createResetValue }) => {
             </div>
 
             <div>
+                <Form.Item
+                    label="Употребляли ли вы наркотики за последние 12 месяцев?"
+                    name="62_have_you_used_drugs_in_past_12_m"
+                >
+                    <Radio.Group>
+                        <Radio value="Да">Да</Radio>
+                        <Radio value="Нет">Нет</Radio>
+                    </Radio.Group>
+                </Form.Item>
+                {createResetValue('62_have_you_used_drugs_in_past_12_m')}
+            </div>
+
+            <div>
                 <Form.Item name="49_1_what_drugs_did_you_use_non_injection"
                            label="Какие наркотики Вы употребляли неинъекционно за последние 12 месяцев?">
                     <Checkbox.Group>
@@ -64,7 +79,8 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                         <Checkbox value="Марихуана">Марихуана</Checkbox>
                         <Checkbox value="МДМА (экстази)">МДМА (экстази)</Checkbox>
                         <Checkbox value="Мефедрон">Мефедрон</Checkbox>
-                        <Checkbox value="Скорости (амфетамин, метамфетамин)">Скорости (амфетамин, метамфетамин)</Checkbox>
+                        <Checkbox value="Скорости (амфетамин, метамфетамин)">Скорости (амфетамин,
+                            метамфетамин)</Checkbox>
                         <Checkbox value="Соли">Соли</Checkbox>
                         <Checkbox value="Спайс">Спайс</Checkbox>
                     </Checkbox.Group>
@@ -79,7 +95,8 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                 <Form.Item name="50_1_what_drugs_did_you_use_injection"
                            label="Какие наркотики Вы употребляли инъекционно за последние 12 месяцев?">
                     <Checkbox.Group>
-                        <Checkbox value="Амфетамин, метамфитамин, фенамин (скорость)">Амфетамин, метамфитамин, фенамин (скорость)</Checkbox>
+                        <Checkbox value="Амфетамин, метамфитамин, фенамин (скорость)">Амфетамин, метамфитамин, фенамин
+                            (скорость)</Checkbox>
                         <Checkbox value="Героин">Героин</Checkbox>
                         <Checkbox value="Метадон">Метадон</Checkbox>
                         <Checkbox value="Мефедрон">Мефедрон</Checkbox>
@@ -115,8 +132,10 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                         <Checkbox value="Другие родственники">Другие родственники</Checkbox>
                         <Checkbox value="Сексуальный партнер / партнерша">Сексуальный партнер / партнерша</Checkbox>
                         <Checkbox value="Друзья / постоянная компания">Друзья / постоянная компания</Checkbox>
-                        <Checkbox value="Дальние знакомые / знакомые знакомых">Дальние знакомые / знакомые знакомых</Checkbox>
-                        <Checkbox value="Незнакомые люди / случайная компания">Незнакомые люди / случайная компания</Checkbox>
+                        <Checkbox value="Дальние знакомые / знакомые знакомых">Дальние знакомые / знакомые
+                            знакомых</Checkbox>
+                        <Checkbox value="Незнакомые люди / случайная компания">Незнакомые люди / случайная
+                            компания</Checkbox>
                         <Checkbox value="Трудно сказать / Не помню">Трудно сказать / Не помню</Checkbox>
                     </Checkbox.Group>
                 </Form.Item>
@@ -127,9 +146,12 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                 <Form.Item name="53_1_why_do_you_use_the_same_syringe"
                            label="Почему Вы пользуетесь одними и теми же шприцом, иглой, емкостью для приготовления раствора вместе с другими людьми?">
                     <Checkbox.Group>
-                        <Checkbox value="Слишком дорого покупать новые шприцы и иглы">Слишком дорого покупать новые шприцы и иглы</Checkbox>
-                        <Checkbox value="Трудно найти новые шприцы и иглы, когда они необходимы">Трудно найти новые шприцы и иглы, когда они необходимы</Checkbox>
-                        <Checkbox value="Отказались продать шприц(ы) и/или иглы в аптеке">Отказались продать шприц(ы) и/или иглы в аптеке</Checkbox>
+                        <Checkbox value="Слишком дорого покупать новые шприцы и иглы">Слишком дорого покупать новые
+                            шприцы и иглы</Checkbox>
+                        <Checkbox value="Трудно найти новые шприцы и иглы, когда они необходимы">Трудно найти новые
+                            шприцы и иглы, когда они необходимы</Checkbox>
+                        <Checkbox value="Отказались продать шприц(ы) и/или иглы в аптеке">Отказались продать шприц(ы)
+                            и/или иглы в аптеке</Checkbox>
                         <Checkbox value="Не думал об этом">Не думал об этом</Checkbox>
                     </Checkbox.Group>
                 </Form.Item>
@@ -162,6 +184,7 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                         <Checkbox value="Дезинфицирую с помощью хлора">Дезинфицирую с помощью хлора</Checkbox>
                         <Checkbox value="Обрабатываю спиртом">Обрабатываю спиртом</Checkbox>
                         <Checkbox value="Не дезинфицирую">Не дезинфицирую</Checkbox>
+                        <Checkbox value="Их стерилизую не я">Их стерилизую не я</Checkbox>
                     </Checkbox.Group>
                 </Form.Item>
                 <Form.Item name="55_2_how_do_you_usually_disinfect_syringes_and_needles">
@@ -176,7 +199,8 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                     <Checkbox.Group>
                         <Checkbox value="Покупаю в аптеке">Покупаю в аптеке</Checkbox>
                         <Checkbox value="Беру у друзей/знакомых">Беру у друзей/знакомых</Checkbox>
-                        <Checkbox value="Получаю бесплатно (благотворительная помощь)">Получаю бесплатно (благотворительная помощь)</Checkbox>
+                        <Checkbox value="Получаю бесплатно (благотворительная помощь)">Получаю бесплатно
+                            (благотворительная помощь)</Checkbox>
                     </Checkbox.Group>
                 </Form.Item>
 
@@ -243,10 +267,13 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                         <Checkbox value="Я использовал его">Я использовал его</Checkbox>
                         <Checkbox value="У меня его не было">У меня его не было</Checkbox>
                         <Checkbox value="Они слишком дорогие">Они слишком дорого стоят</Checkbox>
-                        <Checkbox value="Партнер не хотел пользоваться презервативом">Партнер/ша не хотел/а пользоваться презервативом</Checkbox>
+                        <Checkbox value="Партнер не хотел пользоваться презервативом">Партнер/ша не хотел/а пользоваться
+                            презервативом</Checkbox>
                         <Checkbox value="Мы были готовы зачать ребенка">Мы были готовы зачать ребенка</Checkbox>
-                        <Checkbox value="Мне не нравится пользоваться презервативом">Мне не нравится пользоваться презервативом</Checkbox>
-                        <Checkbox value="Мне кажется, в этом не было необходимости">Мне кажется, в этом не было необходимости</Checkbox>
+                        <Checkbox value="Мне не нравится пользоваться презервативом">Мне не нравится пользоваться
+                            презервативом</Checkbox>
+                        <Checkbox value="Мне кажется, в этом не было необходимости">Мне кажется, в этом не было
+                            необходимости</Checkbox>
                         <Checkbox value="Я доверяю своему партнеру">Я доверяю своему партнеру</Checkbox>
                         <Checkbox value="Я просто не думал об этом">Я просто не думал об этом</Checkbox>
                     </Checkbox.Group>
@@ -323,8 +350,10 @@ export const TestingDrugsUser = ({ createResetValue }) => {
                 <Form.Item required name="25_do_you_know_your_hiv_status"
                            label="Какой у Вас ВИЧ-статус?">
                     <Radio.Group>
-                        <Radio value="Я - ВИЧ-положительный(-ая), не на терапии">Я - ВИЧ-положительный(-ая), не на терапии</Radio>
-                        <Radio value="Я - ВИЧ-положительный(-ая), на терапии">Я - ВИЧ-положительный(-ая), на терапии</Radio>
+                        <Radio value="Я - ВИЧ-положительный(-ая), не на терапии">Я - ВИЧ-положительный(-ая), не на
+                            терапии</Radio>
+                        <Radio value="Я - ВИЧ-положительный(-ая), на терапии">Я - ВИЧ-положительный(-ая), на
+                            терапии</Radio>
                         <Radio value="Я ВИЧ-отрицательный">Я - ВИЧ-отрицательный(-ая)</Radio>
                         <Radio value="Я не знаю свой ВИЧ-статус">Мне не известен мой ВИЧ-статус</Radio>
                     </Radio.Group>

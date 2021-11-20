@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Collapse, PageHeader, Table, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Collapse, PageHeader, Table, Tabs } from 'antd';
 import { Excel } from 'antd-table-saveas-excel';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { findDiagram } from "../../../redux/thunks/diagrams";
 import { findHotLine } from "../../../redux/thunks/forms";
-import PieDiagram from "../../diagrams/pie";
 import BarDiagram from "../../diagrams/bar";
-import Filters from "../../filters/filters";
+import PieDiagram from "../../diagrams/pie";
+// import Filters from "../../filters/filters";
 import styles from './styles.module.scss'
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
-const HotLineReport = () => {
+const TestingReport = () => {
     const dispatch = useDispatch();
     const selectorFiltersTesting = useSelector((state) => state.filter);
     const [testing, setTesting] = useState(null)
     const [columnsForm, setColumnsForm] = useState(null)
     // const filters = {
-    //     rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('M/D/YYYY HH:mm:ss').toString(),
-    //     rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('M/D/YYYY HH:mm:ss').toString(),
+    //     rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('YYYY-MM-DD HH:mm:ss').toString(),
+    //     rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('YYYY-MM-DD HH:mm:ss').toString(),
     //     usedDrugs: selectorFiltersTesting.usedDrugs,
     //     usedPrep: selectorFiltersTesting.usedPrep,
     //     sexWorked: selectorFiltersTesting.sexWorked,
@@ -36,40 +36,43 @@ const HotLineReport = () => {
             setTesting(data.data.sort((a, b) => b.id - a.id))
         })
 
-        // dispatch(findDiagram({ type: "testing" })).then((data) => {
-        //     setColumnsForm([{
-        //         code: "id",
-        //         title: "ID анкеты",
-        //         width: 100,
-        //         fixed: 'left',
-        //     }, ...data.data,])
-        // })
+        dispatch(findDiagram({ type: "hotline" })).then((data) => {
+            setColumnsForm([{
+                code: "id",
+                title: "ID анкеты",
+                width: 100,
+                fixed: 'left',
+            }, ...data.data,])
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectorFiltersTesting])
 
-    const columns = [
-        {title: "Город", dataIndex: '1_city',},
-        {title: "Консультант", dataIndex: '2_consultant',},
-        {title: "3_source_of_appeal", dataIndex: '3_source_of_appeal',},
-        {title: "4_date", dataIndex: '4_date',},
-        {title: "5_reason_for_petition", dataIndex: '5_reason_for_petition',},
-        {title: "6_consultation_results", dataIndex: '6_consultation_results',},
-        {title: "7_consulting_on_regular_testing_provided", dataIndex: '7_consulting_on_regular_testing_provided',},
-        {title: "8_prevention_counseling_provided", dataIndex: '8_prevention_counseling_provided',},
-        {title: "9_provided_counseling_on_receiving_treatment_for_hiv", dataIndex: '9_provided_counseling_on_receiving_treatment_for_hiv',},
-        {title: "10_consultant_comment", dataIndex: '10_consultant_comment',},
-    ]
+    const columns = columnsForm && columnsForm.map(column => ({
+        title: column.title,
+        dataIndex: column.code,
+        key: column.code,
+        order: column.order,
+        width: column.width ? column.width : 400,
+        fixed: column.fixed ? column.fixed : undefined,
+    }))
+        .sort((a, b) => a.order - b.order);
+
+    const comments = testing && testing.filter(i => ((i["45_consultant_comment"] || i["42_consultant"]) ? {
+        "45_consultant_comment": i["45_consultant_comment"],
+        "42_consultant": i["42_consultant"],
+        "43_date": i["43_date"],
+    } : undefined))
 
     return (
         <div>
             <PageHeader
                 className={styles.title}
-                title="Горячая линия"
+                title="Опрос тестируемых"
                 subTitle={testing?.length &&
                 <>
                     <span>с учётом фильтров: <b>{testing?.length}</b>&nbsp;&nbsp;</span>
                     <Button
-                        type="primary" shape="round" icon={<DownloadOutlined/>}
+                        type="dashed" shape="round" icon={<DownloadOutlined/>}
                         onClick={() => {
                             const today = new Date()
                             const excel = new Excel();
@@ -83,10 +86,10 @@ const HotLineReport = () => {
                 }
             />
 
-            {/*<Filters />*/}
+            {/* <Filters/> */}
 
-            <Tabs className={styles.tabs} defaultActiveKey="2">
-                <TabPane tab="Статистика" key="1">
+            <Tabs className={styles.tabs} defaultActiveKey="1">
+                <TabPane tab="Статистика по вопросам" key="1">
                     {columnsForm && columnsForm.map(column => {
                         if (column.type === 'pie') {
                             return <PieDiagram
@@ -102,16 +105,40 @@ const HotLineReport = () => {
                                 data={testing}
                                 arrayType={columnsForm.find(i => i.code === column.code)["arrayType"]}
                             />
+                        } else if (column.type === 'table') {
+                            return <Collapse>
+                                <Panel header="Поиск по комментарию" key="1">
+                                    <Table dataSource={
+                                        comments} columns={[
+                                        {
+                                            title: 'Комментарий консультанта',
+                                            dataIndex: '45_consultant_comment',
+                                            key: '45_consultant_comment',
+                                        },
+                                        {
+                                            title: 'Консультант',
+                                            dataIndex: '42_consultant',
+                                            key: '42_consultant',
+                                        },
+                                        {
+                                            title: 'Дата',
+                                            dataIndex: '43_date',
+                                            key: '43_date',
+                                        }
+                                    ]}/>
+                                </Panel>
+                            </Collapse>
                         }
 
                     })}
                 </TabPane>
                 <TabPane tab="В виде таблицы" key="2">
+
                     <Table
                         bordered
                         layout="none"
                         size="small"
-                        scroll={{ x: "100%", y: "100%" }}
+                        scroll={{ x: 'calc(6000px + 50%)', y: "100%" }}
                         columns={columns}
                         dataSource={testing}
                         tableLayout="auto"
@@ -124,4 +151,4 @@ const HotLineReport = () => {
     );
 };
 
-export default HotLineReport;
+export default TestingReport;

@@ -186,6 +186,9 @@ module.exports = (sequelize, Sequelize) => {
                 "61_hiv_tested_12_m": {
                     type: Sequelize.STRING
                 },
+                "62_have_you_used_drugs_in_past_12_m": {
+                    type: Sequelize.STRING
+                },
             }
         )
     ;

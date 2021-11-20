@@ -1,10 +1,9 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
-import UserService from "../services/user.service";
-import { ADMIN, MODERATOR, USER } from "../constants/roles.constants";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { ADMIN, MODERATOR, USER } from "../constants/roles.constants";
 import { setRole } from "../redux/thunks/user.thunks";
-import Welcome from "../components/Welcome";
+import UserService from "../services/user.service";
 
 export default function useAuth(WrappedComponent, role) {
     class Authenticate extends React.Component {
@@ -65,8 +64,11 @@ export default function useAuth(WrappedComponent, role) {
 
         render() {
             return (
-                this.props.isAuthenticated !== null ? this.props.isAuthenticated ?
-                    <WrappedComponent {...this.props} /> : <Redirect to={'/'}/> : null
+                this.props.isAuthenticated !== null
+                    ? this.props.isAuthenticated === true
+                        ? <WrappedComponent {...this.props} />
+                        : <Redirect to={'/login'}/>
+                    : null
             );
         }
     }

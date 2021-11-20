@@ -152,6 +152,7 @@ const BarDiagram = ({ data, title, keyValue, arrayType, type }) => {
         setRounding(e.target.value);
     };
 
+    // eslint-disable-next-line
     const updateDataset = () => {
         chartInstance.data = createData(data, keyValue, arrayType, type, rounding).data
         chartInstance.update();
@@ -162,10 +163,12 @@ const BarDiagram = ({ data, title, keyValue, arrayType, type }) => {
             const newChartInstance = new Chart(chartContainer.current, createData(data, keyValue, arrayType, type, rounding));
             setChartInstance(newChartInstance);
         }
+        // eslint-disable-next-line
     }, [chartContainer, data]);
 
     useEffect(() => {
         chartInstance && autoUpdate && updateDataset();
+        // eslint-disable-next-line
     }, [data, autoUpdate, rounding])
 
     return (

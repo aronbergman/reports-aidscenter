@@ -1,14 +1,26 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Checkbox, Radio } from "antd";
 import { Chart, registerables } from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
-import { Checkbox, Radio } from "antd";
 
 Chart.register(...registerables);
 
 const createData = (data, keyValue, multiplicity) => {
 
     const createMultiplicityValue = (value) => {
+
+        if (keyValue === '27_registration_on_the_territory') {
+            switch (value) {
+                case "Постоянная регистрация":
+                    return "Постоянная регистрация"
+                case "Временная регистрация":
+                    return "Временная регистрация"
+                default:
+                    return "Нет регистрации"
+            }
+        }
+
         const valueParse = value && parseInt(value.match(/\d+/))
         switch (multiplicity) {
             case "5":
@@ -20,7 +32,15 @@ const createData = (data, keyValue, multiplicity) => {
         }
     }
 
-    const hash = data.map(v => createMultiplicityValue(v[keyValue]))
+    let hash;
+
+    if (keyValue === '3_gender') {
+        hash = data.filter(a => (keyValue === '3_gender' && a[keyValue]) ? a : false)
+            .map(v => createMultiplicityValue(v[keyValue]))
+    } else {
+        hash = data.map(v => createMultiplicityValue(v[keyValue]))
+    }
+
     const obj = {};
 
     hash.forEach(v => !obj[v] ? obj[v] = 1 : obj[v]++);

@@ -8,7 +8,7 @@ const initialState = {
     usedPrep: false,
     sexWorked: false,
     rangePeriod: [
-        moment().startOf('month'),
+        moment().subtract(30,'d'),
         moment()
     ],
     city: null,

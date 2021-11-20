@@ -124,6 +124,7 @@ const TestingForm = ({ pastTests }) => {
             "46_city": localStorage.getItem("46_city"),
             "47_type_form": expanded ? "MSM" : drugsUsers ? "PWID" : "short",
             "47_how_long_have_you_been_using_drugs": values["47_how_long_have_you_been_using_drugs"],
+            "62_have_you_used_drugs_in_past_12_m": values["62_have_you_used_drugs_in_past_12_m"],
             "48_ways_of_using_drugs": values["48_ways_of_using_drugs"] ? values["48_ways_of_using_drugs"][0]: null,
             "51_shared_the_same_syringe_with_other_people": values["51_shared_the_same_syringe_with_other_people"],
             "52_who_did_they_share_the_syringe_with": values["52_who_did_they_share_the_syringe_with"] ? values["52_who_did_they_share_the_syringe_with"][0]: null,

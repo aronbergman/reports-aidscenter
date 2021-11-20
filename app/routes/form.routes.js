@@ -22,11 +22,13 @@ module.exports = function (app) {
 
     app.post(
         "/api/form/find/testing",
+        [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
         controller.findTesting
     );
 
     app.post(
         "/api/form/find/hot-line",
+        [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
         controller.findHotLine
     );
 }

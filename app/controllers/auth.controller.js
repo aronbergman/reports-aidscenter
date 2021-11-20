@@ -56,7 +56,7 @@ exports.signin = (req, res) => {
             }
 
             var token = jwt.sign({ id: user.id }, JWT_SECRET, {
-                expiresIn: 43200 // 12 hours
+                expiresIn: 604800 // 7 day
             });
 
             var authorities = [];

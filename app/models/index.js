@@ -37,7 +37,6 @@ db.testing = require("../models/testing.model.js")(sequelize, Sequelize);
 db.hotLine = require("../models/hot_line.model.js")(sequelize, Sequelize);
 db.diagrams = require("../models/diargams.model.js")(sequelize, Sequelize);
 
-
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",

@@ -18,7 +18,7 @@ const AllForms = () => {
                 </div>
             </NavLink>
 
-            <NavLink to="/hot-line" style={{ textDecoration: 'none' }}>
+            <NavLink to="/hotline" style={{ textDecoration: 'none' }}>
                 <div className={styles.card}>
                     <div className={styles.image} style={{backgroundImage: `url(${hotLine})`}}/>
                     <p className={styles.title}>Горячая линия «СПИД.ЦЕНТР»</p>

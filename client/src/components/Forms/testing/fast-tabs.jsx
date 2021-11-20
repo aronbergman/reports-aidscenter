@@ -4,7 +4,7 @@ import React from "react";
 export const FastTabs = ({ goTo }) => {
     const tabs = [
         { name: 'testing' },
-        { name: 'hot-line' },
+        { name: 'hotline' },
         { name: 'groups', disabled: true }
     ]
 

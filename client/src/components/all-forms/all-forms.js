@@ -36,7 +36,7 @@ const AllForms = () => {
             <NavLink to="/drugs" style={{ textDecoration: 'none' }}>
                 <div className={styles.card}>
                     <div className={styles.image} style={{backgroundImage: `url(${hotLine})`}}/>
-                    <p className={styles.title}>Аптечка</p>
+                    <p className={styles.title}>Аптека</p>
                 </div>
             </NavLink>
 

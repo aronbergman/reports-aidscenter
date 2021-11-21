@@ -67,10 +67,10 @@ const GroupsHivReport = () => {
         <div>
             <PageHeader
                 className={styles.title}
-                title="Опрос тестируемых"
+                title="Группа ВИЧ+"
                 subTitle={testing?.length &&
                 <>
-                    <span>с учётом фильтров: <b>{testing?.length}</b>&nbsp;&nbsp;</span>
+                    <span> <b>{testing?.length}</b>&nbsp;&nbsp;</span>
                     <Button
                         type="dashed" shape="round" icon={<DownloadOutlined/>}
                         onClick={() => {

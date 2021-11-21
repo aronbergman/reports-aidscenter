@@ -3,6 +3,7 @@ import { Layout, Menu } from 'antd';
 import { UserOutlined, PhoneOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { MODERATOR } from "../constants/roles.constants";
 import useAuth from "../hooks/useAuth";
+import DrugstoreReport from "./reports/drugstore/DrugstoreReport";
 import GroupsHivReport from "./reports/groups/GroupsHivReport";
 import TestingReport from "./reports/testing/TestingReport";
 import HotLineReport from "./reports/hot-line/HotLineReport";
@@ -23,6 +24,8 @@ const BoardModerator = () => {
                 return <HotLineReport/>
             case "3":
                 return <GroupsHivReport/>
+            case "4":
+                return <DrugstoreReport/>
             default:
                 return ""
         }
@@ -52,6 +55,9 @@ const BoardModerator = () => {
                     </Menu.Item>
                     <Menu.Item key="3" icon={<UsergroupAddOutlined />}>
                         Группы поддержки
+                    </Menu.Item>
+                    <Menu.Item key="4" icon={<UsergroupAddOutlined />}>
+                        Аптека
                     </Menu.Item>
                     {/*<Menu.Item key="4" icon={<UserOutlined/>}>*/}
                     {/*    nav 4*/}

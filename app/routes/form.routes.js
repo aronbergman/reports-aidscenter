@@ -26,9 +26,20 @@ module.exports = function (app) {
     );
 
     app.post(
+        "/api/form/drugstore",
+        controller.drugstore
+    );
+
+    app.post(
         "/api/form/find/testing",
         [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
         controller.findTesting
+    );
+
+    app.post(
+        "/api/form/find/drugstore",
+        [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
+        controller.findDrugstore
     );
 
     app.post(

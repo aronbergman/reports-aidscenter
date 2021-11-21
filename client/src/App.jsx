@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import AllForms from "./components/all-forms/all-forms";
+import DrugsForm from "./components/Forms/drugs/DrugsForm";
 import GroupsForm from "./components/Forms/groups/GroupsForm";
 import TestingForm from "./components/Forms/testing/TestingForm";
 import HotLineForm from "./components/Forms/hot_line/HotLineForm";
@@ -154,6 +155,7 @@ class App extends Component {
                         <Route exact path="/testing" component={TestingForm}/>
                         <Route exact path="/hotline" component={HotLineForm}/>
                         <Route exact path="/groups-hiv" component={GroupsForm}/>
+                        <Route exact path="/drugs" component={DrugsForm}/>
 
                         <Route path="/user" component={BoardUser}/>
                         <Route path="/mod" component={BoardModerator}/>

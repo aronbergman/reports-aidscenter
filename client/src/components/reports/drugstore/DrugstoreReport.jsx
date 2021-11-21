@@ -4,7 +4,7 @@ import { Excel } from 'antd-table-saveas-excel';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { findDiagram } from "../../../redux/thunks/diagrams";
-import { findHotLine } from "../../../redux/thunks/forms";
+import { findDrugstore } from "../../../redux/thunks/forms";
 import BarDiagram from "../../diagrams/bar";
 import PieDiagram from "../../diagrams/pie";
 // import Filters from "../../filters/filters";
@@ -13,7 +13,7 @@ import styles from './styles.module.scss'
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
-const TestingReport = () => {
+const DrugstoreReport = () => {
     const dispatch = useDispatch();
     const selectorFiltersTesting = useSelector((state) => state.filter);
     const [testing, setTesting] = useState(null)
@@ -32,11 +32,11 @@ const TestingReport = () => {
     // }
 
     useEffect(() => {
-        dispatch(findHotLine()).then((data) => {
+        dispatch(findDrugstore()).then((data) => {
             setTesting(data.data.sort((a, b) => b.id - a.id))
         })
 
-        dispatch(findDiagram({ type: "hotline" })).then((data) => {
+        dispatch(findDiagram({ type: "drugstore" })).then((data) => {
             setColumnsForm([{
                 code: "id",
                 title: "ID анкеты",
@@ -67,10 +67,10 @@ const TestingReport = () => {
         <div>
             <PageHeader
                 className={styles.title}
-                title="Горячая линия"
+                title="Аптека"
                 subTitle={testing?.length &&
                 <>
-                    <span>с учётом фильтров: <b>{testing?.length}</b>&nbsp;&nbsp;</span>
+                    <span> <b>{testing?.length}</b>&nbsp;&nbsp;</span>
                     <Button
                         type="dashed" shape="round" icon={<DownloadOutlined/>}
                         onClick={() => {
@@ -151,4 +151,4 @@ const TestingReport = () => {
     );
 };
 
-export default TestingReport;
+export default DrugstoreReport;

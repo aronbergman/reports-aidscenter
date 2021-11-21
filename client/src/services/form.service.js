@@ -23,6 +23,12 @@ const groupsHivForm = (fields) => {
     }, { headers: authHeader() });
 };
 
+const drugsForm = (fields) => {
+    return axios.post(API_URL + "drugstore", {
+        ...fields,
+    }, { headers: authHeader() });
+};
+
 const findTesting = (filters = {}) => {
     return axios.post(API_URL + "find/testing", filters, { headers: authHeader() });
 };
@@ -35,11 +41,17 @@ const findGroupsHiv = (filters = {}) => {
     return axios.post(API_URL + "find/groups-hiv", filters, { headers: authHeader() });
 };
 
+const findDrugstore = (filters = {}) => {
+    return axios.post(API_URL + "find/drugstore", filters, { headers: authHeader() });
+};
+
 export default {
     testing,
     findTesting,
     hotLineForm,
     groupsHivForm,
     findHotLine,
-    findGroupsHiv
+    findGroupsHiv,
+    drugsForm,
+    findDrugstore
 };

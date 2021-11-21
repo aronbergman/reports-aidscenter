@@ -17,6 +17,12 @@ const hotLineForm = (fields) => {
     }, { headers: authHeader() });
 };
 
+const groupsHivForm = (fields) => {
+    return axios.post(API_URL + "groups-hiv", {
+        ...fields,
+    }, { headers: authHeader() });
+};
+
 const findTesting = (filters = {}) => {
     return axios.post(API_URL + "find/testing", filters, { headers: authHeader() });
 };
@@ -25,9 +31,15 @@ const findHotLine = (filters = {}) => {
     return axios.post(API_URL + "find/hot-line", filters, { headers: authHeader() });
 };
 
+const findGroupsHiv = (filters = {}) => {
+    return axios.post(API_URL + "find/groups-hiv", filters, { headers: authHeader() });
+};
+
 export default {
     testing,
     findTesting,
     hotLineForm,
-    findHotLine
+    groupsHivForm,
+    findHotLine,
+    findGroupsHiv
 };

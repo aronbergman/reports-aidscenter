@@ -77,6 +77,42 @@ export const hotLineForm = (fields) => (dispatch) => {
     );
 };
 
+export const groupsHivForm = (fields) => (dispatch) => {
+    return FormService.groupsHivForm(fields).then(
+        (response) => {
+            dispatch({
+                type: REGISTER_SUCCESS,
+            });
+
+            dispatch({
+                type: SET_MESSAGE,
+                payload: response.data.message,
+            });
+
+            return Promise.resolve(response);
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+
+            dispatch({
+                type: REGISTER_FAIL,
+            });
+
+            dispatch({
+                type: SET_MESSAGE,
+                payload: message,
+            });
+
+            return Promise.reject();
+        }
+    );
+};
+
 export const findTesting = (filters) => (dispatch) => {
     return FormService.findTesting(filters).then(
         (response) => {
@@ -115,6 +151,42 @@ export const findTesting = (filters) => (dispatch) => {
 
 export const findHotLine = (filters) => (dispatch) => {
     return FormService.findHotLine(filters).then(
+        (response) => {
+            dispatch({
+                type: REGISTER_SUCCESS,
+            });
+
+            dispatch({
+                type: SET_MESSAGE,
+                payload: response.data.message,
+            });
+
+            return Promise.resolve(response);
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+
+            dispatch({
+                type: REGISTER_FAIL,
+            });
+
+            dispatch({
+                type: SET_MESSAGE,
+                payload: message,
+            });
+
+            return Promise.reject();
+        }
+    );
+};
+
+export const findGroupsHiv = (filters) => (dispatch) => {
+    return FormService.findGroupsHiv(filters).then(
         (response) => {
             dispatch({
                 type: REGISTER_SUCCESS,

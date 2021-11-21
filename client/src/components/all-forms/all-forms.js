@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from 'react-router-dom';
 import test from './test.jpeg'
 import hotLine from './hot-line.jpg'
+import groupsHiv from './groups-hiv.jpeg'
 import styles from './slyles.module.scss'
 
 const AllForms = () => {
@@ -25,16 +26,19 @@ const AllForms = () => {
                 </div>
             </NavLink>
 
-            <br/>
-            Находятся в разработке
-
-            <NavLink disabled to="/groups" style={{ textDecoration: 'none' }}>
+            <NavLink to="/groups-hiv" style={{ textDecoration: 'none' }}>
                 <div className={styles.card}>
-                    Группы поддержки
+                    <div className={styles.image} style={{backgroundImage: `url(${groupsHiv})`}}/>
+                    <p className={styles.title}>Группы поддержки ВИЧ+</p>
                 </div>
             </NavLink>
 
-
+            <NavLink to="/drugs" style={{ textDecoration: 'none' }}>
+                <div className={styles.card}>
+                    <div className={styles.image} style={{backgroundImage: `url(${hotLine})`}}/>
+                    <p className={styles.title}>Аптечка</p>
+                </div>
+            </NavLink>
 
         </div>
     );

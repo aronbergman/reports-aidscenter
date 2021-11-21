@@ -21,6 +21,11 @@ module.exports = function (app) {
     );
 
     app.post(
+        "/api/form/groups-hiv",
+        controller.groupsHiv
+    );
+
+    app.post(
         "/api/form/find/testing",
         [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
         controller.findTesting
@@ -30,5 +35,11 @@ module.exports = function (app) {
         "/api/form/find/hot-line",
         [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
         controller.findHotLine
+    );
+
+    app.post(
+        "/api/form/find/groups-hiv",
+        [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
+        controller.findGroupsHiv
     );
 }

@@ -3,6 +3,7 @@ import { Layout, Menu } from 'antd';
 import { UserOutlined, PhoneOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { MODERATOR } from "../constants/roles.constants";
 import useAuth from "../hooks/useAuth";
+import GroupsHivReport from "./reports/groups/GroupsHivReport";
 import TestingReport from "./reports/testing/TestingReport";
 import HotLineReport from "./reports/hot-line/HotLineReport";
 
@@ -21,7 +22,7 @@ const BoardModerator = () => {
             case "2":
                 return <HotLineReport/>
             case "3":
-                return "Индивидуальная формулировка выборки показателей отчета (добавлять/удалять стату с хитрой совмещенной выборкой)"
+                return <GroupsHivReport/>
             default:
                 return ""
         }

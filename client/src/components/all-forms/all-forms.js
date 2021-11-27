@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import test from './test.jpeg'
 import hotLine from './hot-line.jpg'
 import groupsHiv from './groups-hiv.jpeg'
+import pharmacy from './pharmacy.jpeg'
 import styles from './slyles.module.scss'
 
 const AllForms = () => {
@@ -35,7 +36,7 @@ const AllForms = () => {
 
             <NavLink to="/drugs" style={{ textDecoration: 'none' }}>
                 <div className={styles.card}>
-                    <div className={styles.image} style={{backgroundImage: `url(${hotLine})`}}/>
+                    <div className={styles.image} style={{backgroundImage: `url(${pharmacy})`}}/>
                     <p className={styles.title}>Аптека</p>
                 </div>
             </NavLink>

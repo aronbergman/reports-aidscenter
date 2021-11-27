@@ -123,9 +123,9 @@ const HotLineForm = () => {
             }
 
             if (values["4_date"]) {
-                stateForm["4_date"] = values["4_date"].format("M/D/YYYY HH:mm:ss")
+                stateForm["4_date"] = values["4_date"].format("YYYY-MM-DD HH:mm:ss")
             } else {
-                stateForm["4_date"] = moment().format("M/D/YYYY HH:mm:ss")
+                stateForm["4_date"] = moment().format("YYYY-MM-DD HH:mm:ss")
             }
 
             return stateForm

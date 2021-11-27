@@ -54,9 +54,9 @@ const GroupsForm = () => {
 
         const createOtherFields = () => {
             if (values["2_date"]) {
-                stateForm["2_date"] = values["2_date"].format("M/D/YYYY")
+                stateForm["2_date"] = values["2_date"].format("YYYY-MM-DD HH:mm:ss")
             } else {
-                stateForm["2_date"] = moment().format("M/D/YYYY")
+                stateForm["2_date"] = moment().format("YYYY-MM-DD HH:mm:ss")
             }
 
             return stateForm

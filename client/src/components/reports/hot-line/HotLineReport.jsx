@@ -7,7 +7,7 @@ import { findDiagram } from "../../../redux/thunks/diagrams";
 import { findHotLine } from "../../../redux/thunks/forms";
 import BarDiagram from "../../diagrams/bar";
 import PieDiagram from "../../diagrams/pie";
-// import Filters from "../../filters/filters";
+import FiltersHotline from "../../filters/filters-hotline";
 import styles from './styles.module.scss'
 
 const { Panel } = Collapse;
@@ -15,24 +15,17 @@ const { TabPane } = Tabs;
 
 const TestingReport = () => {
     const dispatch = useDispatch();
-    const selectorFiltersTesting = useSelector((state) => state.filter);
+    const selectorFiltersTesting = useSelector((state) => state.filterHotLine);
     const [testing, setTesting] = useState(null)
     const [columnsForm, setColumnsForm] = useState(null)
-    // const filters = {
-    //     rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('YYYY-MM-DD HH:mm:ss').toString(),
-    //     rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('YYYY-MM-DD HH:mm:ss').toString(),
-    //     usedDrugs: selectorFiltersTesting.usedDrugs,
-    //     usedPrep: selectorFiltersTesting.usedPrep,
-    //     sexWorked: selectorFiltersTesting.sexWorked,
-    //     city: selectorFiltersTesting.city,
-    //     searchByCode: selectorFiltersTesting.searchOfCode,
-    //     formType: selectorFiltersTesting.formType,
-    //     age: selectorFiltersTesting.age,
-    //     searchType: selectorFiltersTesting.searchType,
-    // }
+    const filters = {
+        rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('YYYY-MM-DD HH:mm:ss').toString(),
+        rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('YYYY-MM-DD HH:mm:ss').toString(),
+        city: selectorFiltersTesting.city,
+    }
 
     useEffect(() => {
-        dispatch(findHotLine()).then((data) => {
+        dispatch(findHotLine(filters)).then((data) => {
             setTesting(data.data.sort((a, b) => b.id - a.id))
         })
 
@@ -86,7 +79,7 @@ const TestingReport = () => {
                 }
             />
 
-            {/* <Filters/> */}
+             <FiltersHotline/>
 
             <Tabs className={styles.tabs} defaultActiveKey="1">
                 <TabPane tab="Статистика по вопросам" key="1">

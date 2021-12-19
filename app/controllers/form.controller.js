@@ -335,7 +335,7 @@ exports.findHotLine = (req, res) => {
         filters.where = {
             ...filters.where,
             ["5_reason_for_petition"]: {
-                [Op.or]: reason
+                [Op.substring]: reason
             }
         }
     }
@@ -344,7 +344,7 @@ exports.findHotLine = (req, res) => {
         filters.where = {
             ...filters.where,
             ["6_consultation_results"]: {
-                [Op.or]: result
+                [Op.substring]: result
             }
         }
     }

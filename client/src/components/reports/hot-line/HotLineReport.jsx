@@ -22,6 +22,8 @@ const TestingReport = () => {
         rangePeriodStart: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[0].format('YYYY-MM-DD HH:mm:ss').toString(),
         rangePeriodEnd: selectorFiltersTesting.rangePeriod && selectorFiltersTesting.rangePeriod[1].format('YYYY-MM-DD HH:mm:ss').toString(),
         city: selectorFiltersTesting.city,
+        reason: selectorFiltersTesting.reason,
+        result: selectorFiltersTesting.result
     }
 
     useEffect(() => {

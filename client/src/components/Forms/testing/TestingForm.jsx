@@ -517,7 +517,7 @@ const TestingForm = ({ pastTests }) => {
                         users.length
                             ? (
                                 <Select onChange={setUserHandler}>
-                                    {users.map(user => <Option value={user.username}>{user.appointment}</Option>)}
+                                    {users.map(user => <Option value={user.appointment}>{user.appointment}</Option>)}
                                 </Select>
                             )
                             : city

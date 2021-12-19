@@ -1,44 +1,24 @@
 import React from 'react';
-import { ConfigProvider, DatePicker, Checkbox, Select, Input, Switch, Tooltip } from 'antd';
+import { ConfigProvider, DatePicker, Select } from 'antd';
 import 'moment/locale/ru';
 import locale from 'antd/lib/locale/ru_RU';
 import { connect } from "react-redux";
-import { setRangePeriod, setTestingCity,
+import { setRangePeriod, setTestingCity, setReason, setResult
 } from "../../redux/reducers/filterHotLine.reducer";
 import styles from './styles.module.scss'
 
 const { Option } = Select;
-const { Search } = Input;
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD.MM.YYYY';
 
 const FiltersHotline = ({
-                     sexWorked,
-                     usedPrep,
-                     usedDrugs,
                      periodType,
-                     formType,
-                     setFormType,
-                     setAge,
-                     setSearchType,
-                     setDrugUsed,
-                     setPrepUsed,
-                     setSexWorked,
                      setRangePeriod,
                      setCity,
-                     setSearchOfCode,
+    setReason,
+    setResult,
                      rangePeriod,
                  }) => {
-
-    const onChangeDrugUsed = () => {
-        setDrugUsed(!usedDrugs)
-    }
-    const onChangePrepUsed = () => {
-        setPrepUsed(!usedPrep)
-    }
-    const onChangeSexWorked = () => {
-        setSexWorked(!sexWorked)
-    }
 
     const onChangeRangePeriod = (period) => {
         setRangePeriod(period)
@@ -48,20 +28,43 @@ const FiltersHotline = ({
         setCity(city)
     }
 
-    const onChangeFormType = (type) => {
-        setFormType(type)
+    const reasonForPetitionList = [
+        {
+            label: 'Опасный контакт (оценка рисков, рекомендации по профилактике)',
+            value: 'Опасный контакт (оценка рисков, рекомендации по профилактике)'
+        },
+        { label: 'Постконтактная профилактика', value: 'Постконтактная профилактика' },
+        { label: 'Доконтактная профилактика', value: 'Доконтактная профилактика' },
+        { label: 'Недавнее получение ВИЧ+ статуса', value: 'Недавнее получение ВИЧ+ статуса' },
+        {
+            label: 'Жизнь с ВИЧ (аспекты для людей, живущих с ВИЧ)',
+            value: 'Жизнь с ВИЧ (аспекты для людей, живущих с ВИЧ)'
+        },
+        {
+            label: 'Жизнь с ВИЧ (аспекты для родных, близких, партнёров ЛЖВ)',
+            value: 'Жизнь с ВИЧ (аспекты для родных, близких, партнёров ЛЖВ)'
+        },
+        { label: 'АРВТ и проблемы с ней', value: 'АРВТ и проблемы с ней' },
+        { label: 'Юридические вопросы и нарушение прав ЛЖВ', value: 'Юридические вопросы и нарушение прав ЛЖВ' },
+        { label: 'Консультации по тестированию', value: 'Консультации по тестированию' },
+    ];
+
+    const consultationResultsList = [
+        { label: 'Оказана информационная поддержка', value: 'Оказана информационная поддержка' },
+        { label: 'Оказана психологическая поддержка', value: 'Оказана психологическая поддержка' },
+        { label: 'Клиент направлен в региональный Центр СПИДа', value: 'Клиент направлен в региональный Центр СПИДа' },
+        {
+            label: 'Клиент направлен в другие региональные организации',
+            value: 'Клиент направлен в другие региональные организации'
+        },
+    ]
+
+    const onChangeReason = (reason) => {
+        setReason(reason)
     }
 
-    const onChangeSearchType = (type) => {
-        setSearchType(type)
-    }
-
-    const onChangeAge = (age) => {
-        setAge(age)
-    }
-
-    const onSearchOfCode = (value) => {
-        setSearchOfCode(value)
+    const onChangeResult = (result) => {
+        setResult(result)
     }
 
     return (
@@ -91,6 +94,28 @@ const FiltersHotline = ({
                          onChange={onChangeRangePeriod} format={dateFormat} />
                 </ConfigProvider>}
 
+                <Select
+                    mode="multiple"
+                    style={{ width: 350 }}
+                    placeholder="Причина"
+                    onChange={onChangeReason}
+                >
+                    {reasonForPetitionList.map(reason => (
+                        <Option value={reason.value}>{reason.label}</Option>
+                    ))}
+                </Select>
+
+                <Select
+                    mode="multiple"
+                    style={{ width: 350 }}
+                    placeholder="Результат"
+                    onChange={onChangeResult}
+                >
+                    {consultationResultsList.map(result => (
+                        <Option value={result.value}>{result.label}</Option>
+                    ))}
+                </Select>
+
             </div>
         </div>
     );
@@ -103,6 +128,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setRangePeriod: (period) => dispatch(setRangePeriod(period)),
     setCity: (city) => dispatch(setTestingCity(city)),
+    setReason: (reason) => dispatch(setReason(reason)),
+    setResult: (result) => dispatch(setResult(result)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiltersHotline);

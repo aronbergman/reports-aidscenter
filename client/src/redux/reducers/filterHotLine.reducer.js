@@ -9,6 +9,8 @@ const initialState = {
         moment()
     ],
     city: null,
+    reason: null,
+    result: null,
 }
 
 const filterSlice = createSlice({
@@ -21,6 +23,12 @@ const filterSlice = createSlice({
         setTestingCity(state, action) {
             state.city = action.payload
         },
+        setReason(state, action) {
+            state.reason = action.payload
+        },
+        setResult(state, action) {
+            state.result = action.payload
+        },
         resetFilterState(state) {
             state.findByCode = null
         }
@@ -30,6 +38,8 @@ const filterSlice = createSlice({
 export const {
     setRangePeriod,
     setTestingCity,
+    setReason,
+    setResult,
     resetFilterState
 } = filterSlice.actions
 

@@ -306,6 +306,8 @@ exports.findHotLine = (req, res) => {
         rangePeriodStart,
         rangePeriodEnd,
         city,
+        reason,
+        result
     } = req.body
     let filters = {}
 
@@ -325,6 +327,24 @@ exports.findHotLine = (req, res) => {
             ...filters.where,
             ["1_city"]: {
                 [Op.eq]: city
+            }
+        }
+    }
+
+    if (reason) {
+        filters.where = {
+            ...filters.where,
+            ["5_reason_for_petition"]: {
+                [Op.or]: reason
+            }
+        }
+    }
+
+    if (result) {
+        filters.where = {
+            ...filters.where,
+            ["6_consultation_results"]: {
+                [Op.or]: result
             }
         }
     }

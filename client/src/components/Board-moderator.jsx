@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Layout, Menu } from 'antd';
 import { UserOutlined, PhoneOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
+import React, { useState, useEffect } from "react";
 import { MODERATOR } from "../constants/roles.constants";
 import useAuth from "../hooks/useAuth";
 import { findAllUsersForForms } from "../redux/thunks/user.thunks";
 import DrugstoreReport from "./reports/drugstore/DrugstoreReport";
 import GroupsHivReport from "./reports/groups/GroupsHivReport";
-import TestingReport from "./reports/testing/TestingReport";
 import HotLineReport from "./reports/hot-line/HotLineReport";
+import TestingReport from "./reports/testing/TestingReport";
 
 const { Content, Sider } = Layout;
 const BoardModerator = () => {
@@ -65,13 +65,19 @@ const BoardModerator = () => {
                     <Menu.Item key="2" icon={<UserOutlined/>}>
                         Тестируемые
                     </Menu.Item>
-                    <Menu.Item key="4" icon={<PhoneOutlined />}>
+                    <Menu.Item key="4" icon={<PhoneOutlined/>}>
                         Горячая линия
                     </Menu.Item>
-                    <Menu.Item key="3" icon={<UsergroupAddOutlined />}>
-                        Группы поддержки
-                    </Menu.Item>
-                    <Menu.Item key="1" icon={<UsergroupAddOutlined />}>
+                    <Menu.SubMenu icon={<UsergroupAddOutlined/>} key="sub2" title="Группы поддержки">
+                        <Menu.Item key="3">
+                            Группа ВИЧ+
+                        </Menu.Item>
+
+                        <Menu.Item key="5">
+                            Группа ТГ
+                        </Menu.Item>
+                    </Menu.SubMenu>
+                    <Menu.Item key="1" icon={<UsergroupAddOutlined/>}>
                         Аптека
                     </Menu.Item>
                     {/*<Menu.Item key="4" icon={<UserOutlined/>}>*/}

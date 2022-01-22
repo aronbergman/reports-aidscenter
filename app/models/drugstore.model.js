@@ -24,6 +24,9 @@ module.exports = (sequelize, Sequelize) => {
                 "8_consultant_comment": {
                     type: Sequelize.STRING
                 },
+                "9_city": {
+                    type: Sequelize.STRING
+                },
             }
         )
     ;

@@ -1,5 +1,5 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Tag, Alert, Spin, Radio, Checkbox } from 'antd';
+import { Form, Input, Button, Tag, Alert, Spin, Radio, Checkbox, Select } from 'antd';
 import MaskedInput from 'antd-mask-input'
 import moment from 'moment'
 import React, { useState } from "react";
@@ -11,8 +11,11 @@ import { Success } from "../../Success";
 import { FastTabs } from "../testing/fast-tabs";
 import styles from './styles.module.scss'
 
+const { Option } = Select;
+
 const TestingForm = ({ pastTests }) => {
     const history = useHistory();
+    const defaultCity = localStorage.getItem('9_city')
 
     const goTo = (path) => {
         history.push("/" + path.target.value)
@@ -39,7 +42,8 @@ const TestingForm = ({ pastTests }) => {
             "5_consulting_on_regular_testing_provided": values["5_consulting_on_regular_testing_provided"] ? values["5_consulting_on_regular_testing_provided"][0] : null,
             "6_prevention_counseling_provided": values["6_prevention_counseling_provided"] ? values["6_prevention_counseling_provided"][0] : null,
             "7_provided_counseling_on_receiving_treatment_for_hiv": values["7_provided_counseling_on_receiving_treatment_for_hiv"] ? values["7_provided_counseling_on_receiving_treatment_for_hiv"][0] : null,
-            "8_consultant_comment": values["8_consultant_comment"]
+            "8_consultant_comment": values["8_consultant_comment"],
+            "9_city": localStorage.getItem("9_city"),
         })
 
         const createOtherFields = () => {
@@ -148,6 +152,13 @@ const TestingForm = ({ pastTests }) => {
         )
     }
 
+    const setCityHandler = (city) => {
+        localStorage.setItem('9_city', city);
+        form.setFieldsValue({
+            "9_city": city
+        });
+    }
+
     if (successful) {
         return <Success reload={reloadForm} data={successful}/>
     }
@@ -159,7 +170,7 @@ const TestingForm = ({ pastTests }) => {
 
             <div className={styles.titleContainer}>
                 <div className={styles.line}/>
-                <h1 className={styles.h1}>Статистика Аптека Москва</h1>
+                <h1 className={styles.h1}>Статистика Аптека</h1>
                 <p className={styles.required}>* Обязательные поля</p>
                 {createResetValue()}
             </div>
@@ -272,6 +283,18 @@ const TestingForm = ({ pastTests }) => {
                         <Input.TextArea placeholder="Ваш ответ"/>
                     </Form.Item>
                     {createResetValue('8_consultant_comment')}
+                </div>
+
+                <div>
+                    <Form.Item name="9_city" label="Филиал"
+                               rules={[{ required: true, message: 'Поле является обязательным' }]}>
+                        <Select defaultValue={defaultCity} value={form.getFieldsValue()["1_city"]}
+                                onChange={setCityHandler}>
+                            <Option value="moscow">Москва</Option>
+                            <Option value="spb">Санкт-Петербург</Option>
+                            <Option value="nn">Нижний Новгород</Option>
+                        </Select>
+                    </Form.Item>
                 </div>
 
                 <Form.Item style={{ textAlign: "center" }}>

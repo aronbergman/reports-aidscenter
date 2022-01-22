@@ -286,8 +286,7 @@ const TestingForm = ({ pastTests }) => {
                 </div>
 
                 <div>
-                    <Form.Item name="9_city" label="Филиал"
-                               rules={[{ required: true, message: 'Поле является обязательным' }]}>
+                    <Form.Item name="9_city" label="Филиал">
                         <Select defaultValue={defaultCity} value={form.getFieldsValue()["1_city"]}
                                 onChange={setCityHandler}>
                             <Option value="moscow">Москва</Option>

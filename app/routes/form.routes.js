@@ -26,6 +26,11 @@ module.exports = function (app) {
     );
 
     app.post(
+        "/api/form/groups-tg",
+        controller.groupsTG
+    );
+
+    app.post(
         "/api/form/drugstore",
         controller.drugstore
     );
@@ -46,6 +51,13 @@ module.exports = function (app) {
         "/api/form/find/hot-line",
         [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
         controller.findHotLine
+    );
+
+
+    app.post(
+        "/api/form/find/groups-tg",
+        [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
+        controller.findGroupsTG
     );
 
     app.post(

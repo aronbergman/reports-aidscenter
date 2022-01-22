@@ -5,6 +5,7 @@ import filter from './reducers/filter.reducer'
 import filterHotLine from './reducers/filterHotLine.reducer'
 import filterGroupsHiv from './reducers/filterGroupsHiv.reducer'
 import filterDrugs from "./reducers/filterDrugs.reducer"
+import findGroupsTG from './reducers/filterGroupsTG.reducer'
 
 export default combineReducers({
     app,
@@ -12,5 +13,6 @@ export default combineReducers({
     filter,
     filterHotLine,
     filterGroupsHiv,
-    filterDrugs
+    filterDrugs,
+    findGroupsTG
 });

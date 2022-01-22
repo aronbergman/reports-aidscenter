@@ -4,6 +4,7 @@ import test from './test.jpeg'
 import hotLine from './hot-line.jpg'
 import groupsHiv from './groups-hiv.jpeg'
 import pharmacy from './pharmacy.jpeg'
+import tg from './tg.png'
 import styles from './slyles.module.scss'
 
 const AllForms = () => {
@@ -31,6 +32,13 @@ const AllForms = () => {
                 <div className={styles.card}>
                     <div className={styles.image} style={{backgroundImage: `url(${groupsHiv})`}}/>
                     <p className={styles.title}>Группы поддержки ВИЧ+</p>
+                </div>
+            </NavLink>
+
+            <NavLink to="/groups-tg" style={{ textDecoration: 'none' }}>
+                <div className={styles.card}>
+                    <div className={styles.image} style={{backgroundImage: `url(${tg})`}}/>
+                    <p className={styles.title}>Группы поддержки Транс-персон</p>
                 </div>
             </NavLink>
 

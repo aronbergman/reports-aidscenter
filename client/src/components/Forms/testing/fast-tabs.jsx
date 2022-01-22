@@ -5,7 +5,8 @@ export const FastTabs = ({ goTo }) => {
     const tabs = [
         { name: 'testing', label: "Тестирование" },
         { name: 'hotline', label: "Горячая линия" },
-        { name: 'groups-hiv', label: "Группа ВИЧ+" },
+        { name: 'groups-hiv', label: "Гр. ВИЧ+" },
+        { name: 'groups-tg', label: "Гр. ТГ" },
         { name: 'drugs', label: "Аптека" },
     ]
 

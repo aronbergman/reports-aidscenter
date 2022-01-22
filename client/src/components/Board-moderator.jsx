@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { findAllUsersForForms } from "../redux/thunks/user.thunks";
 import DrugstoreReport from "./reports/drugstore/DrugstoreReport";
 import GroupsHivReport from "./reports/groups/GroupsHivReport";
+import GroupsTG from "./reports/groups/GroupsTGReport";
 import HotLineReport from "./reports/hot-line/HotLineReport";
 import TestingReport from "./reports/testing/TestingReport";
 
@@ -37,6 +38,8 @@ const BoardModerator = () => {
                 return <TestingReport/>
             case "4":
                 return <HotLineReport/>
+            case "5":
+                return <GroupsTG/>
             case "3":
                 return <GroupsHivReport/>
             case "1":

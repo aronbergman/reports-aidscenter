@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const Testing = db.testing;
 const HotLine = db.hotLine;
 const GroupsHiv = db.groupsHiv;
+const GroupsTG = db.groupsTG;
 const Drugstore = db.drugstore;
 
 function formatDate(date) {
@@ -44,6 +45,17 @@ exports.hotLine = (req, res) => {
 exports.groupsHiv = (req, res) => {
     // Save User to Database
     GroupsHiv.create(req.body)
+        .then((data) => {
+            res.send({ message: "GroupsHiv created!", data });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+exports.groupsTG = (req, res) => {
+    // Save User to Database
+    GroupsTG.create(req.body)
         .then((data) => {
             res.send({ message: "GroupsHiv created!", data });
         })
@@ -313,6 +325,41 @@ exports.findGroupsHiv = (req, res) => {
     }
 
     GroupsHiv.findAll(filters).then((data) => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
+exports.findGroupsTG = (req, res) => {
+    const {
+        rangePeriodStart,
+        rangePeriodEnd,
+        city,
+    } = req.body
+    let filters = {}
+
+    if (rangePeriodStart && rangePeriodEnd) {
+        filters = {
+            where: {
+                "2_date": {
+                    [Op.gte]: req.body.rangePeriodStart,
+                    [Op.lte]: req.body.rangePeriodEnd
+                }
+            }
+        }
+    }
+
+    if (city) {
+        filters.where = {
+            ...filters.where,
+            ["1_city"]: {
+                [Op.eq]: city
+            }
+        }
+    }
+
+    GroupsTG.findAll(filters).then((data) => {
         res.send(data);
     }).catch(err => {
         res.status(500).send({ message: err.message });

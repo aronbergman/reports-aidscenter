@@ -27,7 +27,7 @@ db.sequelize.sync();
 // force: true will drop the table if it already exists
 // db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Database with { force: true }');
-//   initial();
+//   // initial();
 // });
 
 // simple route
@@ -40,6 +40,11 @@ require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/form.routes')(app);
 require('./app/routes/diagrams.routes')(app);
+require('./app/routes/patients.routes')(app);
+require('./app/routes/visits.routes')(app);
+require('./app/routes/questions.routes')(app);
+require('./app/routes/patients_visits.routes')(app);
+
 
 // set port, listen for requests
 app.listen(SERVER_PORT, () => {

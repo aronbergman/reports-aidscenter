@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
+    "migrate": "node migrate.js",
     "server": "node server.js",
     "client": "npm run start --prefix client",
     "client:install": "npm install -prefix client",
@@ -23,13 +24,18 @@
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "^5.15.5",
+    "antd": "^4.19.5",
+    "antd-mask-input": "^2.0.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "bootstrap": "^5.1.3",
     "concurrently": "^5.2.0",
     "consola": "^2.12.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
+    "date-fns": "^2.28.0",
     "dotenv": "^8.2.0",
+    "excel4node": "^1.7.2",
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
@@ -38,9 +44,22 @@
     "multer": "^1.4.2",
     "mysql2": "^2.1.0",
     "node-ffprobe": "^3.0.0",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-redux": "^7.2.8",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.1",
+    "react-validation": "^3.0.7",
     "sequelize": "^5.21.3",
     "socket.io": "^2.3.0",
     "util": "^0.12.3",
     "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "prettier": "2.6.2"
   }
 }

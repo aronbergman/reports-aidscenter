@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { Spin } from "antd";
 import { getQuestions } from "../redux/thunks/questions.thunk";
 import { getPatientVisit } from "../redux/thunks/patient_visits.thunk";
 import { getVisit } from "../redux/thunks/visits.thunks";
-import { PatientVisitQuestionnaire } from './PatientVisitQuestionnaire';
+import { PatientVisitQuestionnaire } from "./PatientVisitQuestionnaire";
 
 export const PatientVisitPage = () => {
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [allQuestions, setAllQuestions] = useState([]);
   const [visitQuestions, setVisitQuestions] = useState([]);
   const [patientVisit, setPatientVisit] = useState();
@@ -28,14 +30,22 @@ export const PatientVisitPage = () => {
 
   useEffect(() => {
     if (visit && allQuestions.length !== 0) {
-      const questions = visit.visit_questions.map(({ questionId }) => allQuestions.find((qstn) => qstn.id === questionId));
+      const questions = visit.visit_questions.map(({ questionId }) =>
+        allQuestions.find((qstn) => qstn.id === questionId)
+      );
       setVisitQuestions(questions);
+      setLoading(false);
     }
   }, [visit, allQuestions]);
 
-  if (patientVisit) {
-    return <PatientVisitQuestionnaire patientVisit={patientVisit} questions={visitQuestions}/>
+  if (loading) {
+    return <Spin />;
+  } else {
+    return (
+      <PatientVisitQuestionnaire
+        patientVisit={patientVisit}
+        questions={visitQuestions}
+      />
+    );
   }
-
-  return <></>;
 };

@@ -8,6 +8,10 @@ module.exports = (sequelize, Sequelize) => {
     contact: {
       type: Sequelize.STRING,
     },
+    comment: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   });
   return Patient;
 };

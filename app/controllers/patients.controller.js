@@ -38,6 +38,7 @@ exports.createPatient = async (req, res) => {
     const patient = await Patient.create({
       code: req.body.code,
       contact: req.body.contact,
+      comment: req.body.comment,
     });
     if (patient) {
       visits.forEach(async (visit) => {
@@ -54,15 +55,31 @@ exports.createPatient = async (req, res) => {
   }
 };
 
+exports.deletePatient = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const patientId = +req.params.id;
+      await PatientVisit.destroy({ where: { patientId } });
+      await Patient.destroy({ where: { id: patientId } });
+      res.status(200).send();
+    } else {
+      res.status(404).send();
+    }
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 exports.updatePatient = async (req, res) => {
   if (req.params.id) {
     const patient = await Patient.findOne({
       where: { id: req.params.id },
     });
     if (patient) {
-      const { code, contact } = req.body;
+      const { code, contact, comment } = req.body;
       patient.code = code;
       patient.contact = contact;
+      patient.comment = comment;
       await patient.save();
       res.status(201).send(patient);
     } else {

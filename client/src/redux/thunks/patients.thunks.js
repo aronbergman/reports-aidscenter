@@ -25,3 +25,9 @@ export const postPatient = async (id, payload) => {
     .post(`${API_PATIENTS}/${id}`, payload, { headers: authHeader() })
     .then((response) => response);
 };
+
+export const deletePatient = async (id) => {
+  return axios
+    .delete(`${API_PATIENTS}/${id}`, { headers: authHeader() })
+    .then((response) => response);
+};

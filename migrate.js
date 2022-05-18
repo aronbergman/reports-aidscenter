@@ -12,29 +12,36 @@ const Visit = db.visits;
 const Question = db.questions;
 const VisitQuestion = db.visit_quesions;
 
-db.sequelize.sync();
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('db clear');
-// });
-
 const visits = [
   {
+    num: 1,
     name: "Визит 1",
+    comment: 'Старт',
   },
   {
+    num: 2,
     name: "Визит 2",
+    comment: '1 мес',
   },
   {
+    num: 3,
     name: "Визит 3",
+    comment: '3 мес',
   },
   {
+    num: 4,
     name: "Визит 4",
+    comment: '6 мес',
   },
   {
+    num: 5,
     name: "Визит 5",
+    comment: '9 мес',
   },
   {
+    num: 6,
     name: "Визит 6",
+    comment: '12 мес',
   },
 ];
 
@@ -138,7 +145,8 @@ const questions = [
     question: "Информированное согласие подписано",
   },
   {
-    question: "Отсутствие симптомов острой ВИЧ-инфекции (гриппоподобный синдром, лимфоаденопатия)",
+    question:
+      "Отсутствие симптомов острой ВИЧ-инфекции (гриппоподобный синдром, лимфоаденопатия)",
   },
   {
     question: "Получен неанонимный лабораторный результат ИФА ВИЧ 4 поколения",
@@ -156,13 +164,15 @@ const questions = [
     question: "Результат теста на гепатит С (anti-HCV)",
   },
   {
-    question: "Результат теста на гепатит С (экспресс-тест в случае непредоставления лабораторного)",
+    question:
+      "Результат теста на гепатит С (экспресс-тест в случае непредоставления лабораторного)",
   },
   {
     question: "Тест на сифилис (RPR кровь)",
   },
   {
-    question: "Результат теста на сифилис (экспресс-тест в случае непредоставления лабораторного)",
+    question:
+      "Результат теста на сифилис (экспресс-тест в случае непредоставления лабораторного)",
   },
   {
     question: "Мазок гонорея (3 локализации)",
@@ -186,7 +196,8 @@ const questions = [
     question: "Выдана ДКП на срок:",
   },
   {
-    question: "Проведена консультация по вакцинации: Гепатит А, гепатит B, ВПЧ по календарю",
+    question:
+      "Проведена консультация по вакцинации: Гепатит А, гепатит B, ВПЧ по календарю",
   },
   {
     question: "Консультант",
@@ -226,24 +237,31 @@ const users = [
 ];
 
 const subdivisions = [
-  {
-    id: 1,
-    name: "testing",
-    label: "Тестирование",
-  },
-  {
-    id: 2,
-    name: "groups",
-    label: "Группы поддержки",
-  },
-  {
-    id: 3,
-    name: "hot-line",
-    label: "Горячая линия",
-  },
+  // {
+  //   id: 1,
+  //   name: "testing",
+  //   label: "Тестирование",
+  // },
+  // {
+  //   id: 2,
+  //   name: "groups",
+  //   label: "Группы поддержки",
+  // },
+  // {
+  //   id: 3,
+  //   name: "hot-line",
+  //   label: "Горячая линия",
+  // },
 ];
 
 (async () => {
+  await db.sequelize.sync({
+    alter: true,
+  });
+  // db.sequelize.sync({force: true}).then(() => {
+  //   console.log('db clear');
+  // });
+
   // subdivisions
   await Promise.all(
     subdivisions.map((info) => {
@@ -268,11 +286,14 @@ const subdivisions = [
 
   // visits
   await Promise.all(
-    visits.map((info) => {
-      const { name } = info;
-      return Visit.findOrCreate({
+    visits.map(async (info) => {
+      const { name, num, comment } = info;
+      const [visit] = await Visit.findOrCreate({
         where: { name },
       });
+      visit.num = num;
+      visit.comment = comment;
+      return visit.save();
     })
   );
   console.log("visits");
@@ -327,7 +348,11 @@ const subdivisions = [
           });
           if (role) {
             await UserRole.findOrCreate({
-              where: { roleId: role.id, userId: user.id, subdivisionId: "testing" },
+              where: {
+                roleId: role.id,
+                userId: user.id,
+                subdivisionId: "testing",
+              },
             });
           }
         });

@@ -12,7 +12,7 @@ const columns = [
   {
     title: "Визит",
     dataIndex: "visitName",
-    key: "date",
+    key: "visitName",
   },
   {
     title: "Дата",
@@ -36,7 +36,7 @@ const columns = [
 const dataMap = (info) => ({
   id: info.id,
   code: info.patient.code,
-  visitName: info.visit.name,
+  visitName: `${info.visit.num} (${info.visit.comment})`,
   status: info.status,
   date: info.date,
 });

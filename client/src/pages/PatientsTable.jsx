@@ -1,59 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "antd";
 import { Link } from "react-router-dom";
 import { StatusTag } from "../shared";
+import { Button } from "antd";
 
 const columns = [
   {
     title: "Уникальный код",
     dataIndex: "code",
-    key: "code",
+    key: 1,
   },
   {
-    title: "Визит 1",
+    title: "1 (Старт)",
     dataIndex: "visit1",
-    key: "visit1",
-    render: (status) => <StatusTag status={status}/>,
+    key: 2,
+    render: (status) => <StatusTag status={status} />,
   },
   {
-    title: "Визит 2",
+    title: "2 (1 мес)",
     dataIndex: "visit2",
-    key: "visit2",
-    render: (status) => <StatusTag status={status}/>,
+    key: 3,
+    render: (status) => <StatusTag status={status} />,
   },
   {
-    title: "Визит 3",
+    title: "3 (3 мес)",
     dataIndex: "visit3",
-    key: "visit3",
-    render: (status) => <StatusTag status={status}/>,
+    key: 4,
+    render: (status) => <StatusTag status={status} />,
   },
   {
-    title: "Визит 4",
+    title: "4 (6 мес)",
     dataIndex: "visit4",
-    key: "visit4",
-    render: (status) => <StatusTag status={status}/>,
+    key: 5,
+    render: (status) => <StatusTag status={status} />,
   },
   {
-    title: "Визит 5",
+    title: "5 (9 мес)",
     dataIndex: "visit5",
-    key: "visit5",
-    render: (status) => <StatusTag status={status}/>,
+    key: 6,
+    render: (status) => <StatusTag status={status} />,
   },
   {
-    title: "Визит 6",
+    title: "6 (12 мес)",
     dataIndex: "visit6",
-    key: "visit6",
-    render: (status) => <StatusTag status={status}/>,
+    key: 7,
+    render: (status) => <StatusTag status={status} />,
   },
   {
     title: "",
     dataIndex: "id",
+    key: 8,
     render: (id, record) => <Link to={`/visits/patients/${id}`}>Профиль</Link>,
   },
 ];
 
 export const PatientsTable = (props) => {
-  const { patients } = props;
+  const { patients, onDelete } = props;
   const dataSource = patients.map((patient) => {
     const { patient_visits } = patient;
     const visit1 = patient_visits.find((visit) => visit.visitId === 1);
@@ -63,6 +65,7 @@ export const PatientsTable = (props) => {
     const visit5 = patient_visits.find((visit) => visit.visitId === 5);
     const visit6 = patient_visits.find((visit) => visit.visitId === 6);
     return {
+      key: patient.id,
       ...patient,
       ...(visit1 && { visit1: visit1.status }),
       ...(visit2 && { visit2: visit2.status }),
@@ -73,12 +76,32 @@ export const PatientsTable = (props) => {
     };
   });
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const hasSelected = selectedRowKeys.length > 0;
+  const rowSelection = {
+    type: "checkbox",
+    selectedRowKeys,
+    onChange: (keys) => {
+      setSelectedRowKeys(keys);
+    },
+  };
+
+  const handleDelete = () => {
+    onDelete(selectedRowKeys);
+  };
+
   return (
-    <Table
-      pagination={true}
-      size="small"
-      columns={columns}
-      dataSource={dataSource}
-    />
+    <>
+      <Table
+        pagination={true}
+        size="small"
+        columns={columns}
+        dataSource={dataSource}
+        rowSelection={rowSelection}
+      />
+      <Button type="primary" onClick={handleDelete} disabled={!hasSelected}>
+        Удалить
+      </Button>
+    </>
   );
 };

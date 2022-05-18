@@ -33,10 +33,6 @@ label {
 
   display: flex;
   flex-direction: column;
-
-  > div:first-child {
-    flex: 1;
-  }
 }
 
 .card-container.card {

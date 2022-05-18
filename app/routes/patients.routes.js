@@ -12,6 +12,7 @@ module.exports = function (app) {
 
   app.get("/api/patients/:id", [authJwt.verifyToken], controller.findPatient);
   app.get("/api/patients", [authJwt.verifyToken], controller.findPatients);
+  app.delete("/api/patients/:id", [authJwt.verifyToken], controller.deletePatient);
   app.post("/api/patients/:id", [authJwt.verifyToken], controller.updatePatient);
   app.post("/api/patients", [authJwt.verifyToken], controller.createPatient);
 };

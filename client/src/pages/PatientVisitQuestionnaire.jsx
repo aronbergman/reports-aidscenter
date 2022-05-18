@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Radio, Checkbox, Card, Typography } from "antd";
+import { findAllUsersForForms } from "../redux/thunks/user.thunks";
 import { postPatientVisit } from "../redux/thunks/patient_visits.thunk";
 import { useNotification } from "../hooks";
 import { DatePicker } from "antd";
@@ -295,6 +296,22 @@ const questionsOptions = [
     ],
   },
   {
+    name: "Результат теста на гепатит С (экспресс-тест в случае непредоставления лабораторного)",
+    multiple: false,
+    answers: [
+      "Отрицательно",
+      "Положительно (рекомендована консультация инфекциониста и последующее лечение)",
+    ],
+  },
+  {
+    name: "Результат теста на сифилис (экспресс-тест в случае непредоставления лабораторного)",
+    multiple: false,
+    answers: [
+      "Отрицательно",
+      "Положительно (рекомендована консультация дерматовенеролога и последующее лечение)",
+    ],
+  },
+  {
     name: "Получен неанонимный лабораторный результат ИФА ВИЧ 4 поколения",
     multiple: false,
     answers: [
@@ -339,6 +356,14 @@ const questionsOptions = [
     answers: ["Постоянный", "По требованию (2-1-1)", "Смешанный"],
   },
   {
+    name: "Город",
+    type: "city",
+  },
+  {
+    name: "Консультант",
+    type: "consultant",
+  },
+  {
     name: "Комментарий",
     text: true,
   },
@@ -350,32 +375,44 @@ const findOptions = (question) =>
 const Question = (props) => {
   const {
     question: { id, question },
+    consultants,
+    onChange,
   } = props;
   const options = findOptions(question);
   const label = `№${id}. ${question}`;
-  let input = <Input />;
+
+  const handleChange = (event) => {
+    if (event.currentTarget) {
+      onChange(id, question, event.currentTarget.value);
+    } else if (event.target) {
+      onChange(id, question, event.target.value);
+    } else {
+      onChange(id, question, event);
+    }
+  };
+
+  let input = <Input onChange={handleChange} />;
   if (options) {
-    const { answers, multiple, other, text } = options;
+    const { answers, multiple, other, text, type } = options;
     if (answers && answers.length !== 0) {
       if (multiple) {
         // множественный выбор
         input = (
-          <Checkbox.Group>
+          <Checkbox.Group onChange={handleChange}>
             {answers.map((answer, index) => (
-              <Checkbox
-                value={answer}
-                key={index}
-                style={{ display: "block", marginLeft: 0 }}
-              >
-                {answer}
-              </Checkbox>
+              <div>
+                <Checkbox value={answer} key={index}>
+                  {answer}
+                </Checkbox>
+              </div>
             ))}
+            {other && <Checkbox value="Другое">Другое</Checkbox>}
           </Checkbox.Group>
         );
       } else {
         // выбор одного варианта
         input = (
-          <Radio.Group>
+          <Radio.Group onChange={handleChange}>
             {answers.map((answer, index) => (
               <Radio
                 value={answer}
@@ -385,13 +422,38 @@ const Question = (props) => {
                 {answer}
               </Radio>
             ))}
+            <Radio value="" key="" style={{ display: "block", marginLeft: 0 }}>
+              Не заполнено
+            </Radio>
           </Radio.Group>
         );
       }
     }
+    if (type === "city") {
+      // город
+      input = (
+        <Select placeholder="Город" onChange={handleChange}>
+          <Select.Option value="">Не указан</Select.Option>
+          <Select.Option value="Москва">Москва</Select.Option>
+          <Select.Option value="Санкт-Петербург">Санкт-Петербург</Select.Option>
+          <Select.Option value="Нижний Новгород">Нижний Новгород</Select.Option>
+        </Select>
+      );
+    }
+    if (type === "consultant") {
+      // консультант
+      input = (
+        <Select placeholder="Консультант" onChange={handleChange}>
+          <Select.Option value="">Не указан</Select.Option>
+          {consultants.map((consultant) => (
+            <Select.Option value={consultant}>{consultant}</Select.Option>
+          ))}
+        </Select>
+      );
+    }
     if (text) {
       // текстовое поле
-      input = <Input.TextArea />;
+      input = <Input.TextArea rows={8} onChange={handleChange} />;
     }
   }
 
@@ -407,6 +469,10 @@ export const PatientVisitQuestionnaire = (props) => {
   const { id, patient, visit, patient_visit_answers, status, date } =
     patientVisit;
   const { openNotification } = useNotification();
+
+  const [city, setCity] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [consultants, setConsultants] = useState([]);
 
   const questionsWithAnswers = questions.map((question) => {
     const answer = patient_visit_answers.find(
@@ -426,7 +492,7 @@ export const PatientVisitQuestionnaire = (props) => {
     const { id, question, answer } = qstn;
     const options = findOptions(question);
     if (options) {
-      const { answers, multiple, other } = options;
+      const { answers, multiple } = options;
       if (answers && answers.length !== 0) {
         if (multiple) {
           initialValues[id] = answer ? answer.split(", ") : [];
@@ -456,9 +522,41 @@ export const PatientVisitQuestionnaire = (props) => {
       });
   };
 
+  const onChangeQuestion = (id, question, value) => {
+    const options = findOptions(question);
+    if (options) {
+      const { type } = options;
+      if (type === "city") {
+        setCity(value);
+      }
+    }
+  };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  useEffect(() => {
+    findAllUsersForForms().then((res) => setUsers(res.data));
+  }, []);
+
+  useEffect(() => {
+    let alias = '';
+    if (city === 'Москва') {
+      alias = 'moscow';
+    } else if (city === 'Санкт-Петербург') {
+      alias = 'spb';
+    } else if (city === 'Нижний Новгород') {
+      alias = 'nn';
+    }
+    setConsultants(
+      users
+        .filter((user) => {
+          return city === '' || user.city === alias;
+        })
+        .map((user) => user.appointment)
+    );
+  }, [city, users]);
 
   return (
     <Form
@@ -490,7 +588,12 @@ export const PatientVisitQuestionnaire = (props) => {
       <br />
       <Typography.Title level={3}>Анкета</Typography.Title>
       {questionsWithAnswers.map((question) => (
-        <Question question={question} key={question.id} />
+        <Question
+          question={question}
+          onChange={onChangeQuestion}
+          consultants={consultants}
+          key={question.id}
+        />
       ))}
       <Card>
         <Form.Item>

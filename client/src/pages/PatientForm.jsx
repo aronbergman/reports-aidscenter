@@ -53,6 +53,14 @@ export const PatientForm = (props) => {
         </Form.Item>
       </Card>
       <Card>
+        <Form.Item
+          label="Комментарий"
+          name="comment"
+        >
+          <Input.TextArea rows={10}/>
+        </Form.Item>
+      </Card>
+      <Card>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             {profile ? "Сохранить" : "Добавить пациента"}

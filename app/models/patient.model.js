@@ -12,6 +12,22 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    medicalFrequency: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    sexFrequency: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    condomUse: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    chemsex: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   });
   return Patient;
 };

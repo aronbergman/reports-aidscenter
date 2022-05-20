@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
       answer: {
         type: Sequelize.STRING,
       },
+      other: {
+        type: Sequelize.STRING,
+      },
     },
     {
       indexes: [

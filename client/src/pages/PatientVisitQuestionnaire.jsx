@@ -146,6 +146,7 @@ const questionsOptions = [
       "Амфетамин",
       "Метамфетамин",
       "LSD",
+      "Альфа-PVP"
     ],
   },
   {
@@ -338,7 +339,8 @@ const questionsOptions = [
     name: "Выдана ДКП на срок:",
     multiple: true,
     other: true,
-    answers: ["1 месяц", "Другое"],
+    answers: ["1 месяц"],
+    answers2: ["2 месяца"],
   },
   {
     name: "Проведена консультация по вакцинации: Гепатит А, гепатит B, ВПЧ по календарю",
@@ -354,6 +356,51 @@ const questionsOptions = [
     name: "Режим приема ДКП:",
     multiple: false,
     answers: ["Постоянный", "По требованию (2-1-1)", "Смешанный"],
+  },
+  {
+    name: "Готовы ли вы рассказать о своем опыте использования ДКП публично/в соцсетях?",
+    multiple: false,
+    answers: ["Не готов", "Готов открыто", "Готов анонимно"],
+  },
+  {
+    name: "Продолжена ДКП?",
+    multiple: false,
+    answers: ["Клиент продолжил ДКП", "Клиент отказался от продолжения ДКП"],
+  },
+  {
+    name: "Причины отказа от ДКП (необязательный вопрос):",
+    multiple: true,
+    other: true,
+    answers: [
+      "Нет необходимости",
+      "Опасается побочных эффектов",
+      "Беспокоится о том, что могут подумать другие",
+      "Беспокоится о том времени, которое необходимо для последующего наблюдения на базе фонде",
+      "Беспокоится о безопасности препарата",
+      "Беспокоится об эффективности препарата",
+    ],
+  },
+  {
+    name: "Экспресс-тест ВИЧ",
+    multiple: false,
+    answers: [
+      "Отрицательно",
+      "Положительно – исключение из программы, маршрутизация для лечения",
+    ],
+  },
+  {
+    name: "Насколько вы удовлетворены текущими препаратами для профилактики ВИЧ?",
+    multiple: false,
+    answers: ["-3", "-2", "-1", "0", "1", "2", "3"],
+  },
+  {
+    name: "Испытывали ли вы какие-либо побочные эффекты?",
+    multiple: false,
+    answers: [
+      "Нет",
+      "Да, незначительные (указать)",
+      "Да, выраженные (указать)",
+    ],
   },
   {
     name: "Город",
@@ -375,11 +422,13 @@ const findOptions = (question) =>
 const Question = (props) => {
   const {
     question: { id, question },
+    num,
+    visitNum,
     consultants,
     onChange,
   } = props;
   const options = findOptions(question);
-  const label = `№${id}. ${question}`;
+  const label = `№${num}. ${question}`;
 
   const handleChange = (event) => {
     if (event.currentTarget) {
@@ -393,7 +442,9 @@ const Question = (props) => {
 
   let input = <Input onChange={handleChange} />;
   if (options) {
-    const { answers, multiple, other, text, type } = options;
+    const { answers: defaultAnswers, answers2, multiple, other, text, type } = options;
+    // ToDo реализовать кастомность вопросов для визита
+    const answers = (visitNum === 2 && answers2) ? answers2 : defaultAnswers;
     if (answers && answers.length !== 0) {
       if (multiple) {
         // множественный выбор
@@ -460,6 +511,11 @@ const Question = (props) => {
   return (
     <Card title={label}>
       <Form.Item name={id}>{input}</Form.Item>
+      {options && options.other && (
+        <Form.Item name={`${id}-other`}>
+          <Input />
+        </Form.Item>
+      )}
     </Card>
   );
 };
@@ -480,7 +536,7 @@ export const PatientVisitQuestionnaire = (props) => {
     );
     return {
       ...question,
-      ...(answer && { answer: answer.answer }),
+      ...(answer && { answer: answer.answer, otherAnswer: answer.other }),
     };
   });
 
@@ -489,10 +545,10 @@ export const PatientVisitQuestionnaire = (props) => {
     date: date ? moment(date) : moment(),
   };
   questionsWithAnswers.forEach((qstn) => {
-    const { id, question, answer } = qstn;
+    const { id, question, answer, otherAnswer } = qstn;
     const options = findOptions(question);
     if (options) {
-      const { answers, multiple } = options;
+      const { answers, multiple, other } = options;
       if (answers && answers.length !== 0) {
         if (multiple) {
           initialValues[id] = answer ? answer.split(", ") : [];
@@ -501,6 +557,9 @@ export const PatientVisitQuestionnaire = (props) => {
         }
       } else {
         initialValues[id] = answer ?? "";
+      }
+      if (other) {
+        initialValues[`${id}-other`] = otherAnswer ?? "";
       }
     } else {
       initialValues[id] = answer ?? "";
@@ -541,18 +600,18 @@ export const PatientVisitQuestionnaire = (props) => {
   }, []);
 
   useEffect(() => {
-    let alias = '';
-    if (city === 'Москва') {
-      alias = 'moscow';
-    } else if (city === 'Санкт-Петербург') {
-      alias = 'spb';
-    } else if (city === 'Нижний Новгород') {
-      alias = 'nn';
+    let alias = "";
+    if (city === "Москва") {
+      alias = "moscow";
+    } else if (city === "Санкт-Петербург") {
+      alias = "spb";
+    } else if (city === "Нижний Новгород") {
+      alias = "nn";
     }
     setConsultants(
       users
         .filter((user) => {
-          return city === '' || user.city === alias;
+          return city === "" || user.city === alias;
         })
         .map((user) => user.appointment)
     );
@@ -587,9 +646,11 @@ export const PatientVisitQuestionnaire = (props) => {
 
       <br />
       <Typography.Title level={3}>Анкета</Typography.Title>
-      {questionsWithAnswers.map((question) => (
+      {questionsWithAnswers.map((question, index) => (
         <Question
           question={question}
+          num={index + 1}
+          visitNum={visit.num}
           onChange={onChangeQuestion}
           consultants={consultants}
           key={question.id}

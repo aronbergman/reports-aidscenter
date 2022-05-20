@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Card } from "antd";
+import { Form, Input, Button, Radio, Card } from "antd";
 import { CodeInput } from "../shared";
 
 export const PatientForm = (props) => {
@@ -13,6 +13,7 @@ export const PatientForm = (props) => {
     console.log("Failed:", errorInfo);
   };
 
+  const medicalFrequency = ["ежедневный", "ситуативный", "смешанный"];
   const initialValues = profile;
 
   return (
@@ -53,11 +54,38 @@ export const PatientForm = (props) => {
         </Form.Item>
       </Card>
       <Card>
-        <Form.Item
-          label="Комментарий"
-          name="comment"
-        >
-          <Input.TextArea rows={10}/>
+        <Form.Item label="Режим приема" name="medicalFrequency">
+          <Radio.Group>
+            {medicalFrequency.map((answer, index) => (
+              <Radio
+                value={answer}
+                key={index}
+                style={{ display: "block", marginLeft: 0 }}
+              >
+                {answer}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </Form.Item>
+      </Card>
+      <Card>
+        <Form.Item label="Комментарий" name="comment">
+          <Input.TextArea rows={4} />
+        </Form.Item>
+      </Card>
+      <Card>
+        <Form.Item label="Частота секса" name="sexFrequency">
+          <Input.TextArea rows={4} />
+        </Form.Item>
+      </Card>
+      <Card>
+        <Form.Item label="Использование презерватива" name="condomUse">
+          <Input.TextArea rows={4} />
+        </Form.Item>
+      </Card>
+      <Card>
+        <Form.Item label="Химсекс" name="chemsex">
+          <Input.TextArea rows={4} />
         </Form.Item>
       </Card>
       <Card>

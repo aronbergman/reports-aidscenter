@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
     "migrate": "node migrate.js",
+    "migrate:2": "node migrate2.js",
     "server": "node server.js",
     "client": "npm run start --prefix client",
     "client:install": "npm install -prefix client",

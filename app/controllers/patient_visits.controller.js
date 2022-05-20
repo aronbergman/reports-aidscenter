@@ -58,18 +58,23 @@ exports.updatePatientVisit = async (req, res) => {
       patientVisit.status = status;
       patientVisit.date = date;
       await patientVisit.save();
-      for (const [questionId, value] of Object.entries(values)) {
+      for (const [valueName, value] of Object.entries(values)) {
         let answerText = undefined;
+        const questionId = parseInt(valueName.replace('-other', ''));
         if (typeof value === 'string') {
           answerText = value;
         } else if (Array.isArray(value)) {
           answerText = value.join(', ');
         }
-        if (answerText !== undefined) {
-          const [patientAnswer] = await PatientVisitAnswer.findOrCreate({
-            where: { patientVisitId: patientVisit.id, questionId },
-          });
-          patientAnswer.answer = answerText;
+        const [patientAnswer] = await PatientVisitAnswer.findOrCreate({
+          where: { patientVisitId: patientVisit.id, questionId },
+        });
+        if (patientAnswer) {
+          if (valueName.includes('-other')) {
+            patientAnswer.other = answerText ?? '';
+          } else {
+            patientAnswer.answer = answerText ?? '';
+          }
           patientAnswer.save();
         }
       }

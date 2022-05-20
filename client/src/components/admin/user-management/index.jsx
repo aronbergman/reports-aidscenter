@@ -124,7 +124,7 @@ export const UserManagement = () => {
                     subdivisions && <Select
                         mode="multiple"
                         defaultValue={
-                            !!data ? data.split('.').map(i => subdivisions.find(value => value.id === +i).id) : undefined
+                            !!data ? data.split('.').map(i => subdivisions.find(value => value.id === +i)?.id) : undefined
                         }
                         style={{ width: 250 }}
                         onChange={(val) => handleChangeSubdivisions(val, values)}

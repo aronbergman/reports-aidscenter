@@ -38,11 +38,11 @@ exports.createPatient = async (req, res) => {
     const patient = await Patient.create({
       code: req.body.code,
       contact: req.body.contact,
-      comment: req.body.comment ?? '',
-      medicalFrequency: req.body.medicalFrequency ?? '',
-      sexFrequency: req.body.sexFrequency ?? '',
-      condomUse: req.body.condomUse ?? '',
-      chemSex: req.body.chemSex ?? '',
+      comment: req.body.comment || '',
+      medicalFrequency: req.body.medicalFrequency || '',
+      sexFrequency: req.body.sexFrequency || '',
+      condomUse: req.body.condomUse || '',
+      chemSex: req.body.chemSex || '',
     });
     if (patient) {
       visits.forEach(async (visit) => {
@@ -80,13 +80,13 @@ exports.updatePatient = async (req, res) => {
       where: { id: req.params.id },
     });
     if (patient) {
-      patient.code = req.body.code ?? '';
-      patient.contact = req.body.contact ?? '';
-      patient.comment = req.body.comment ?? '';
-      patient.medicalFrequency = req.body.medicalFrequency ?? '';
-      patient.sexFrequency = req.body.sexFrequency ?? '';
-      patient.condomUse = req.body.condomUse ?? '';
-      patient.chemsex = req.body.chemsex ?? '';
+      patient.code = req.body.code || '';
+      patient.contact = req.body.contact || '';
+      patient.comment = req.body.comment || '';
+      patient.medicalFrequency = req.body.medicalFrequency || '';
+      patient.sexFrequency = req.body.sexFrequency || '';
+      patient.condomUse = req.body.condomUse || '';
+      patient.chemsex = req.body.chemsex || '';
       await patient.save();
       res.status(201).send(patient);
     } else {

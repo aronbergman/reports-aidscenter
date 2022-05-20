@@ -4,13 +4,11 @@ const bcrypt = require("bcryptjs");
 // database
 const db = require("./app/models");
 
-const Role = db.role;
-const User = db.user;
-const UserRole = db.userRoles;
-const Subdivision = db.subdivision;
+const Patient = db.patients;
 const Visit = db.visits;
 const Question = db.questions;
 const VisitQuestion = db.visit_quesions;
+const PatientVisitAnswer = db.patient_visit_answers;
 
 const questions = [
   {
@@ -52,7 +50,13 @@ const questions = [
 ];
 
 (async () => {
-  await db.sequelize.sync({
+  await Patient.sync({
+    alter: true,
+  });
+  await VisitQuestion.sync({
+    alter: true,
+  });
+  await PatientVisitAnswer.sync({
     alter: true,
   });
   

@@ -71,9 +71,9 @@ exports.updatePatientVisit = async (req, res) => {
         });
         if (patientAnswer) {
           if (valueName.includes('-other')) {
-            patientAnswer.other = answerText ?? '';
+            patientAnswer.other = answerText || '';
           } else {
-            patientAnswer.answer = answerText ?? '';
+            patientAnswer.answer = answerText || '';
           }
           patientAnswer.save();
         }

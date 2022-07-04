@@ -2,9 +2,9 @@ import axios from "axios";
 import authHeader from "../../services/auth-header";
 import { API_PATIENTS } from "../../constants/api.constants";
 
-export const getPatients = async (name) => {
+export const getPatients = async (filter) => {
   return axios
-    .get(API_PATIENTS, { params: { name }, headers: authHeader() })
+    .get(API_PATIENTS, { params: filter, headers: authHeader() })
     .then((response) => response);
 };
 

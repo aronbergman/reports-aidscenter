@@ -1,0 +1,14 @@
+.filters {
+  background-color: red;
+  display: grid;
+
+  .firstLine,
+  .secondLine {
+    margin-top: 15px;
+    display: inline-flex;
+
+    > * {
+      margin-right: 15px;
+    }
+  }
+}

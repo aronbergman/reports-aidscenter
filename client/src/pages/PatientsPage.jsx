@@ -9,19 +9,28 @@ import {
 import { PatientForm } from "./PatientForm";
 import { PatientsTable } from "./PatientsTable";
 import { useHistory } from "react-router";
+import { PatientsFilter } from "./PatientsFilter";
 
 export const PatientsPage = () => {
   const [patients, setPatients] = useState([]);
   const { openNotification } = useNotification();
   const history = useHistory();
+  const [filter, setFilter] = useState({});
 
-  const reload = useCallback(() => {
-    getPatients().then((res) => setPatients(res.data));
+  const handleChange = (changes) => {
+    setFilter({
+      ...filter,
+      ...changes,
+    });
+  };
+
+  const reload = useCallback((filter) => {
+    getPatients(filter).then((res) => setPatients(res.data));
   }, []);
 
   useEffect(() => {
-    reload();
-  }, [reload]);
+    reload(filter);
+  }, [reload, filter]);
 
   const createProfile = (profile) => {
     postPatients(profile)
@@ -49,6 +58,9 @@ export const PatientsPage = () => {
   return (
     <>
       <PageHeader title="Пациенты" />
+
+      <PatientsFilter onChange={handleChange} />
+      {JSON.stringify(filter)}
 
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="Просмотр" key="1">

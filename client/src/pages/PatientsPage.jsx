@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { PageHeader, Tabs } from "antd";
+import { PageHeader, Divider, Tabs } from "antd";
 import { useNotification } from "../hooks";
 import {
   getPatients,
@@ -17,12 +17,13 @@ export const PatientsPage = () => {
   const history = useHistory();
   const [filter, setFilter] = useState({});
 
-  const handleChange = (changes) => {
+  const handleChange = useCallback((changes) => {
+    console.log(filter, changes);
     setFilter({
       ...filter,
       ...changes,
     });
-  };
+  }, [filter]);
 
   const reload = useCallback((filter) => {
     getPatients(filter).then((res) => setPatients(res.data));
@@ -60,7 +61,7 @@ export const PatientsPage = () => {
       <PageHeader title="Пациенты" />
 
       <PatientsFilter onChange={handleChange} />
-      {JSON.stringify(filter)}
+      <Divider />
 
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="Просмотр" key="1">

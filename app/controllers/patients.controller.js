@@ -1,12 +1,16 @@
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const db = require("../models");
 const Patient = db.patients;
 const Visit = db.visits;
 const PatientVisit = db.patient_visits;
 
 exports.findPatients = (req, res) => {
-  const { medicalFrequency } = req.query;
+  const { medicalFrequency, birthDay, dateStart, dateEnd, d1, d2, d3 } =
+    req.query;
   const where = {
     ...(medicalFrequency && { medicalFrequency }),
+    ...(birthDay && { code: { [Op.like]: `%${birthDay}%` } }),
   };
   Patient.findAll({
     include: [PatientVisit],

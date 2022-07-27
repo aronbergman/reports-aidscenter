@@ -6,11 +6,37 @@ const Visit = db.visits;
 const PatientVisit = db.patient_visits;
 
 exports.findPatients = (req, res) => {
-  const { medicalFrequency, birthDay, dateStart, dateEnd, d1, d2, d3 } =
-    req.query;
+  const {
+    medicalFrequency,
+    drugs,
+    birthDay,
+    code,
+    dateStart,
+    dateEnd,
+    d1,
+    d2,
+    d3,
+    d4,
+    d5,
+    d6,
+  } = req.query;
+  const ippp1 = +d1;
+  const ippp2 = +d2;
+  const ippp3 = +d3;
+  const ippp4 = +d4;
+  const ippp5 = +d5;
+  const ippp6 = +d6;
   const where = {
     ...(medicalFrequency && { medicalFrequency }),
+    ...(drugs && { drugs }),
     ...(birthDay && { code: { [Op.like]: `%${birthDay}%` } }),
+    ...(code && { code: { [Op.like]: `%${code}%` } }),
+    ...(ippp1 === 1 && { ippp1: true }),
+    ...(ippp2 === 1 && { ippp2: true }),
+    ...(ippp3 === 1 && { ippp3: true }),
+    ...(ippp4 === 1 && { ippp4: true }),
+    ...(ippp5 === 1 && { ippp5: true }),
+    ...(ippp6 === 1 && { ippp6: true }),
   };
   Patient.findAll({
     include: [PatientVisit],

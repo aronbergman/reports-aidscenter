@@ -28,6 +28,33 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.TEXT,
       allowNull: true,
     },
+    grugs: {
+      type: Sequelize.STRING,
+    },
+    ippp1: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    ippp2: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    ippp3: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    ippp4: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    ippp5: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    ippp6: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
   });
   return Patient;
 };

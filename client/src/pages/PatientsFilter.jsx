@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { DatePicker, Checkbox, Select, Form, Row, Col } from "antd";
+import { DatePicker, Checkbox, Select, Form, Row, Col, Input } from "antd";
 
 // Добавить поиск по пациентам через дату рождения(например, 22.10.1995)
 // Добавить поиск пациентов по режиму приема
@@ -18,15 +18,18 @@ export const PatientsFilter = (props) => {
     },
     [onChange]
   );
-  const handleCheckbox = useCallback((data) => {
-    const { target } = data;
-    if (target) {
-      handleChange({ [target.value]: target.checked ? 1 : 0 });
-    }
-  }, [handleChange]);
+  const handleCheckbox = useCallback(
+    (data) => {
+      const { target } = data;
+      if (target) {
+        handleChange({ [target.value]: target.checked ? 1 : 0 });
+      }
+    },
+    [handleChange]
+  );
   const inputWidth = "calc(100% - 20px)";
   return (
-    <Form layout="vertical" style={{ maxWidth: "1000px" }}>
+    <Form layout="vertical" style={{ maxWidth: "1200px" }}>
       <Row>
         <Col span={12}>
           <Form.Item label="Период">
@@ -38,17 +41,6 @@ export const PatientsFilter = (props) => {
                   handleChange({ dateStart, dateEnd });
                 }
               }}
-              style={{ width: inputWidth }}
-            />
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="Дата рождения">
-            <DatePicker
-              format={dateFormat}
-              onChange={(date, dateString) =>
-                handleChange({ birthDay: dateString })
-              }
               style={{ width: inputWidth }}
             />
           </Form.Item>
@@ -69,9 +61,46 @@ export const PatientsFilter = (props) => {
             </Select>
           </Form.Item>
         </Col>
+        <Col span={6}>
+          <Form.Item label="Наркотики">
+            <Select
+              placeholder="Используете"
+              defaultValue=""
+              optionFilterProp="children"
+              onChange={(value) => handleChange({ drugs: value })}
+              style={{ width: inputWidth }}
+            >
+              <Select.Option value="">Все варианты</Select.Option>
+              <Select.Option value="1">Да</Select.Option>
+              <Select.Option value="2">Нет</Select.Option>
+              <Select.Option value="3">Не заполнено</Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
       </Row>
       <Row>
-        <Col span={18}>
+        <Col span={6}>
+          <Form.Item label="Код">
+            <Input
+              onChange={(event) =>
+                handleChange({ code: event.currentTarget.value })
+              }
+              style={{ width: inputWidth }}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={6}>
+          <Form.Item label="Дата рождения">
+            <DatePicker
+              format={dateFormat}
+              onChange={(date, dateString) =>
+                handleChange({ birthDay: dateString })
+              }
+              style={{ width: inputWidth }}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
           <Form.Item label="ИППП">
             <Checkbox.Group>
               <Checkbox name="d1" value="d1" onChange={handleCheckbox}>
@@ -93,22 +122,6 @@ export const PatientsFilter = (props) => {
                 Хламидиоз
               </Checkbox>
             </Checkbox.Group>
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="Наркотики">
-            <Select
-              placeholder="Используете"
-              defaultValue=""
-              optionFilterProp="children"
-              onChange={(value) => handleChange({ drugs: value })}
-              style={{ width: inputWidth }}
-            >
-              <Select.Option value="">Все варианты</Select.Option>
-              <Select.Option value="1">Да</Select.Option>
-              <Select.Option value="2">Нет</Select.Option>
-              <Select.Option value="3">Не заполнено</Select.Option>
-            </Select>
           </Form.Item>
         </Col>
       </Row>

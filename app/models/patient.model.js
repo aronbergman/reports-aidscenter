@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.TEXT,
       allowNull: true,
     },
-    grugs: {
+    drugs: {
       type: Sequelize.STRING,
     },
     ippp1: {

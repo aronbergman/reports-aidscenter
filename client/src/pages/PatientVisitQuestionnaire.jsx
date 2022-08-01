@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Form, Input, Button, Radio, Checkbox, Card, Typography } from "antd";
 import { findAllUsersForForms } from "../redux/thunks/user.thunks";
 import { postPatientVisit } from "../redux/thunks/patient_visits.thunk";
@@ -146,7 +147,7 @@ const questionsOptions = [
       "Амфетамин",
       "Метамфетамин",
       "LSD",
-      "Альфа-PVP"
+      "Альфа-PVP",
     ],
   },
   {
@@ -403,6 +404,11 @@ const questionsOptions = [
     ],
   },
   {
+    name: "Были ли у вас сексуальные партнеры за последние 6 месяцев (если да, укажите число)?",
+    answers: ["Нет", "Да"],
+    other: true,
+  },
+  {
     name: "Город",
     type: "city",
   },
@@ -442,9 +448,16 @@ const Question = (props) => {
 
   let input = <Input onChange={handleChange} />;
   if (options) {
-    const { answers: defaultAnswers, answers2, multiple, other, text, type } = options;
+    const {
+      answers: defaultAnswers,
+      answers2,
+      multiple,
+      other,
+      text,
+      type,
+    } = options;
     // ToDo реализовать кастомность вопросов для визита
-    const answers = (visitNum === 2 && answers2) ? answers2 : defaultAnswers;
+    const answers = visitNum === 2 && answers2 ? answers2 : defaultAnswers;
     if (answers && answers.length !== 0) {
       if (multiple) {
         // множественный выбор
@@ -473,7 +486,7 @@ const Question = (props) => {
                 {answer}
               </Radio>
             ))}
-            <Radio value="" key="" style={{ display: "block", marginLeft: 0 }}>
+            <Radio value="" style={{ display: "block", marginLeft: 0 }}>
               Не заполнено
             </Radio>
           </Radio.Group>
@@ -496,8 +509,10 @@ const Question = (props) => {
       input = (
         <Select placeholder="Консультант" onChange={handleChange}>
           <Select.Option value="">Не указан</Select.Option>
-          {consultants.map((consultant) => (
-            <Select.Option value={consultant}>{consultant}</Select.Option>
+          {consultants.map((consultant, index) => (
+            <Select.Option value={consultant} key={index}>
+              {consultant}
+            </Select.Option>
           ))}
         </Select>
       );
@@ -627,7 +642,7 @@ export const PatientVisitQuestionnaire = (props) => {
       autoComplete="off"
     >
       <Typography.Title level={3}>
-        {patient.code} ({visit.name})
+        <Link to={`/visits/patients/${patient.id}`}>{patient.code}</Link> ({visit.name})
       </Typography.Title>
       <Card title="Статус">
         <Form.Item name="status">
@@ -646,14 +661,14 @@ export const PatientVisitQuestionnaire = (props) => {
 
       <br />
       <Typography.Title level={3}>Анкета</Typography.Title>
-      {questionsWithAnswers.map((question, index) => (
+      {questionsWithAnswers.map((question) => (
         <Question
           question={question}
-          num={index + 1}
+          num={question.seq}
           visitNum={visit.num}
           onChange={onChangeQuestion}
           consultants={consultants}
-          key={question.id}
+          key={question.seq}
         />
       ))}
       <Card>

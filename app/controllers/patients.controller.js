@@ -75,6 +75,7 @@ exports.createPatient = async (req, res) => {
       contact: req.body.contact,
       comment: req.body.comment || "",
       medicalFrequency: req.body.medicalFrequency || "",
+      drugs: req.body.drugs || "",
       sexFrequency: req.body.sexFrequency || "",
       condomUse: req.body.condomUse || "",
       chemSex: req.body.chemSex || "",
@@ -122,6 +123,7 @@ exports.updatePatient = async (req, res) => {
       patient.sexFrequency = req.body.sexFrequency || "";
       patient.condomUse = req.body.condomUse || "";
       patient.chemsex = req.body.chemsex || "";
+      patient.drugs = req.body.drugs || "";
       await patient.save();
       res.status(201).send(patient);
     } else {

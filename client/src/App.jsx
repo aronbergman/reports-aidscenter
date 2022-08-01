@@ -36,7 +36,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
-    console.log("process.versions.node", process.versions.node);
     this.state = {
       showModeratorBoard: false,
       showAdminBoard: false,
@@ -47,7 +46,6 @@ class App extends Component {
 
   componentDidMount() {
     const userData = JSON.parse(localStorage.getItem("user"));
-    console.log("userData", userData);
     const user = AuthService.getCurrentUser();
 
     if (user) {

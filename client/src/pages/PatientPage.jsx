@@ -7,6 +7,8 @@ import { PatientForm } from "./PatientForm";
 import { PatientVisitsTable } from "./PatientVisitsTable";
 import { useNotification } from "../hooks";
 
+const orderByNum = (vs1, vs2) => vs1.visitId > vs2.visitId ? 1 : -1;
+
 export const PatientPage = () => {
   const { id } = useParams();
   const [patient, setPatient] = useState();
@@ -18,7 +20,7 @@ export const PatientPage = () => {
       setPatient(res.data);
     });
     getPatientVisits().then((res) => {
-      setPatientVisits(res.data.filter((info) => info.patientId === +id));
+      setPatientVisits(res.data.filter((info) => info.patientId === +id).sort(orderByNum));
     });
   }, [id]);
 

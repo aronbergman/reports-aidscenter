@@ -6,6 +6,8 @@ import { getPatientVisit } from "../redux/thunks/patient_visits.thunk";
 import { getVisit } from "../redux/thunks/visits.thunks";
 import { PatientVisitQuestionnaire } from "./PatientVisitQuestionnaire";
 
+const orderBySeq = (qs1, qs2) => (qs1.seq > qs2.seq ? 1 : -1);
+
 export const PatientVisitPage = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -30,9 +32,15 @@ export const PatientVisitPage = () => {
 
   useEffect(() => {
     if (visit && allQuestions.length !== 0) {
-      const questions = visit.visit_questions.map(({ questionId }) =>
-        allQuestions.find((qstn) => qstn.id === questionId)
-      );
+      const questions = visit.visit_questions.map((visitQuestion) => {
+        const question = allQuestions.find(
+          (qstn) => qstn.id === visitQuestion.questionId
+        );
+        return {
+          ...question,
+          seq: visitQuestion.seq,
+        };
+      }).sort(orderBySeq);
       setVisitQuestions(questions);
       setLoading(false);
     }

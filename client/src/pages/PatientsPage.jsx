@@ -18,7 +18,6 @@ export const PatientsPage = () => {
   const [filter, setFilter] = useState({});
 
   const handleChange = useCallback((changes) => {
-    console.log(filter, changes);
     setFilter({
       ...filter,
       ...changes,

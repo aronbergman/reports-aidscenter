@@ -71,9 +71,9 @@ export const PatientsFilter = (props) => {
               style={{ width: inputWidth }}
             >
               <Select.Option value="">Все варианты</Select.Option>
-              <Select.Option value="1">Да</Select.Option>
-              <Select.Option value="2">Нет</Select.Option>
-              <Select.Option value="3">Не заполнено</Select.Option>
+              <Select.Option value="Да">Да</Select.Option>
+              <Select.Option value="Нет">Нет</Select.Option>
+              <Select.Option value="Не заполнено">Не заполнено</Select.Option>
             </Select>
           </Form.Item>
         </Col>

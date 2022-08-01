@@ -14,6 +14,7 @@ export const PatientForm = (props) => {
   };
 
   const medicalFrequency = ["ежедневный", "ситуативный", "смешанный"];
+  const drugs = ["Да", "Нет", "Не заполнено"];
   const initialValues = profile;
 
   return (
@@ -57,6 +58,21 @@ export const PatientForm = (props) => {
         <Form.Item label="Режим приема" name="medicalFrequency">
           <Radio.Group>
             {medicalFrequency.map((answer, index) => (
+              <Radio
+                value={answer}
+                key={index}
+                style={{ display: "block", marginLeft: 0 }}
+              >
+                {answer}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </Form.Item>
+      </Card>
+      <Card>
+        <Form.Item label="Наркотики" name="drugs">
+          <Radio.Group>
+            {drugs.map((answer, index) => (
               <Radio
                 value={answer}
                 key={index}
